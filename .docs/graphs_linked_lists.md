@@ -1,3 +1,7 @@
+---
+title: Complex Data Structures
+---
+
 # 📘 Trees
 
 ### Key Properties

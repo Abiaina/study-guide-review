@@ -1,3 +1,7 @@
+---
+title: Data Layer
+---
+
 # 📘 Data Layer & Databases
 
 ---
@@ -6,26 +10,26 @@
 
 ### **CAP Theorem**
 
-* A distributed database can only guarantee **two** out of three:
+- A distributed database can only guarantee **two** out of three:
 
-  * **Consistency (C):** every read returns the latest write.
-  * **Availability (A):** every request receives a response (even if not the latest).
-  * **Partition Tolerance (P):** system continues despite dropped/delayed messages.
+  - **Consistency (C):** every read returns the latest write.
+  - **Availability (A):** every request receives a response (even if not the latest).
+  - **Partition Tolerance (P):** system continues despite dropped/delayed messages.
 
 **Tradeoffs:**
 
-* **CP (Consistency + Partition Tolerance):** strict correctness, lower availability → banking, financial systems.
-* **AP (Availability + Partition Tolerance):** eventual consistency, high availability → social media, caching layers.
-* **CA (Consistency + Availability):** only realistic in single-node or non-partitioned systems.
+- **CP (Consistency + Partition Tolerance):** strict correctness, lower availability → banking, financial systems.
+- **AP (Availability + Partition Tolerance):** eventual consistency, high availability → social media, caching layers.
+- **CA (Consistency + Availability):** only realistic in single-node or non-partitioned systems.
 
 ---
 
 ### **ACID Transactions**
 
-* **Atomicity** → All or nothing (no partial writes).
-* **Consistency** → Data moves from one valid state to another.
-* **Isolation** → Transactions don’t interfere with each other.
-* **Durability** → Committed changes survive crashes.
+- **Atomicity** → All or nothing (no partial writes).
+- **Consistency** → Data moves from one valid state to another.
+- **Isolation** → Transactions don’t interfere with each other.
+- **Durability** → Committed changes survive crashes.
 
 **Example (Bank Transfer):**
 
@@ -42,9 +46,9 @@ If the system crashes mid-way, rollback ensures no partial transfer.
 
 ### **BASE Model** (common in NoSQL)
 
-* **Basically Available:** system guarantees availability.
-* **Soft state:** data may change over time (due to eventual consistency).
-* **Eventual consistency:** if no updates occur, replicas converge.
+- **Basically Available:** system guarantees availability.
+- **Soft state:** data may change over time (due to eventual consistency).
+- **Eventual consistency:** if no updates occur, replicas converge.
 
 ---
 
@@ -64,33 +68,32 @@ If the system crashes mid-way, rollback ensures no partial transfer.
 
 ### Indexing
 
-* **B-Tree indexes:** balanced, efficient for range queries.
-* **Hash indexes:** O(1) lookups but poor for ranges.
-* **Covering indexes:** include all queried columns → avoid table lookups.
-* **Tradeoff:** faster reads but slower writes (maintaining index).
+- **B-Tree indexes:** balanced, efficient for range queries.
+- **Hash indexes:** O(1) lookups but poor for ranges.
+- **Covering indexes:** include all queried columns → avoid table lookups.
+- **Tradeoff:** faster reads but slower writes (maintaining index).
 
 ### Normalization vs Denormalization
 
-* **Normalization:** reduce redundancy (3NF/BCNF), consistent updates, smaller storage.
-* **Denormalization:** duplicate data for faster queries, common in OLAP/NoSQL.
+- **Normalization:** reduce redundancy (3NF/BCNF), consistent updates, smaller storage.
+- **Denormalization:** duplicate data for faster queries, common in OLAP/NoSQL.
 
 ### Scaling Approaches
 
-* **Replication:** copies of data for HA/reads.
-* **Sharding:** horizontal partitioning across servers.
-* **Caching:** use Redis/Memcached to reduce DB load.
-* **Event sourcing / CQRS:** separate read vs write models.
+- **Replication:** copies of data for HA/reads.
+- **Sharding:** horizontal partitioning across servers.
+- **Caching:** use Redis/Memcached to reduce DB load.
+- **Event sourcing / CQRS:** separate read vs write models.
 
 ---
 
 ## 4. Patterns in System Design Interviews
 
-* **Use SQL** when correctness, transactions, and structured queries matter.
-* **Use NoSQL (KV/Doc/Column)** when availability, scale, and flexibility matter.
-* **Mix approaches:** e.g., use PostgreSQL for core financial records, Redis for session caching, ElasticSearch for logs/queries.
+- **Use SQL** when correctness, transactions, and structured queries matter.
+- **Use NoSQL (KV/Doc/Column)** when availability, scale, and flexibility matter.
+- **Mix approaches:** e.g., use PostgreSQL for core financial records, Redis for session caching, ElasticSearch for logs/queries.
 
 ---
-
 
 | Type                                  | Example Systems                                           | **CAP Posture (typical)**                          | Strengths                                                               | Limitations                                                             | Common Uses                                             |
 | ------------------------------------- | --------------------------------------------------------- | -------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------- |
@@ -110,7 +113,6 @@ If the system crashes mid-way, rollback ensures no partial transfer.
 
 If you want, I can drop this directly into the Data Layer section and keep going with **indexing strategies, normalization vs. denormalization, replication vs. sharding, and caching**—all in the same reference style.
 
-
 # Indexing Strategies
 
 ### What is an index?
@@ -129,10 +131,10 @@ A secondary data structure that lets the database find rows **without scanning t
 
 ### General Rules
 
-* Index **what you filter on**, not what you select.
-* **Equality first**, then range: compound indexes should match query predicates’ order (e.g., `WHERE a = ? AND b = ? AND c > ?` → index `(a, b, c)`).
-* **High cardinality** columns benefit more (e.g., user\_id > gender).
-* Too many indexes **slow writes** (each insert/update must update indexes).
+- Index **what you filter on**, not what you select.
+- **Equality first**, then range: compound indexes should match query predicates’ order (e.g., `WHERE a = ? AND b = ? AND c > ?` → index `(a, b, c)`).
+- **High cardinality** columns benefit more (e.g., user_id > gender).
+- Too many indexes **slow writes** (each insert/update must update indexes).
 
 ### SQL Snippets (PostgreSQL-flavored)
 
@@ -155,9 +157,9 @@ CREATE INDEX idx_docs_ft ON docs USING GIN (to_tsvector('english', body));
 
 **Gotchas**
 
-* **Leading column** matters in composite indexes. Query must use the leftmost parts to benefit.
-* **Function indexes** require the query to use the same function (`LOWER(email)`).
-* **Selectivity**: Indexes on low-selectivity columns (e.g., boolean) rarely help.
+- **Leading column** matters in composite indexes. Query must use the leftmost parts to benefit.
+- **Function indexes** require the query to use the same function (`LOWER(email)`).
+- **Selectivity**: Indexes on low-selectivity columns (e.g., boolean) rarely help.
 
 ---
 
@@ -165,20 +167,20 @@ CREATE INDEX idx_docs_ft ON docs USING GIN (to_tsvector('english', body));
 
 ### Normalization (3NF+)
 
-* **Goal:** eliminate redundancy, maintain consistency.
-* **Pros:** smaller data, consistent updates, fewer anomalies.
-* **Cons:** more joins; sometimes slower reads.
+- **Goal:** eliminate redundancy, maintain consistency.
+- **Pros:** smaller data, consistent updates, fewer anomalies.
+- **Cons:** more joins; sometimes slower reads.
 
 ### Denormalization
 
-* **Goal:** speed reads by duplicating/aggregating data.
-* **Pros:** fewer joins, faster read queries.
-* **Cons:** write complexity; need **fan-out updates** or **background jobs** to keep in sync.
+- **Goal:** speed reads by duplicating/aggregating data.
+- **Pros:** fewer joins, faster read queries.
+- **Cons:** write complexity; need **fan-out updates** or **background jobs** to keep in sync.
 
 ### When to Use
 
-* **OLTP systems** (high write correctness): normalize first; denormalize selectively with materialized views/caches.
-* **OLAP / analytics**: star/snowflake schemas, aggressive denormalization for read speed.
+- **OLTP systems** (high write correctness): normalize first; denormalize selectively with materialized views/caches.
+- **OLAP / analytics**: star/snowflake schemas, aggressive denormalization for read speed.
 
 **Pattern**: Start normalized → measure → denormalize **targeted hot paths**.
 
@@ -188,36 +190,36 @@ CREATE INDEX idx_docs_ft ON docs USING GIN (to_tsvector('english', body));
 
 ### Replication (Copy the same data to multiple nodes)
 
-* **Synchronous:** writes wait for replicas → **CP** flavor (lower availability if replicas unreachable, but consistent).
-* **Asynchronous:** leader commits and returns → **AP-ish** (stale reads possible).
-* **Use for:** high availability (HA), read scaling (read replicas), DR.
+- **Synchronous:** writes wait for replicas → **CP** flavor (lower availability if replicas unreachable, but consistent).
+- **Asynchronous:** leader commits and returns → **AP-ish** (stale reads possible).
+- **Use for:** high availability (HA), read scaling (read replicas), DR.
 
 **Terms**
 
-* **Leader-Follower** (Primary-Replica)
-* **Multi-leader** (conflict resolution needed)
-* **Quorum** (R/W majority votes; tunable consistency)
+- **Leader-Follower** (Primary-Replica)
+- **Multi-leader** (conflict resolution needed)
+- **Quorum** (R/W majority votes; tunable consistency)
 
 **Example Read Scaling**
 
-* Send writes to **leader**; send heavy reports to **read replicas**.
+- Send writes to **leader**; send heavy reports to **read replicas**.
 
 ### Sharding (Horizontal partitioning; split data across nodes)
 
-* **Key-based** (hash user\_id) → even distribution, but hard to do cross-shard joins.
-* **Range-based** (by date/id range) → easy range scans, risk hot shards.
-* **Directory/Lookup** (custom routing service) → flexible, operationally complex.
+- **Key-based** (hash user_id) → even distribution, but hard to do cross-shard joins.
+- **Range-based** (by date/id range) → easy range scans, risk hot shards.
+- **Directory/Lookup** (custom routing service) → flexible, operationally complex.
 
 **When to Shard**
 
-* Dataset won’t fit on a single node / vertical scaling exhausted.
-* Single-node write throughput maxed out.
+- Dataset won’t fit on a single node / vertical scaling exhausted.
+- Single-node write throughput maxed out.
 
 **Cross-shard Challenges**
 
-* **Joins**: push down computations or pre-aggregate.
-* **Transactions**: need 2PC/sagas; prefer **idempotent** operations.
-* **Rebalancing**: plan for adding shards (consistent hashing helps).
+- **Joins**: push down computations or pre-aggregate.
+- **Transactions**: need 2PC/sagas; prefer **idempotent** operations.
+- **Rebalancing**: plan for adding shards (consistent hashing helps).
 
 ---
 
@@ -239,18 +241,21 @@ Reduce latency and database load by serving hot data from memory.
 
 ### Caching Strategies
 
-* **Cache-aside (lazy):** app reads cache, on miss load DB then write cache.
+- **Cache-aside (lazy):** app reads cache, on miss load DB then write cache.
 
-  * Simple; stale possible until TTL expires.
-* **Write-through:** write to cache and DB simultaneously.
+  - Simple; stale possible until TTL expires.
 
-  * Safer reads; writes slower.
-* **Write-back:** write to cache, flush to DB later.
+- **Write-through:** write to cache and DB simultaneously.
 
-  * Fast writes; risk data loss without durability.
-* **Read-through:** cache sits in front of DB transparently.
+  - Safer reads; writes slower.
 
-  * Managed by cache layer/provider.
+- **Write-back:** write to cache, flush to DB later.
+
+  - Fast writes; risk data loss without durability.
+
+- **Read-through:** cache sits in front of DB transparently.
+
+  - Managed by cache layer/provider.
 
 ### Redis Patterns
 
@@ -265,25 +270,25 @@ return value
 
 **Invalidation**
 
-* TTLs on keys, **versioned keys** (`user:123:v42`) to avoid thundering herds.
-* **Pub/Sub** or **streams** to broadcast invalidations on updates.
+- TTLs on keys, **versioned keys** (`user:123:v42`) to avoid thundering herds.
+- **Pub/Sub** or **streams** to broadcast invalidations on updates.
 
 **Gotchas**
 
-* **Stale reads** (eventual consistency).
-* **Hot keys** (use sharding or probabilistic caching).
-* **Stampede**: use **singleflight**/locks or **randomized TTL** to spread expiries.
+- **Stale reads** (eventual consistency).
+- **Hot keys** (use sharding or probabilistic caching).
+- **Stampede**: use **singleflight**/locks or **randomized TTL** to spread expiries.
 
 ---
 
 # Putting It Together — Quick Decision Guide
 
-* **Need strict correctness & joins?** Start with **PostgreSQL** (normalized).
-* **Read-heavy & scale-out?** Add **read replicas** (async replication).
-* **Global latency?** Add **CDN/edge** and regional **caches** (Redis).
-* **Write throughput wall / dataset too large?** **Shard** by user or time.
-* **Slow queries?** Add **indexes** (B-Tree for ranges; composite for equality+range; GIN for text/arrays).
-* **Analytics?** Denormalize into **warehouse** (star schema) or use **columnar** stores.
+- **Need strict correctness & joins?** Start with **PostgreSQL** (normalized).
+- **Read-heavy & scale-out?** Add **read replicas** (async replication).
+- **Global latency?** Add **CDN/edge** and regional **caches** (Redis).
+- **Write throughput wall / dataset too large?** **Shard** by user or time.
+- **Slow queries?** Add **indexes** (B-Tree for ranges; composite for equality+range; GIN for text/arrays).
+- **Analytics?** Denormalize into **warehouse** (star schema) or use **columnar** stores.
 
 ---
 

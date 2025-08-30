@@ -1,3 +1,7 @@
+---
+title: Chaos Engineering & Resiliency
+---
+
 # Chaos Engineering & Resiliency
 
 ## 1. Principles of Chaos Engineering

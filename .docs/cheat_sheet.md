@@ -1,3 +1,7 @@
+---
+title: Cheat Sheet
+---
+
 # System Design Appendix
 
 ## 1) Load Balancing
@@ -16,17 +20,17 @@
 
 ### Health checks & routing
 
-* **Liveness** (process up) vs **readiness** (can serve traffic).
-* Graceful drain on deploys; slow-start newly added instances.
+- **Liveness** (process up) vs **readiness** (can serve traffic).
+- Graceful drain on deploys; slow-start newly added instances.
 
 ---
 
 ## 2) Caching Tiers (quick recap + design tips)
 
-* **Where:** client → CDN → edge/API gateway → app → Redis/memcached → DB.
-* **Patterns:** cache-aside (lazy), read-through, write-through, write-back.
-* **Invalidation:** TTLs, versioned keys (`user:123:v42`), pub/sub invalidations.
-* **Avoid stampedes:** single-flight locks, randomized TTLs, early refresh.
+- **Where:** client → CDN → edge/API gateway → app → Redis/memcached → DB.
+- **Patterns:** cache-aside (lazy), read-through, write-through, write-back.
+- **Invalidation:** TTLs, versioned keys (`user:123:v42`), pub/sub invalidations.
+- **Avoid stampedes:** single-flight locks, randomized TTLs, early refresh.
 
 ---
 
@@ -56,11 +60,11 @@ function lookup(key):
 
 ### Concepts
 
-* **Queue (point-to-point):** workers pull; each message to one consumer.
-* **Pub/Sub (fan-out):** topics; multiple subscribers receive messages.
-* **Ordering:** per-partition FIFO (Kafka); SQS FIFO queues.
-* **Consumer groups:** scale horizontally; each partition to one consumer in the group.
-* **Backpressure:** control concurrency; rate limit producers; DLQ for poison pills.
+- **Queue (point-to-point):** workers pull; each message to one consumer.
+- **Pub/Sub (fan-out):** topics; multiple subscribers receive messages.
+- **Ordering:** per-partition FIFO (Kafka); SQS FIFO queues.
+- **Consumer groups:** scale horizontally; each partition to one consumer in the group.
+- **Backpressure:** control concurrency; rate limit producers; DLQ for poison pills.
 
 ### Delivery semantics
 
@@ -74,8 +78,8 @@ function lookup(key):
 
 **Idempotency pattern**
 
-* Deterministic **idempotency key** (e.g., order\_id).
-* Store processed keys; ignore repeats.
+- Deterministic **idempotency key** (e.g., order_id).
+- Store processed keys; ignore repeats.
 
 **Retry/backoff (pseudocode)**
 
@@ -95,35 +99,35 @@ return FAIL
 
 ## 5) Eventual Consistency
 
-* **Definition:** replicas converge if no new writes occur.
-* **Read models:** read-repair on access; async background anti-entropy.
-* **Client strategies:** **read-your-writes**, **monotonic reads**, **session consistency** where supported.
-* **Write conflicts:** timestamps + last-write-wins, vector clocks, or CRDTs.
+- **Definition:** replicas converge if no new writes occur.
+- **Read models:** read-repair on access; async background anti-entropy.
+- **Client strategies:** **read-your-writes**, **monotonic reads**, **session consistency** where supported.
+- **Write conflicts:** timestamps + last-write-wins, vector clocks, or CRDTs.
 
 ---
 
 ## 6) SLI / SLO / SLA
 
-* **SLI** (indicator): measured metric (e.g., request success rate, p95 latency).
-* **SLO** (objective): target for SLI (e.g., **99.9%** success over 30 days).
-* **SLA** (agreement): external contract; includes penalties/credits.
+- **SLI** (indicator): measured metric (e.g., request success rate, p95 latency).
+- **SLO** (objective): target for SLI (e.g., **99.9%** success over 30 days).
+- **SLA** (agreement): external contract; includes penalties/credits.
 
 **Error budget**
 
-* Budget = 1 − SLO. Example: 99.9% monthly → \~43.2 minutes budget.
-* Spend budget on launches; pause risky changes when burning too fast.
+- Budget = 1 − SLO. Example: 99.9% monthly → \~43.2 minutes budget.
+- Spend budget on launches; pause risky changes when burning too fast.
 
 **Burn-rate alerts (example)**
 
-* Fast burn: 2% of budget in 1 hour → page now.
-* Slow burn: 5% of budget in 6 hours → ticket & investigate.
+- Fast burn: 2% of budget in 1 hour → page now.
+- Slow burn: 5% of budget in 6 hours → ticket & investigate.
 
 **Useful SLIs**
 
-* Availability: `2xx+3xx / total`.
-* Latency: % of requests under threshold (p90/p95/p99).
-* Quality: error rate of critical transactions.
-* Saturation: CPU, memory, queue depth.
+- Availability: `2xx+3xx / total`.
+- Latency: % of requests under threshold (p90/p95/p99).
+- Quality: error rate of critical transactions.
+- Saturation: CPU, memory, queue depth.
 
 ---
 
@@ -270,9 +274,9 @@ return answer_state
 
 ## D) Python Interview Reminders
 
-* **Strings are immutable**; use `''.join(parts)` for concatenation in loops.
-* **List slicing makes a copy**: `a[i:j]` is O(k).
-* Use **`deque`** for O(1) queue ops; avoid `pop(0)` on lists.
-* `heapq` is a **min-heap**; for max-heap push negatives.
-* Sorting is **Timsort** (stable, O(n log n)).
-* Don’t use **mutable defaults** in function params; use `None` then set.
+- **Strings are immutable**; use `''.join(parts)` for concatenation in loops.
+- **List slicing makes a copy**: `a[i:j]` is O(k).
+- Use **`deque`** for O(1) queue ops; avoid `pop(0)` on lists.
+- `heapq` is a **min-heap**; for max-heap push negatives.
+- Sorting is **Timsort** (stable, O(n log n)).
+- Don’t use **mutable defaults** in function params; use `None` then set.

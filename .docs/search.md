@@ -1,5 +1,8 @@
-# 📘 Searching Algorithms (with step-wise pseudocode)
-Alright 👍 we’ve now got **Data Structures**, **Trees**, and **Graphs** fleshed out. Let’s move to the next core interview section: **Sorting & Searching Algorithms**. These are must-know building blocks since they show up everywhere (arrays, trees, DP optimizations, etc.).
+---
+title: Searching Algorithms
+---
+
+# Searching Algorithms
 
 ---
 
@@ -7,8 +10,8 @@ Alright 👍 we’ve now got **Data Structures**, **Trees**, and **Graphs** fles
 
 ### Key Properties
 
-* Sorting is one of the most common algorithmic primitives.
-* Python’s built-in `.sort()` and `sorted()` use **Timsort** (O(n log n), stable, adaptive to partially-sorted input).
+- Sorting is one of the most common algorithmic primitives.
+- Python’s built-in `.sort()` and `sorted()` use **Timsort** (O(n log n), stable, adaptive to partially-sorted input).
 
 ### Common Algorithms
 
@@ -83,8 +86,8 @@ def quicksort(arr):
 
 ### Linear Search
 
-* O(n).
-* Use when data is unsorted.
+- O(n).
+- Use when data is unsorted.
 
 ```python
 def linear_search(arr, target):
@@ -95,7 +98,7 @@ def linear_search(arr, target):
 
 ### Binary Search
 
-* O(log n). Requires sorted data.
+- O(log n). Requires sorted data.
 
 **Pseudocode**
 
@@ -129,18 +132,16 @@ def binary_search(arr, target):
 
 ### Variants of Binary Search
 
-* **First/Last Occurrence**: keep searching left/right after finding target.
-* **Search Insert Position**: return index even if not found.
-* **Rotated Sorted Array**: check which half is sorted, then recurse/iterate.
-
-
+- **First/Last Occurrence**: keep searching left/right after finding target.
+- **Search Insert Position**: return index even if not found.
+- **Rotated Sorted Array**: check which half is sorted, then recurse/iterate.
 
 ---
 
 ## 🔍 Linear Search
 
-* Works on unsorted arrays.
-* Scans each element one by one until it finds the target or reaches the end.
+- Works on unsorted arrays.
+- Scans each element one by one until it finds the target or reaches the end.
 
 **Pseudocode:**
 
@@ -150,7 +151,7 @@ for index from 0 to length(arr)-1:
 
     # Compare current element with the target
     if arr[index] == target:
-        
+
         # If found, return its position
         return index
 
@@ -162,8 +163,8 @@ return -1
 
 ## 🔍 Binary Search
 
-* Works only on **sorted arrays**.
-* Repeatedly halves the search range until the target is found or the search space is empty.
+- Works only on **sorted arrays**.
+- Repeatedly halves the search range until the target is found or the search space is empty.
 
 **Pseudocode:**
 
@@ -198,7 +199,7 @@ return -1
 
 ## 🔍 First Occurrence (Binary Search Variant)
 
-* Returns the **first position** of target in a sorted array with duplicates.
+- Returns the **first position** of target in a sorted array with duplicates.
 
 **Pseudocode:**
 
@@ -234,7 +235,7 @@ return result
 
 ## 🔍 Last Occurrence (Binary Search Variant)
 
-* Returns the **last position** of target in a sorted array with duplicates.
+- Returns the **last position** of target in a sorted array with duplicates.
 
 **Pseudocode:**
 
@@ -270,11 +271,11 @@ return result
 
 ## 🔍 Search Insert Position
 
-* **What it does:**
+- **What it does:**
 
-  * In a sorted array, return the index of the target if found.
-  * If not found, return the index where it *should* be inserted to keep order.
-  * Useful for problems like placing an element in a sorted list.
+  - In a sorted array, return the index of the target if found.
+  - If not found, return the index where it _should_ be inserted to keep order.
+  - Useful for problems like placing an element in a sorted list.
 
 **Pseudocode:**
 
@@ -308,11 +309,11 @@ return left
 
 ## 🔍 Search in Rotated Sorted Array
 
-* **What it does:**
+- **What it does:**
 
-  * Array is sorted but rotated (e.g., `[4,5,6,7,0,1,2]`).
-  * Must first decide which half is sorted, then apply binary search accordingly.
-  * Runs in O(log n).
+  - Array is sorted but rotated (e.g., `[4,5,6,7,0,1,2]`).
+  - Must first decide which half is sorted, then apply binary search accordingly.
+  - Runs in O(log n).
 
 **Pseudocode:**
 
@@ -351,10 +352,10 @@ return -1
 
 ## 🔍 Binary Search on Answer (a.k.a. “Search Space Reduction”)
 
-* **What it does:**
+- **What it does:**
 
-  * Used when the solution isn’t an index but a value that can be validated (e.g., minimum capacity, smallest speed, max/min feasible answer).
-  * Apply binary search over the **range of possible answers**, checking feasibility with a helper function.
+  - Used when the solution isn’t an index but a value that can be validated (e.g., minimum capacity, smallest speed, max/min feasible answer).
+  - Apply binary search over the **range of possible answers**, checking feasibility with a helper function.
 
 **Pseudocode (general template):**
 
@@ -380,8 +381,8 @@ return left
 
 **Examples where it’s used:**
 
-* Minimum capacity to ship packages within D days.
-* Minimum eating speed (Koko eating bananas problem).
-* Maximum minimum distance in placing items.
+- Minimum capacity to ship packages within D days.
+- Minimum eating speed (Koko eating bananas problem).
+- Maximum minimum distance in placing items.
 
 ---

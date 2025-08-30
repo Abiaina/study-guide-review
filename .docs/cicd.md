@@ -1,3 +1,7 @@
+---
+title: DevOps
+---
+
 # DevOps & Cloud — Worked Examples
 
 The goal here is to be able to “drop in” a minimal but realistic setup during interviews or when spinning up a demo.
@@ -220,19 +224,19 @@ spec:
         app: example-svc
     spec:
       containers:
-      - name: example-svc
-        image: 123456789012.dkr.ecr.us-west-2.amazonaws.com/example-svc:latest
-        ports:
-        - containerPort: 8080
-        readinessProbe:
-          httpGet: { path: /healthz, port: 8080 }
-          initialDelaySeconds: 3
-        livenessProbe:
-          httpGet: { path: /livez, port: 8080 }
-          initialDelaySeconds: 5
-        resources:
-          requests: { cpu: "100m", memory: "128Mi" }
-          limits:   { cpu: "500m", memory: "256Mi" }
+        - name: example-svc
+          image: 123456789012.dkr.ecr.us-west-2.amazonaws.com/example-svc:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet: { path: /healthz, port: 8080 }
+            initialDelaySeconds: 3
+          livenessProbe:
+            httpGet: { path: /livez, port: 8080 }
+            initialDelaySeconds: 5
+          resources:
+            requests: { cpu: "100m", memory: "128Mi" }
+            limits: { cpu: "500m", memory: "256Mi" }
 ```
 
 **service.yaml**
@@ -246,8 +250,8 @@ spec:
   selector:
     app: example-svc
   ports:
-  - port: 80
-    targetPort: 8080
+    - port: 80
+      targetPort: 8080
   type: ClusterIP
 ```
 
@@ -260,16 +264,16 @@ metadata:
   name: example-svc
 spec:
   rules:
-  - host: example.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: example-svc
-            port:
-              number: 80
+    - host: example.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: example-svc
+                port:
+                  number: 80
 ```
 
 **Apply**
@@ -288,34 +292,33 @@ kubectl apply -f ingress.yaml
 
 ```yaml
 groups:
-- name: app.rules
-  rules:
-  - alert: HighCPU
-    expr: avg(rate(container_cpu_usage_seconds_total{container!="",pod=~"example-svc.*"}[5m])) > 0.8
-    for: 5m
-    labels: { severity: warning }
-    annotations:
-      summary: "High CPU usage on example-svc"
-      description: "CPU > 80% for 5m"
+  - name: app.rules
+    rules:
+      - alert: HighCPU
+        expr: avg(rate(container_cpu_usage_seconds_total{container!="",pod=~"example-svc.*"}[5m])) > 0.8
+        for: 5m
+        labels: { severity: warning }
+        annotations:
+          summary: "High CPU usage on example-svc"
+          description: "CPU > 80% for 5m"
 
-  - alert: HighErrorRate
-    expr: rate(http_requests_total{job="example-svc",code=~"5.."}[5m]) / rate(http_requests_total{job="example-svc"}[5m]) > 0.05
-    for: 10m
-    labels: { severity: critical }
-    annotations:
-      summary: "High 5xx error rate"
-      description: ">5% 5xx over 10m"
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{job="example-svc",code=~"5.."}[5m]) / rate(http_requests_total{job="example-svc"}[5m]) > 0.05
+        for: 10m
+        labels: { severity: critical }
+        annotations:
+          summary: "High 5xx error rate"
+          description: ">5% 5xx over 10m"
 
-  - alert: CrashLooping
-    expr: increase(kube_pod_container_status_restarts_total{pod=~"example-svc.*"}[10m]) > 3
-    for: 10m
-    labels: { severity: warning }
-    annotations:
-      summary: "Pod restarting frequently"
-      description: "More than 3 restarts in 10 minutes"
+      - alert: CrashLooping
+        expr: increase(kube_pod_container_status_restarts_total{pod=~"example-svc.*"}[10m]) > 3
+        for: 10m
+        labels: { severity: warning }
+        annotations:
+          summary: "Pod restarting frequently"
+          description: "More than 3 restarts in 10 minutes"
 ```
 
 > Wire this into Prometheus via `rule_files` and configure Alertmanager receivers (email/Slack/PagerDuty).
 
 ---
-

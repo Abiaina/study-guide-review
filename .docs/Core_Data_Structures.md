@@ -1,3 +1,7 @@
+---
+title: Core Data Structures
+---
+
 ## **1. Big-O Complexity Cheat Sheet**
 
 | Operation (Python)          | Time Complexity | Notes / Helpers                               |
@@ -13,11 +17,11 @@
 
 👉 **Helper libraries in Python**
 
-* `collections.deque` → O(1) pops/appends at both ends.
-* `collections.Counter` → Fast frequency counting.
-* `collections.defaultdict` → Cleaner hash maps with default values.
-* `heapq` → Priority queue implementation.
-* `bisect` → Binary search on sorted arrays.
+- `collections.deque` → O(1) pops/appends at both ends.
+- `collections.Counter` → Fast frequency counting.
+- `collections.defaultdict` → Cleaner hash maps with default values.
+- `heapq` → Priority queue implementation.
+- `bisect` → Binary search on sorted arrays.
 
 ---
 
@@ -25,10 +29,10 @@
 
 ### Common Patterns
 
-* **Two pointers**: Used for palindromes, merging sorted arrays, sliding windows.
-* **Sliding window**: Substring/array problems (`longest substring`, `max sum subarray`).
-* **Prefix sums**: Range queries, subarray sums.
-* **Hash maps (dict)**: Fast lookup for duplicates, anagrams, substrings.
+- **Two pointers**: Used for palindromes, merging sorted arrays, sliding windows.
+- **Sliding window**: Substring/array problems (`longest substring`, `max sum subarray`).
+- **Prefix sums**: Range queries, subarray sums.
+- **Hash maps (dict)**: Fast lookup for duplicates, anagrams, substrings.
 
 ### Practice Problems
 
@@ -40,17 +44,15 @@
 
 ---
 
-
-
-Compare Core Data Structures 
-| Operation         | List            | Dict                       | Set            | Queue/Deque           |
+Compare Core Data Structures
+| Operation | List | Dict | Set | Queue/Deque |
 | ----------------- | --------------- | -------------------------- | -------------- | --------------------- |
-| `len()`           | ✅               | ✅                          | ✅              | ✅                     |
-| `in` (membership) | O(n)            | O(1)                       | O(1)           | O(n)                  |
-| `pop()`           | End only (O(1)) | By key (O(1) avg)          | Arbitrary O(1) | Left/right O(1)       |
-| `clear()`         | ✅               | ✅                          | ✅              | ✅                     |
-| `sorted()`        | ✅               | On `.items()` (O(n log n)) | ✅              | Convert to list first |
-| Iteration         | `for x in list` | `for k,v in dict.items()`  | `for x in set` | `for x in deque`      |
+| `len()` | ✅ | ✅ | ✅ | ✅ |
+| `in` (membership) | O(n) | O(1) | O(1) | O(n) |
+| `pop()` | End only (O(1)) | By key (O(1) avg) | Arbitrary O(1) | Left/right O(1) |
+| `clear()` | ✅ | ✅ | ✅ | ✅ |
+| `sorted()` | ✅ | On `.items()` (O(n log n)) | ✅ | Convert to list first |
+| Iteration | `for x in list` | `for k,v in dict.items()` | `for x in set` | `for x in deque` |
 
 ---
 
@@ -125,15 +127,14 @@ function insert(list, index, value):
 
 ---
 
-
 # 📘 Dictionaries (Python `dict`)
 
 ### Key Properties
 
-* Key-value store (hash table under the hood).
-* Keys must be **hashable** (immutable types: str, int, tuple).
-* Average-case operations: O(1) lookup, insert, delete.
-* Worst-case O(n) (rare, due to hash collisions).
+- Key-value store (hash table under the hood).
+- Keys must be **hashable** (immutable types: str, int, tuple).
+- Average-case operations: O(1) lookup, insert, delete.
+- Worst-case O(n) (rare, due to hash collisions).
 
 ---
 
@@ -158,11 +159,11 @@ function insert(list, index, value):
 
 ### Special Methods
 
-* `.keys()` → view of all keys (iterable).
-* `.values()` → view of all values.
-* `.items()` → iterable of `(key, value)` tuples.
-* `.update({...})` → bulk add/update.
-* `.popitem()` → remove *last* inserted (Python ≥ 3.7 keeps insertion order).
+- `.keys()` → view of all keys (iterable).
+- `.values()` → view of all values.
+- `.items()` → iterable of `(key, value)` tuples.
+- `.update({...})` → bulk add/update.
+- `.popitem()` → remove _last_ inserted (Python ≥ 3.7 keeps insertion order).
 
 ---
 
@@ -208,9 +209,9 @@ print(sorted(d.items(), key=lambda x: x[1]))
 
 ### Key Properties
 
-* Unordered, unique elements only.
-* Backed by hash table → O(1) avg lookup/insert/delete.
-* No duplicates, no indexing.
+- Unordered, unique elements only.
+- Backed by hash table → O(1) avg lookup/insert/delete.
+- No duplicates, no indexing.
 
 ### Common Operations
 
@@ -230,9 +231,9 @@ print(sorted(d.items(), key=lambda x: x[1]))
 
 ### Special Methods
 
-* `.update(iterable)` → bulk add.
-* `.issubset()`, `.issuperset()`.
-* `.symmetric_difference()`.
+- `.update(iterable)` → bulk add.
+- `.issubset()`, `.issuperset()`.
+- `.symmetric_difference()`.
 
 ### Examples
 
@@ -250,8 +251,8 @@ print(s.union({5}))  # {1,3,4,5}
 
 ### Key Properties
 
-* Last In, First Out (LIFO).
-* Implement with `list` or `collections.deque`.
+- Last In, First Out (LIFO).
+- Implement with `list` or `collections.deque`.
 
 ### Common Operations
 
@@ -277,8 +278,8 @@ top = stack.pop()  # 2
 
 ### Key Properties
 
-* First In, First Out (FIFO).
-* Use `collections.deque` for O(1) operations.
+- First In, First Out (FIFO).
+- Use `collections.deque` for O(1) operations.
 
 ### Common Operations
 
@@ -304,9 +305,9 @@ front = q.popleft() # 1
 
 ### Key Properties
 
-* Min-heap by default in Python.
-* O(log n) insert/remove, O(1) peek min.
-* Useful for scheduling, Dijkstra’s shortest path, top-K problems.
+- Min-heap by default in Python.
+- O(log n) insert/remove, O(1) peek min.
+- Useful for scheduling, Dijkstra’s shortest path, top-K problems.
 
 ### Common Operations
 

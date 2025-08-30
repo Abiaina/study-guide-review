@@ -1,9 +1,13 @@
+---
+title: Algorithms
+---
+
 # Dynamic Programming (DP)
 
 ## How to recognize DP
 
-* Overlapping subproblems (you’d recompute the same thing).
-* Optimal substructure (optimal answer composed of optimal sub-answers).
+- Overlapping subproblems (you’d recompute the same thing).
+- Optimal substructure (optimal answer composed of optimal sub-answers).
 
 ## DP checklist
 
@@ -124,8 +128,8 @@ def coin_change(coins, amount):
 **State**: `dp[i][j]` = min edits to convert `s[:i]` → `t[:j]`.
 **Transition**:
 
-* If `s[i-1]==t[j-1]`: `dp[i][j] = dp[i-1][j-1]`
-* Else `1 + min(insert, delete, replace)` → `1 + min(dp[i][j-1], dp[i-1][j], dp[i-1][j-1])`
+- If `s[i-1]==t[j-1]`: `dp[i][j] = dp[i-1][j-1]`
+- Else `1 + min(insert, delete, replace)` → `1 + min(dp[i][j-1], dp[i-1][j], dp[i-1][j-1])`
   **Base**: `dp[i][0]=i`, `dp[0][j]=j`.
 
 **Pseudocode**
@@ -176,8 +180,8 @@ def edit_distance(s, t):
 **State**: `dp[i][w]` = best value using first `i` items with capacity `w`.
 **Transition**:
 
-* Skip item i: `dp[i-1][w]`
-* Take item i (if weight fits): `value[i-1] + dp[i-1][w - weight[i-1]]`
+- Skip item i: `dp[i-1][w]`
+- Take item i (if weight fits): `value[i-1] + dp[i-1][w - weight[i-1]]`
   **Base**: `dp[0][*] = 0`.
 
 **Pseudocode**
@@ -258,13 +262,13 @@ def lis_length(nums):
 
 ## How to recognize greedy
 
-* **Local choice** that can be proven to lead to a global optimum (often via **exchange argument**).
-* Sorting + one pass + occasional heap are common patterns.
+- **Local choice** that can be proven to lead to a global optimum (often via **exchange argument**).
+- Sorting + one pass + occasional heap are common patterns.
 
 ## Principles
 
-* Prove correctness: if an optimal solution exists, you can “exchange” its first choice with the greedy choice without hurting optimality.
-* If you can’t argue that, consider DP instead.
+- Prove correctness: if an optimal solution exists, you can “exchange” its first choice with the greedy choice without hurting optimality.
+- If you can’t argue that, consider DP instead.
 
 ---
 
