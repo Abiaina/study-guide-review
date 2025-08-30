@@ -8,6 +8,9 @@ The goal here is to be able to “drop in” a minimal but realistic setup durin
 
 ## 1) Terraform mini-project (AWS VPC + EC2 + S3, remote state)
 
+### Multi-Environment Setup
+This example shows how to structure Terraform for multiple environments (dev, staging, prod) with shared modules.
+
 **Layout**
 
 ```
@@ -23,7 +26,7 @@ terraform/
 
 **backend.hcl** (remote state)
 
-```hcl
+```bash
 bucket         = "my-tf-state-bucket"
 key            = "envs/dev/terraform.tfstate"
 region         = "us-west-2"
@@ -33,7 +36,7 @@ encrypt        = true
 
 **main.tf**
 
-```hcl
+```bash
 terraform {
   required_version = ">= 1.6.0"
   backend "s3" {}          # configured via backend.hcl at init-time
@@ -49,7 +52,7 @@ provider "aws" {
 
 **vpc.tf** (very minimal)
 
-```hcl
+```bash
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
   tags = { Name = "demo-vpc" }
@@ -69,7 +72,7 @@ resource "aws_internet_gateway" "igw" {
 
 **ec2.tf**
 
-```hcl
+```bash
 resource "aws_security_group" "web" {
   name   = "web-sg"
   vpc_id = aws_vpc.main.id
@@ -121,7 +124,7 @@ resource "aws_instance" "web" {
 
 **s3.tf**
 
-```hcl
+```bash
 resource "aws_s3_bucket" "assets" {
   bucket = var.bucket_name
   tags = { Name = "assets" }
@@ -137,14 +140,14 @@ resource "aws_s3_bucket_versioning" "assets" {
 
 **variables.tf**
 
-```hcl
+```bash
 variable "region"      { type = string, default = "us-west-2" }
 variable "bucket_name" { type = string }
 ```
 
 **outputs.tf**
 
-```hcl
+```bash
 output "ec2_public_ip" { value = aws_instance.web.public_ip }
 output "s3_bucket"     { value = aws_s3_bucket.assets.bucket }
 ```
@@ -155,6 +158,69 @@ output "s3_bucket"     { value = aws_s3_bucket.assets.bucket }
 terraform init -backend-config=backend.hcl
 terraform plan -var="bucket_name=my-artifacts-bucket"
 terraform apply -auto-approve -var="bucket_name=my-artifacts-bucket"
+```
+
+### Advanced Terraform Patterns
+
+#### Workspace-based Environment Management
+```bash
+# Create and switch to dev workspace
+terraform workspace new dev
+terraform workspace select dev
+
+# Apply with environment-specific variables
+terraform apply -var-file="dev.tfvars"
+
+# Switch to prod workspace
+terraform workspace select prod
+terraform apply -var-file="prod.tfvars"
+```
+
+#### Module-based Architecture
+```hcl
+# modules/vpc/main.tf
+module "vpc" {
+  source = "../../modules/vpc"
+  
+  environment = var.environment
+  vpc_cidr   = var.vpc_cidr
+  azs         = var.azs
+}
+
+# modules/vpc/variables.tf
+variable "environment" {
+  description = "Environment name"
+  type        = string
+}
+
+variable "vpc_cidr" {
+  description = "VPC CIDR block"
+  type        = string
+}
+
+variable "azs" {
+  description = "Availability zones"
+  type        = list(string)
+}
+```
+
+#### Security Best Practices
+```hcl
+# Enable VPC Flow Logs
+resource "aws_flow_log" "vpc_flow_log" {
+  iam_role_arn    = aws_iam_role.vpc_flow_log_role.arn
+  log_destination = aws_cloudwatch_log_group.vpc_flow_log_group.arn
+  traffic_type    = "ALL"
+  vpc_id          = aws_vpc.main.id
+}
+
+# Enable VPC Endpoints for private subnets
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id       = aws_vpc.main.id
+  service_name = "com.amazonaws.${var.region}.s3"
+  vpc_endpoint_type = "Gateway"
+  route_table_ids = [aws_route_table.private.id]
+}
 ```
 
 ---

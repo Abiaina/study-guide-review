@@ -15,7 +15,7 @@ title: Core Data Structures
 | Sorting (sorted, list.sort) | O(n log n)      | Timsort (optimized for partially sorted data) |
 | Heap push/pop (`heapq`)     | O(log n)        | Priority queue                                |
 
-👉 **Helper libraries in Python**
+**Helper libraries in Python**
 
 - `collections.deque` → O(1) pops/appends at both ends.
 - `collections.Counter` → Fast frequency counting.
@@ -56,7 +56,7 @@ Compare Core Data Structures
 
 ---
 
-# 📘 Arrays & Lists (Python Focus)
+# Arrays & Lists (Python Focus)
 
 ### Key Properties
 
@@ -127,7 +127,7 @@ function insert(list, index, value):
 
 ---
 
-# 📘 Dictionaries (Python `dict`)
+# Dictionaries (Python `dict`)
 
 ### Key Properties
 
@@ -205,7 +205,7 @@ print(sorted(d.items(), key=lambda x: x[1]))
 
 ---
 
-# 📘 Sets (`set` in Python)
+# Sets (`set` in Python)
 
 ### Key Properties
 
@@ -247,7 +247,7 @@ print(s.union({5}))  # {1,3,4,5}
 
 ---
 
-# 📘 Stacks (LIFO)
+# Stacks (LIFO)
 
 ### Key Properties
 
@@ -274,7 +274,7 @@ top = stack.pop()  # 2
 
 ---
 
-# 📘 Queues (FIFO)
+# Queues (FIFO)
 
 ### Key Properties
 
@@ -301,7 +301,7 @@ front = q.popleft() # 1
 
 ---
 
-# 📘 Heaps / Priority Queues (`heapq`)
+# Heaps / Priority Queues (`heapq`)
 
 ### Key Properties
 

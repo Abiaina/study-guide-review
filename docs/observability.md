@@ -4,7 +4,7 @@ title: Observability
 
 ---
 
-# 📘 Observability
+# Observability
 
 Observability is often broken into the **three pillars**: **Logs, Metrics, Traces**. A modern system usually combines all three.
 

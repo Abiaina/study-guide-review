@@ -2,7 +2,7 @@
 title: Complex Data Structures
 ---
 
-# 📘 Trees
+# Trees
 
 ### Key Properties
 
@@ -10,6 +10,13 @@ title: Complex Data Structures
 - **Binary Tree**: each node has up to 2 children.
 - **BST (Binary Search Tree)**: left < root < right.
 - **Common Operations**: traversal, insertion, search, min/max, depth/height.
+
+### Common Tree Problems
+- **Tree Construction**: Build tree from array, string, or other data
+- **Tree Validation**: Check if tree is BST, balanced, or symmetric
+- **Tree Traversal**: Pre-order, in-order, post-order, level-order
+- **Tree Manipulation**: Insert, delete, invert, serialize/deserialize
+- **Tree Queries**: Find LCA, path sum, diameter, height
 
 ### Traversals
 
@@ -71,7 +78,140 @@ def level_order(root):
 
 ---
 
-# 📘 Graphs
+## Common Tree Problems & Solutions
+
+### Validate Binary Search Tree
+
+**Problem**: Check if a binary tree is a valid BST.
+
+**Approach**: Use in-order traversal - BST should produce sorted values.
+
+**Python Implementation**:
+```python
+def is_valid_bst(root):
+    def inorder(node, prev):
+        if not node:
+            return True
+        
+        # Check left subtree
+        if not inorder(node.left, prev):
+            return False
+        
+        # Check current node (should be > previous)
+        if prev[0] is not None and node.val <= prev[0]:
+            return False
+        prev[0] = node.val
+        
+        # Check right subtree
+        return inorder(node.right, prev)
+    
+    prev = [None]  # Use list to store previous value
+    return inorder(root, prev)
+```
+
+### Serialize and Deserialize Binary Tree
+
+**Problem**: Convert tree to string and back.
+
+**Approach**: Use pre-order traversal with null markers.
+
+**Python Implementation**:
+```python
+def serialize(root):
+    if not root:
+        return "null"
+    return str(root.val) + "," + serialize(root.left) + "," + serialize(root.right)
+
+def deserialize(data):
+    def build_tree(values):
+        if not values or values[0] == "null":
+            values.pop(0)
+            return None
+        
+        root = TreeNode(int(values.pop(0)))
+        root.left = build_tree(values)
+        root.right = build_tree(values)
+        return root
+    
+    values = data.split(",")
+    return build_tree(values)
+```
+
+### Lowest Common Ancestor (LCA)
+
+**Problem**: Find the lowest common ancestor of two nodes.
+
+**Approach**: Use recursive search - LCA is where paths diverge.
+
+**Python Implementation**:
+```python
+def lowest_common_ancestor(root, p, q):
+    if not root or root == p or root == q:
+        return root
+    
+    left = lowest_common_ancestor(root.left, p, q)
+    right = lowest_common_ancestor(root.right, p, q)
+    
+    if left and right:
+        return root  # Found LCA
+    return left or right  # Return the one that's not None
+```
+
+### Path Sum
+
+**Problem**: Check if there's a path from root to leaf with given sum.
+
+**Approach**: Use DFS with sum tracking.
+
+**Python Implementation**:
+```python
+def has_path_sum(root, target_sum):
+    if not root:
+        return False
+    
+    # Check if we're at a leaf
+    if not root.left and not root.right:
+        return root.val == target_sum
+    
+    # Recursively check left and right subtrees
+    remaining = target_sum - root.val
+    return has_path_sum(root.left, remaining) or has_path_sum(root.right, remaining)
+```
+
+### Tree Diameter
+
+**Problem**: Find the longest path between any two nodes.
+
+**Approach**: For each node, find the longest path through it.
+
+**Python Implementation**:
+```python
+def diameter_of_binary_tree(root):
+    def height_and_diameter(node):
+        if not node:
+            return 0, 0
+        
+        left_height, left_diameter = height_and_diameter(node.left)
+        right_height, right_diameter = height_and_diameter(node.right)
+        
+        # Current height
+        current_height = max(left_height, right_height) + 1
+        
+        # Current diameter (through current node)
+        current_diameter = left_height + right_height
+        
+        # Max diameter (either through current node or in subtrees)
+        max_diameter = max(current_diameter, left_diameter, right_diameter)
+        
+        return current_height, max_diameter
+    
+    _, diameter = height_and_diameter(root)
+    return diameter
+```
+
+---
+
+# Graphs
 
 ### Key Properties
 

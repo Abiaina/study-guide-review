@@ -1,2 +1,91 @@
-title: Study Guide for DevOps, Chaos and Backend Engineer
-remote_theme: pmarsceill/just-the-docs
+title: DevOps & Backend Study Guide
+description: Comprehensive study guide for DevOps, Chaos Engineering, and Backend Development
+author: Study Guide Team
+url: "https://yourusername.github.io/study-guide-review"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: /:title/
+
+# Navigation
+navigation:
+  - title: Home
+    url: /
+  - title: Complete Study Guide
+    url: /study-guide-complete/
+  - title: Core Fundamentals
+    children:
+      - title: Algorithms
+        url: /algo/
+      - title: Data Structures
+        url: /Core_Data_Structures/
+      - title: Trees & Graphs
+        url: /graphs_linked_lists/
+      - title: Search & Sort
+        url: /search/
+      - title: Sliding Window
+        url: /sliding_window/
+      - title: Frontend Development
+        url: /frontend/
+      - title: Programming Languages & Tools
+        url: /programming_languages/
+  - title: System Design
+    children:
+      - title: Design Problems
+        url: /system_design/
+      - title: Data Layer
+        url: /data_layer/
+      - title: Design Patterns
+        url: /design_patterns/
+      - title: Cheat Sheet
+        url: /cheat_sheet/
+  - title: DevOps & Cloud
+    children:
+      - title: CI/CD & Infrastructure
+        url: /cicd/
+      - title: Reliability Engineering
+        url: /reliability/
+  - title: Security & Performance
+    children:
+      - title: Security & Compliance
+        url: /security_compliance/
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:name/
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Exclude from processing
+exclude:
+  - README.md
+  - .gitignore
+  - .github
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "docs"
+    values:
+      layout: "default"
+      author: "Study Guide Team"
+
+# Theme settings
+theme: jekyll-theme-cayman
+
+# GitHub Pages settings
+github:
+  is_project_page: false
+  repository_url: https://github.com/yourusername/study-guide-review
+  repository_name: study-guide-review
+
+# SEO
+lang: en_US
+locale: en_US
