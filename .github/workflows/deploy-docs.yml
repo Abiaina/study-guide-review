@@ -20,34 +20,180 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          ruby-version: '3.0'
-          bundler-cache: true
+          node-version: '18'
+          cache: 'npm'
 
-      - name: Clean build directory
-        run: rm -rf _site
+      - name: Install dependencies
+        run: npm install
 
       - name: Copy generated files to docs
         run: |
           cp generated/study-guide-complete.md docs/
           cp generated/study-guide-printable.md docs/
 
-      - name: Install dependencies
+      - name: Build static site
         run: |
-          cd docs
-          bundle install
-
-      - name: Build with Jekyll
-        run: |
-          cd docs
-          bundle exec jekyll build --destination ../_site
+          mkdir -p _site
+          cp -r docs/* _site/
+          # Convert markdown files to HTML with basic styling
+          for file in _site/*.md; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file" .md)
+              echo "Converting $filename.md to HTML..."
+              # Create a simple HTML wrapper
+              cat > "_site/$filename.html" << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps & Backend Study Guide</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; background-color: #f8f9fa; }
+        .container { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1, h2, h3, h4, h5, h6 { color: #2c3e50; margin-top: 30px; margin-bottom: 15px; }
+        h1 { font-size: 2.5em; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { font-size: 2em; border-bottom: 2px solid #ecf0f1; padding-bottom: 8px; }
+        h3 { font-size: 1.5em; color: #34495e; }
+        code { background-color: #f8f9fa; padding: 2px 6px; border-radius: 4px; font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; font-size: 0.9em; }
+        pre { background-color: #2c3e50; color: #ecf0f1; padding: 20px; border-radius: 6px; overflow-x: auto; margin: 20px 0; }
+        pre code { background: none; color: inherit; padding: 0; }
+        .nav { background: #34495e; padding: 15px; border-radius: 6px; margin-bottom: 30px; }
+        .nav a { color: white; text-decoration: none; margin-right: 20px; font-weight: 500; }
+        .nav a:hover { color: #3498db; }
+        .content { margin-top: 30px; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f8f9fa; font-weight: 600; }
+        blockquote { border-left: 4px solid #3498db; margin: 20px 0; padding-left: 20px; color: #7f8c8d; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="nav">
+            <a href="/">Home</a>
+            <a href="/study-guide-complete.html">Complete Guide</a>
+            <a href="/study-guide-printable.html">Printable</a>
+            <a href="/algo.html">Algorithms</a>
+            <a href="/Core_Data_Structures.html">Data Structures</a>
+            <a href="/system_design.html">System Design</a>
+        </nav>
+        <div class="content">
+EOF
+              # Convert markdown to HTML using a simple approach
+              # This is a basic conversion - for production you might want to use a proper markdown parser
+              sed 's/^# \(.*\)$/<h1>\1<\/h1>/g' "$file" | \
+              sed 's/^## \(.*\)$/<h2>\1<\/h2>/g' | \
+              sed 's/^### \(.*\)$/<h3>\1<\/h3>/g' | \
+              sed 's/^#### \(.*\)$/<h4>\1<\/h4>/g' | \
+              sed 's/^##### \(.*\)$/<h5>\1<\/h5>/g' | \
+              sed 's/^###### \(.*\)$/<h6>\1<\/h6>/g' | \
+              sed 's/\*\*\([^*]*\)\*\*/<strong>\1<\/strong>/g' | \
+              sed 's/\*\([^*]*\)\*/<em>\1<\/em>/g' | \
+              sed 's/`\([^`]*\)`/<code>\1<\/code>/g' | \
+              sed 's/^```$/<pre><code>/g' | \
+              sed 's/^```$/<\/code><\/pre>/g' | \
+              sed 's/^$/<br\/>/g' >> "_site/$filename.html"
+              # Close the HTML
+              echo "        </div></div></body></html>" >> "_site/$filename.html"
+            fi
+          done
+          # Create index.html
+          cat > "_site/index.html" << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps & Backend Study Guide</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; background-color: #f8f9fa; }
+        .container { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { font-size: 2.5em; border-bottom: 3px solid #3498db; padding-bottom: 10px; color: #2c3e50; }
+        .nav { background: #34495e; padding: 15px; border-radius: 6px; margin-bottom: 30px; }
+        .nav a { color: white; text-decoration: none; margin-right: 20px; font-weight: 500; }
+        .nav a:hover { color: #3498db; }
+        .content { margin-top: 30px; }
+        .section { margin: 30px 0; }
+        .section h2 { color: #34495e; border-bottom: 2px solid #ecf0f1; padding-bottom: 8px; }
+        .section ul { list-style-type: none; padding: 0; }
+        .section li { padding: 10px 0; border-bottom: 1px solid #ecf0f1; }
+        .section a { color: #3498db; text-decoration: none; font-weight: 500; }
+        .section a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="nav">
+            <a href="/">Home</a>
+            <a href="/study-guide-complete.html">Complete Guide</a>
+            <a href="/study-guide-printable.html">Printable</a>
+            <a href="/algo.html">Algorithms</a>
+            <a href="/Core_Data_Structures.html">Data Structures</a>
+            <a href="/system_design.html">System Design</a>
+        </nav>
+        <div class="content">
+            <h1>DevOps & Backend Study Guide</h1>
+            <p>A comprehensive study guide covering DevOps, Chaos Engineering, and Backend Development fundamentals.</p>
+            
+            <div class="section">
+                <h2>Study Guide Versions</h2>
+                <ul>
+                    <li><a href="/study-guide-complete.html">Complete Study Guide</a> - All content in one comprehensive document</li>
+                    <li><a href="/study-guide-printable.html">Printable Version</a> - Print-friendly format for offline study</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>Core Fundamentals</h2>
+                <ul>
+                    <li><a href="/algo.html">Algorithms & Data Structures</a> - Dynamic Programming, Greedy Algorithms</li>
+                    <li><a href="/Core_Data_Structures.html">Data Structures</a> - Lists, Dictionaries, Sets, Heaps, Queues</li>
+                    <li><a href="/graphs_linked_lists.html">Trees & Graphs</a> - Complex data structures and traversals</li>
+                    <li><a href="/search.html">Search & Sort</a> - Binary Search variants, Sorting algorithms</li>
+                    <li><a href="/sliding_window.html">Sliding Window</a> - Fixed and variable-size window patterns</li>
+                    <li><a href="/frontend.html">Frontend Development</a> - DOM, React, component design</li>
+                    <li><a href="/programming_languages.html">Programming Languages</a> - Python, Node.js, Bash patterns</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>System Design & Architecture</h2>
+                <ul>
+                    <li><a href="/system_design.html">System Design Problems</a> - 12 classic interview problems</li>
+                    <li><a href="/data_layer.html">Data Layer & Databases</a> - CAP Theorem, indexing, caching</li>
+                    <li><a href="/design_patterns.html">Design Patterns</a> - Creational, structural, behavioral patterns</li>
+                    <li><a href="/cheat_sheet.html">Cheat Sheet</a> - Quick reference for algorithms and patterns</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>DevOps & Cloud</h2>
+                <ul>
+                    <li><a href="/cicd.html">CI/CD & Infrastructure</a> - Terraform, Jenkins, Kubernetes</li>
+                    <li><a href="/reliability.html">Reliability Engineering</a> - Observability, chaos engineering, load testing</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>Security & Performance</h2>
+                <ul>
+                    <li><a href="/security_compliance.html">Security & Compliance</a> - HIPAA, OWASP, security patterns</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+EOF
 
       - name: Upload site content
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./_site
+          path: _site
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4

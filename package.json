@@ -1,0 +1,13 @@
+{
+  "name": "study-guide-review",
+  "version": "1.0.0",
+  "description": "DevOps & Backend Study Guide",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'Build handled by GitHub Actions'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": ["study-guide", "devops", "backend", "algorithms"],
+  "author": "Study Guide Team",
+  "license": "MIT"
+}
