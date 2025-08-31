@@ -171,7 +171,370 @@ function Counter() {
 {% endraw %}
 ```
 
-#### useEffect
+**Advanced useState Patterns and Best Practices**:
+
+**1. Functional Updates** (When new state depends on previous state):
+```jsx
+{% raw %}
+function Counter() {
+    const [count, setCount] = useState(0);
+    
+    // ❌ Bad: Can lead to stale closures
+    const increment = () => setCount(count + 1);
+    
+    // ✅ Good: Uses functional update
+    const increment = () => setCount(prevCount => prevCount + 1);
+    
+    // ✅ Good: Multiple updates in sequence
+    const incrementByThree = () => {
+        setCount(prev => prev + 1);
+        setCount(prev => prev + 1);
+        setCount(prev => prev + 1);
+    };
+    
+    return (
+        <div>
+            <p>Count: {count}</p>
+            <button onClick={increment}>+1</button>
+            <button onClick={incrementByThree}>+3</button>
+        </div>
+    );
+}
+{% endraw %}
+```
+
+**2. Object State Management** (Managing multiple related values):
+```jsx
+{% raw %}
+function UserForm() {
+    const [user, setUser] = useState({
+        name: '',
+        email: '',
+        age: ''
+    });
+    
+    // ❌ Bad: Mutating state directly
+    const handleChange = (field, value) => {
+        user[field] = value; // This mutates the original object!
+        setUser(user); // React won't detect the change
+    };
+    
+    // ✅ Good: Creating new object
+    const handleChange = (field, value) => {
+        setUser(prevUser => ({
+            ...prevUser, // Spread previous state
+            [field]: value // Update specific field
+        }));
+    };
+    
+    return (
+        <form>
+            <input
+                value={user.name}
+                onChange={(e) => handleChange('name', e.target.value)}
+                placeholder="Name"
+            />
+            <input
+                value={user.email}
+                onChange={(e) => handleChange('email', e.target.value)}
+                placeholder="Email"
+            />
+            <input
+                value={user.age}
+                onChange={(e) => handleChange('age', e.target.value)}
+                placeholder="Age"
+            />
+        </form>
+    );
+}
+{% endraw %}
+```
+
+**3. Lazy Initialization** (Expensive initial state):
+```jsx
+{% raw %}
+function ExpensiveComponent() {
+    // ❌ Bad: Expensive computation runs on every render
+    const [data, setData] = useState(expensiveCalculation());
+    
+    // ✅ Good: Expensive computation only runs once
+    const [data, setData] = useState(() => expensiveCalculation());
+    
+    function expensiveCalculation() {
+        console.log('Running expensive calculation...');
+        // Simulate expensive operation
+        let result = 0;
+        for (let i = 0; i < 1000000; i++) {
+            result += Math.sqrt(i);
+        }
+        return result;
+    }
+    
+    return <div>Result: {data}</div>;
+}
+{% endraw %}
+```
+
+**Common useState Mistakes and Solutions**:
+
+**Mistake 1: Stale Closures in Event Handlers**
+```jsx
+{% raw %}
+function StaleClosureExample() {
+    const [count, setCount] = useState(0);
+    
+    // ❌ Bad: Creates a new function on every render
+    const handleClick = () => {
+        setTimeout(() => {
+            console.log(count); // Always logs the initial value!
+        }, 1000);
+    };
+    
+    // ✅ Good: Use functional update
+    const handleClick = () => {
+        setTimeout(() => {
+            setCount(prevCount => {
+                console.log(prevCount); // Logs current value
+                return prevCount + 1;
+            });
+        }, 1000);
+    };
+    
+    return (
+        <div>
+            <p>Count: {count}</p>
+            <button onClick={handleClick}>Increment with Delay</button>
+        </div>
+    );
+}
+{% endraw %}
+```
+
+**Mistake 2: Mutating State Objects**
+```jsx
+{% raw %}
+function MutatingStateExample() {
+    const [items, setItems] = useState([1, 2, 3]);
+    
+    // ❌ Bad: Mutating the array directly
+    const addItem = () => {
+        items.push(4); // This mutates the original array!
+        setItems(items); // React won't detect the change
+    };
+    
+    // ✅ Good: Creating a new array
+    const addItem = () => {
+        setItems(prevItems => [...prevItems, 4]);
+    };
+    
+    return (
+        <div>
+            <ul>
+                {items.map((item, index) => (
+                    <li key={index}>{item}</li>
+                ))}
+            </ul>
+            <button onClick={addItem}>Add Item</button>
+        </div>
+    );
+}
+{% endraw %}
+```
+
+**Real-world useState Examples**:
+
+**1. Form Management**:
+```jsx
+{% raw %}
+function ContactForm() {
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        message: ''
+    });
+    
+    const [errors, setErrors] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    
+    const handleChange = (field, value) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
+        // Clear error when user starts typing
+        if (errors[field]) {
+            setErrors(prev => ({ ...prev, [field]: '' }));
+        }
+    };
+    
+    const validateForm = () => {
+        const newErrors = {};
+        if (!formData.firstName) newErrors.firstName = 'First name is required';
+        if (!formData.lastName) newErrors.lastName = 'Last name is required';
+        if (!formData.email) newErrors.email = 'Email is required';
+        if (!formData.email.includes('@')) newErrors.email = 'Invalid email format';
+        
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!validateForm()) return;
+        
+        setIsSubmitting(true);
+        try {
+            await submitForm(formData);
+            // Reset form on success
+            setFormData({ firstName: '', lastName: '', email: '', message: '' });
+            setErrors({});
+        } catch (error) {
+            setErrors({ submit: 'Failed to submit form' });
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+    
+    return (
+        <form onSubmit={handleSubmit}>
+            <div>
+                <input
+                    type="text"
+                    value={formData.firstName}
+                    onChange={(e) => handleChange('firstName', e.target.value)}
+                    placeholder="First Name"
+                    className={errors.firstName ? 'error' : ''}
+                />
+                {errors.firstName && <span className="error-text">{errors.firstName}</span>}
+            </div>
+            
+            <div>
+                <input
+                    type="text"
+                    value={formData.lastName}
+                    onChange={(e) => handleChange('lastName', e.target.value)}
+                    placeholder="Last Name"
+                    className={errors.lastName ? 'error' : ''}
+                />
+                {errors.lastName && <span className="error-text">{errors.lastName}</span>}
+            </div>
+            
+            <div>
+                <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleChange('email', e.target.value)}
+                    placeholder="Email"
+                    className={errors.email ? 'error' : ''}
+                />
+                {errors.email && <span className="error-text">{errors.email}</span>}
+            </div>
+            
+            <div>
+                <textarea
+                    value={formData.message}
+                    onChange={(e) => handleChange('message', e.target.value)}
+                    placeholder="Message"
+                />
+            </div>
+            
+            {errors.submit && <div className="error-text">{errors.submit}</div>}
+            
+            <button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? 'Submitting...' : 'Submit'}
+            </button>
+        </form>
+    );
+}
+{% endraw %}
+```
+
+**2. Shopping Cart State**:
+```jsx
+{% raw %}
+function ShoppingCart() {
+    const [cart, setCart] = useState([]);
+    const [total, setTotal] = useState(0);
+    
+    const addToCart = (product) => {
+        setCart(prevCart => {
+            const existingItem = prevCart.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                // Update quantity of existing item
+                return prevCart.map(item =>
+                    item.id === product.id
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item
+                );
+            } else {
+                // Add new item
+                return [...prevCart, { ...product, quantity: 1 }];
+            }
+        });
+    };
+    
+    const removeFromCart = (productId) => {
+        setCart(prevCart => prevCart.filter(item => item.id !== productId));
+    };
+    
+    const updateQuantity = (productId, newQuantity) => {
+        if (newQuantity <= 0) {
+            removeFromCart(productId);
+            return;
+        }
+        
+        setCart(prevCart =>
+            prevCart.map(item =>
+                item.id === productId
+                    ? { ...item, quantity: newQuantity }
+                    : item
+            )
+        );
+    };
+    
+    // Calculate total whenever cart changes
+    useEffect(() => {
+        const newTotal = cart.reduce((sum, item) => 
+            sum + (item.price * item.quantity), 0
+        );
+        setTotal(newTotal);
+    }, [cart]);
+    
+    return (
+        <div>
+            <h2>Shopping Cart ({cart.length} items)</h2>
+            {cart.map(item => (
+                <div key={item.id} className="cart-item">
+                    <span>{item.name}</span>
+                    <span>${item.price}</span>
+                    <input
+                        type="number"
+                        min="1"
+                        value={item.quantity}
+                        onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
+                    />
+                    <button onClick={() => removeFromCart(item.id)}>Remove</button>
+                </div>
+            ))}
+            <div className="cart-total">
+                <strong>Total: ${total.toFixed(2)}</strong>
+            </div>
+        </div>
+    );
+}
+{% endraw %}
+```
+
+#### useEffect - Side Effects and Lifecycle Management
+
+**What it does**: `useEffect` lets you perform side effects in function components. It's a combination of `componentDidMount`, `componentDidUpdate`, and `componentWillUnmount` from class components.
+
+**Key Concepts**:
+- **Side Effects**: Operations like data fetching, subscriptions, manual DOM mutations, logging
+- **Dependency Array**: Controls when the effect runs
+- **Cleanup Function**: Runs before the component unmounts or before the effect runs again
+- **Timing**: Runs after the browser has painted the DOM
+
+**Basic Usage**:
 ```jsx
 {% raw %}
 import React, { useState, useEffect } from 'react';
@@ -215,6 +578,526 @@ function UserProfile({ userId }) {
         <div>
             <h1>{user.name}</h1>
             <p>{user.email}</p>
+        </div>
+    );
+}
+{% endraw %}
+```
+
+**useEffect Dependency Array Patterns**:
+
+**1. No Dependencies** (Runs after every render):
+```jsx
+{% raw %}
+function LoggingComponent() {
+    const [count, setCount] = useState(0);
+    
+    // ❌ Bad: Runs on every render, can cause infinite loops
+    useEffect(() => {
+        console.log('Component rendered');
+        // This could trigger another render if it updates state!
+    });
+    
+    // ✅ Good: Only for logging, no state updates
+    useEffect(() => {
+        console.log('Component rendered, count:', count);
+    });
+    
+    return (
+        <div>
+            <p>Count: {count}</p>
+            <button onClick={() => setCount(count + 1)}>Increment</button>
+        </div>
+    );
+}
+{% endraw %}
+```
+
+**2. Empty Dependencies** (Runs only once on mount):
+```jsx
+{% raw %}
+function SubscriptionComponent() {
+    const [data, setData] = useState(null);
+    
+    useEffect(() => {
+        // ✅ Good: Set up subscription only once
+        const subscription = subscribeToData((newData) => {
+            setData(newData);
+        });
+        
+        // Cleanup: Remove subscription on unmount
+        return () => {
+            subscription.unsubscribe();
+        };
+    }, []); // Empty dependency array = run only once
+    
+    return <div>Data: {data}</div>;
+}
+{% endraw %}
+```
+
+**3. Specific Dependencies** (Runs when dependencies change):
+```jsx
+{% raw %}
+function SearchComponent({ query, filters }) {
+    const [results, setResults] = useState([]);
+    const [loading, setLoading] = useState(false);
+    
+    useEffect(() => {
+        // ✅ Good: Only search when query or filters change
+        if (query.trim()) {
+            setLoading(true);
+            searchAPI(query, filters).then(setResults).finally(() => setLoading(false));
+        }
+    }, [query, filters]); // Re-run when query or filters change
+    
+    return (
+        <div>
+            {loading ? <div>Searching...</div> : (
+                <ul>
+                    {results.map(result => (
+                        <li key={result.id}>{result.title}</li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+}
+{% endraw %}
+```
+
+**4. Function Dependencies** (Handling function references):
+```jsx
+{% raw %}
+function ParentComponent() {
+    const [count, setCount] = useState(0);
+    
+    // ❌ Bad: Function recreated on every render
+    const handleIncrement = () => setCount(count + 1);
+    
+    // ✅ Good: Memoized function with useCallback
+    const handleIncrement = useCallback(() => {
+        setCount(prev => prev + 1);
+    }, []); // No dependencies needed
+    
+    return <ChildComponent onIncrement={handleIncrement} />;
+}
+
+function ChildComponent({ onIncrement }) {
+    useEffect(() => {
+        // This effect will only run when onIncrement function reference changes
+        console.log('Increment handler changed');
+    }, [onIncrement]);
+    
+    return <button onClick={onIncrement}>Increment</button>;
+}
+{% endraw %}
+```
+
+**Advanced useEffect Patterns**:
+
+**1. Multiple Effects for Different Concerns**:
+```jsx
+{% raw %}
+function ComplexComponent({ userId, theme }) {
+    const [user, setUser] = useState(null);
+    const [posts, setPosts] = useState([]);
+    const [notifications, setNotifications] = useState([]);
+    
+    // Effect 1: Fetch user data
+    useEffect(() => {
+        fetchUser(userId).then(setUser);
+    }, [userId]);
+    
+    // Effect 2: Fetch user posts
+    useEffect(() => {
+        if (user) {
+            fetchUserPosts(user.id).then(setPosts);
+        }
+    }, [user]);
+    
+    // Effect 3: Set up real-time notifications
+    useEffect(() => {
+        if (user) {
+            const subscription = subscribeToNotifications(user.id, setNotifications);
+            return () => subscription.unsubscribe();
+        }
+    }, [user]);
+    
+    // Effect 4: Update document title
+    useEffect(() => {
+        if (user) {
+            document.title = `${user.name}'s Dashboard`;
+        }
+    }, [user]);
+    
+    // Effect 5: Apply theme
+    useEffect(() => {
+        document.body.className = `theme-${theme}`;
+    }, [theme]);
+    
+    return (
+        <div>
+            {/* Component JSX */}
+        </div>
+    );
+}
+{% endraw %}
+```
+
+**2. Cleanup Functions and AbortController**:
+```jsx
+{% raw %}
+function DataFetchingComponent({ url }) {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    
+    useEffect(() => {
+        const abortController = new AbortController();
+        
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch(url, {
+                    signal: abortController.signal
+                });
+                const result = await response.json();
+                setData(result);
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    console.log('Fetch aborted');
+                } else {
+                    console.error('Fetch error:', error);
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        fetchData();
+        
+        // Cleanup: Abort fetch if component unmounts or URL changes
+        return () => {
+            abortController.abort();
+        };
+    }, [url]);
+    
+    if (loading) return <div>Loading...</div>;
+    return <div>{JSON.stringify(data)}</div>;
+}
+{% endraw %}
+```
+
+**3. Custom Hook with useEffect**:
+```jsx
+{% raw %}
+function useLocalStorage(key, initialValue) {
+    const [storedValue, setStoredValue] = useState(() => {
+        try {
+            const item = window.localStorage.getItem(key);
+            return item ? JSON.parse(item) : initialValue;
+        } catch (error) {
+            console.error('Error reading from localStorage:', error);
+            return initialValue;
+        }
+    });
+    
+    const setValue = (value) => {
+        try {
+            // Allow value to be a function so we have the same API as useState
+            const valueToStore = value instanceof Function ? value(storedValue) : value;
+            setStoredValue(valueToStore);
+            window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        } catch (error) {
+            console.error('Error setting localStorage:', error);
+        }
+    };
+    
+    return [storedValue, setValue];
+}
+
+// Usage
+function UserPreferences() {
+    const [theme, setTheme] = useLocalStorage('theme', 'light');
+    const [language, setLanguage] = useLocalStorage('language', 'en');
+    
+    return (
+        <div>
+            <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+            </select>
+            
+            <select value={language} onChange={(e) => setLanguage(e.target.value)}>
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+            </select>
+        </div>
+    );
+}
+{% endraw %}
+```
+
+**Common useEffect Mistakes and Solutions**:
+
+**Mistake 1: Missing Dependencies**:
+```jsx
+{% raw %}
+function BuggyComponent({ userId }) {
+    const [user, setUser] = useState(null);
+    
+    // ❌ Bad: Missing userId in dependencies
+    useEffect(() => {
+        fetchUser(userId).then(setUser);
+    }, []); // This will only fetch once, even if userId changes!
+    
+    // ✅ Good: Include all dependencies
+    useEffect(() => {
+        fetchUser(userId).then(setUser);
+    }, [userId]);
+    
+    return <div>{user?.name}</div>;
+}
+{% endraw %}
+```
+
+**Mistake 2: Infinite Loops**:
+```jsx
+{% raw %}
+function InfiniteLoopComponent() {
+    const [count, setCount] = useState(0);
+    
+    // ❌ Bad: Updates state in effect with no dependencies
+    useEffect(() => {
+        setCount(count + 1); // This causes infinite re-renders!
+    }); // No dependency array = runs after every render
+    
+    // ✅ Good: Only update when needed
+    useEffect(() => {
+        if (count < 10) {
+            setCount(prev => prev + 1);
+        }
+    }, [count]); // Only run when count changes
+    
+    // ✅ Better: Use a ref to track if it's the first render
+    const isFirstRender = useRef(true);
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            setCount(1); // Only set once on mount
+        }
+    }, []);
+    
+    return <div>Count: {count}</div>;
+}
+{% endraw %}
+```
+
+**Mistake 3: Forgetting Cleanup**:
+```jsx
+{% raw %}
+function SubscriptionComponent() {
+    const [data, setData] = useState(null);
+    
+    // ❌ Bad: No cleanup, can cause memory leaks
+    useEffect(() => {
+        const subscription = subscribeToData(setData);
+        // Missing return statement for cleanup!
+    }, []);
+    
+    // ✅ Good: Proper cleanup
+    useEffect(() => {
+        const subscription = subscribeToData(setData);
+        return () => subscription.unsubscribe();
+    }, []);
+    
+    return <div>{data}</div>;
+}
+{% endraw %}
+```
+
+**Real-world useEffect Examples**:
+
+**1. API Data Fetching with Loading States**:
+```jsx
+{% raw %}
+function UserDashboard({ userId }) {
+    const [user, setUser] = useState(null);
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState({ user: true, posts: true });
+    const [error, setError] = useState(null);
+    
+    // Fetch user data
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                setLoading(prev => ({ ...prev, user: true }));
+                setError(null);
+                
+                const response = await fetch(`/api/users/${userId}`);
+                if (!response.ok) throw new Error('Failed to fetch user');
+                
+                const userData = await response.json();
+                setUser(userData);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(prev => ({ ...prev, user: false }));
+            }
+        };
+        
+        fetchUser();
+    }, [userId]);
+    
+    // Fetch user posts (only after user is loaded)
+    useEffect(() => {
+        if (!user) return;
+        
+        const fetchPosts = async () => {
+            try {
+                setLoading(prev => ({ ...prev, posts: true }));
+                const response = await fetch(`/api/users/${userId}/posts`);
+                const postsData = await response.json();
+                setPosts(postsData);
+            } catch (err) {
+                console.error('Failed to fetch posts:', err);
+            } finally {
+                setLoading(prev => ({ ...prev, posts: false }));
+            }
+        };
+        
+        fetchPosts();
+    }, [user, userId]);
+    
+    // Update document title
+    useEffect(() => {
+        if (user) {
+            document.title = `${user.name}'s Dashboard`;
+        }
+    }, [user]);
+    
+    if (loading.user) return <div>Loading user...</div>;
+    if (error) return <div>Error: {error}</div>;
+    if (!user) return <div>User not found</div>;
+    
+    return (
+        <div>
+            <h1>{user.name}'s Dashboard</h1>
+            <p>Email: {user.email}</p>
+            
+            <h2>Posts</h2>
+            {loading.posts ? (
+                <div>Loading posts...</div>
+            ) : (
+                <div>
+                    {posts.map(post => (
+                        <div key={post.id}>
+                            <h3>{post.title}</h3>
+                            <p>{post.excerpt}</p>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+{% endraw %}
+```
+
+**2. Real-time Updates with WebSocket**:
+```jsx
+{% raw %}
+function ChatRoom({ roomId, userId }) {
+    const [messages, setMessages] = useState([]);
+    const [isConnected, setIsConnected] = useState(false);
+    const [newMessage, setNewMessage] = useState('');
+    
+    // WebSocket connection
+    useEffect(() => {
+        const ws = new WebSocket(`wss://chat.example.com/room/${roomId}`);
+        
+        ws.onopen = () => {
+            setIsConnected(true);
+            console.log('Connected to chat room');
+        };
+        
+        ws.onmessage = (event) => {
+            const message = JSON.parse(event.data);
+            setMessages(prev => [...prev, message]);
+        };
+        
+        ws.onclose = () => {
+            setIsConnected(false);
+            console.log('Disconnected from chat room');
+        };
+        
+        ws.onerror = (error) => {
+            console.error('WebSocket error:', error);
+            setIsConnected(false);
+        };
+        
+        // Cleanup: Close connection on unmount
+        return () => {
+            ws.close();
+        };
+    }, [roomId]);
+    
+    // Auto-scroll to bottom when new messages arrive
+    useEffect(() => {
+        const chatContainer = document.getElementById('chat-container');
+        if (chatContainer) {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    }, [messages]);
+    
+    const sendMessage = () => {
+        if (!newMessage.trim() || !isConnected) return;
+        
+        const message = {
+            id: Date.now(),
+            text: newMessage,
+            userId,
+            timestamp: new Date().toISOString()
+        };
+        
+        // Optimistically add message to UI
+        setMessages(prev => [...prev, message]);
+        setNewMessage('');
+        
+        // Send to server (in real app, you'd send via WebSocket)
+        console.log('Sending message:', message);
+    };
+    
+    return (
+        <div>
+            <div className="connection-status">
+                Status: {isConnected ? 'Connected' : 'Disconnected'}
+            </div>
+            
+            <div id="chat-container" className="messages">
+                {messages.map(message => (
+                    <div key={message.id} className={`message ${message.userId === userId ? 'own' : 'other'}`}>
+                        <span className="user">{message.userId}</span>
+                        <span className="text">{message.text}</span>
+                        <span className="time">{new Date(message.timestamp).toLocaleTimeString()}</span>
+                    </div>
+                ))}
+            </div>
+            
+            <div className="input-area">
+                <input
+                    type="text"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                    placeholder="Type a message..."
+                    disabled={!isConnected}
+                />
+                <button onClick={sendMessage} disabled={!isConnected || !newMessage.trim()}>
+                    Send
+                </button>
+            </div>
         </div>
     );
 }

@@ -13,8 +13,15 @@ title: Programming Languages & Tools
 ### Advanced Patterns
 
 #### Decorators
+
+**What they are**: Functions that modify or enhance other functions/classes without changing their source code.
+
+**Common use cases**: Logging, timing, authentication, caching, retry logic, and design patterns like singleton.
+
+**Key benefits**: Code reusability, separation of concerns, and clean syntax with the `@` symbol.
+
 ```python
-# Function decorator
+# Function decorator - adds timing functionality
 def timer(func):
     def wrapper(*args, **kwargs):
         import time
@@ -31,7 +38,7 @@ def slow_function():
     time.sleep(1)
     return "Done"
 
-# Class decorator
+# Class decorator - implements singleton pattern
 def singleton(cls):
     instances = {}
     def get_instance(*args, **kwargs):
@@ -44,34 +51,18 @@ def singleton(cls):
 class Database:
     def __init__(self):
         print("Creating database connection...")
-
-# Parameterized decorator
-def retry(max_attempts=3, delay=1):
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            import time
-            for attempt in range(max_attempts):
-                try:
-                    return func(*args, **kwargs)
-                except Exception as e:
-                    if attempt == max_attempts - 1:
-                        raise e
-                    time.sleep(delay)
-            return None
-        return wrapper
-    return decorator
-
-@retry(max_attempts=3, delay=2)
-def unreliable_api_call():
-    import random
-    if random.random() < 0.7:
-        raise Exception("API failed")
-    return "Success"
 ```
 
 #### Context Managers
+
+**What they are**: Objects that manage the setup and cleanup of resources automatically using the `with` statement.
+
+**Common use cases**: File handling, database connections, locks, network connections, and any resource that needs proper cleanup.
+
+**Key benefits**: Automatic resource management, exception safety, and cleaner code than try-finally blocks.
+
 ```python
-# Custom context manager
+# Custom context manager - manages database connections
 class DatabaseConnection:
     def __init__(self, host, port):
         self.host = host
@@ -95,7 +86,7 @@ with DatabaseConnection("localhost", 5432) as conn:
     print(f"Using connection: {conn}")
     # Database operations here
 
-# Context manager with contextlib
+# Context manager with contextlib - simpler file handling
 from contextlib import contextmanager
 
 @contextmanager
@@ -112,72 +103,69 @@ with file_handler('data.txt', 'w') as f:
 ```
 
 #### Async/Await Patterns
+
+**What they are**: Python's way of writing asynchronous, non-blocking code that can handle many concurrent operations efficiently.
+
+**Common use cases**: Web scraping, API calls, database operations, file I/O, and any I/O-bound operations that can benefit from concurrency.
+
+**Key benefits**: Better performance for I/O operations, non-blocking execution, and efficient resource utilization.
+
 ```python
 import asyncio
 import aiohttp
-import time
 
-# Basic async function
+# Basic async function - fetches data from URLs
 async def fetch_data(url):
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
             return await response.text()
 
-# Async context manager
-class AsyncDatabasePool:
-    def __init__(self, max_connections=10):
-        self.max_connections = max_connections
-        self.connections = asyncio.Queue(maxsize=max_connections)
-    
-    async def __aenter__(self):
-        # Initialize connections
-        for i in range(self.max_connections):
-            await self.connections.put(f"Connection {i}")
-        return self
-    
-    async def __aexit__(self, exc_type, exc_val, exc_tb):
-        # Clean up connections
-        while not self.connections.empty():
-            await self.connections.get()
-    
-    async def get_connection(self):
-        return await self.connections.get()
-    
-    async def return_connection(self, conn):
-        await self.connections.put(conn)
-
-# Concurrent execution
+# Concurrent execution - processes multiple URLs simultaneously
 async def process_multiple_urls(urls):
     tasks = [fetch_data(url) for url in urls]
     results = await asyncio.gather(*tasks, return_exceptions=True)
     return results
 
-# Async generator
-async def async_range(start, end):
-    for i in range(start, end):
-        await asyncio.sleep(0.1)  # Simulate async work
-        yield i
+# Async context manager - manages async resources
+class AsyncDatabasePool:
+    def __init__(self, max_connections=10):
+        self.connections = asyncio.Queue(maxsize=max_connections)
+    
+    async def __aenter__(self):
+        for i in range(max_connections):
+            await self.connections.put(f"Connection {i}")
+        return self
+    
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        while not self.connections.empty():
+            await self.connections.get()
+    
+    async def get_connection(self):
+        return await self.connections.get()
 
 # Usage
 async def main():
-    urls = ['http://example.com', 'http://example.org', 'http://example.net']
+    urls = ['http://example.com', 'http://example.org']
     results = await process_multiple_urls(urls)
     
     async with AsyncDatabasePool() as pool:
         conn = await pool.get_connection()
         # Use connection
-        await pool.return_connection(conn)
-    
-    async for i in async_range(0, 10):
-        print(f"Processing {i}")
 
-# Run async function
 asyncio.run(main())
 ```
 
 #### Metaclasses and Descriptors
+
+**What they are**: Advanced Python features that allow you to customize how classes and attributes behave.
+
+**Metaclasses**: Classes that create other classes, allowing you to modify class creation behavior.
+**Descriptors**: Objects that customize attribute access, get, set, and delete operations.
+
+**Common use cases**: Design patterns, validation, logging, and framework development.
+
 ```python
-# Metaclass for singleton pattern
+# Metaclass - implements singleton pattern by controlling class instantiation
 class Singleton(type):
     _instances = {}
     
@@ -190,7 +178,7 @@ class Database(metaclass=Singleton):
     def __init__(self):
         print("Creating database...")
 
-# Descriptor for property validation
+# Descriptor - adds validation to class attributes
 class ValidatedProperty:
     def __init__(self, min_value=None, max_value=None):
         self.min_value = min_value
@@ -224,8 +212,16 @@ class User:
 ### Python Interview Essentials
 
 #### Common Patterns
+
+**What they are**: Reusable solutions to common software design problems that improve code organization and maintainability.
+
+**Factory Pattern**: Creates objects without specifying their exact class, useful for object creation that depends on runtime conditions.
+**Observer Pattern**: Establishes a one-to-many dependency between objects, where one object's state change notifies all dependents.
+
+**Key benefits**: Code reusability, loose coupling, and easier testing and maintenance.
+
 ```python
-# Factory pattern
+# Factory pattern - creates objects based on type
 class Animal:
     def speak(self):
         pass
@@ -247,7 +243,7 @@ class AnimalFactory:
         }
         return animals.get(animal_type, Animal)()
 
-# Observer pattern
+# Observer pattern - notifies multiple objects of state changes
 class Subject:
     def __init__(self):
         self._observers = []
@@ -273,8 +269,15 @@ subject.notify("Hello observers!")
 ```
 
 #### Performance Optimization
+
+**What they are**: Techniques and Python features that improve code performance, memory usage, and execution speed.
+
+**Key optimizations**: Memory-efficient classes, function memoization, and optimized data structures.
+
+**Common use cases**: High-performance applications, memory-constrained environments, and optimization of frequently called functions.
+
 ```python
-# Use __slots__ for memory optimization
+# __slots__ - reduces memory usage by preventing dynamic attribute creation
 class Point:
     __slots__ = ['x', 'y']
     
@@ -282,7 +285,7 @@ class Point:
         self.x = x
         self.y = y
 
-# Use functools.lru_cache for memoization
+# lru_cache - memoizes function results to avoid repeated expensive calculations
 from functools import lru_cache
 
 @lru_cache(maxsize=128)
@@ -291,7 +294,7 @@ def fibonacci(n):
         return n
     return fibonacci(n-1) + fibonacci(n-2)
 
-# Use collections.defaultdict for cleaner code
+# defaultdict - eliminates need for key existence checks
 from collections import defaultdict
 
 # Instead of this:
@@ -314,8 +317,15 @@ for word in words:
 ### Event Loop and Asynchronous Patterns
 
 #### Understanding the Event Loop
+
+**What it is**: Node.js's core mechanism that handles asynchronous operations and determines the order of execution for different types of callbacks.
+
+**Key phases**: Timer callbacks, I/O callbacks, idle/prepare, poll, check, close callbacks, and microtask queues.
+
+**Why it matters**: Understanding the event loop is crucial for writing efficient, non-blocking Node.js applications and debugging timing issues.
+
 ```javascript
-// Event loop phases
+// Event loop phases - demonstrates execution order
 console.log('1. Start');
 
 setTimeout(() => {
@@ -340,11 +350,18 @@ console.log('6. End');
 ```
 
 #### Streams and Backpressure
+
+**What they are**: Streams are Node.js objects for reading/writing data in chunks, while backpressure is the mechanism that prevents memory issues when data flows faster than it can be processed.
+
+**Key benefits**: Memory efficiency, real-time processing, and built-in flow control for large datasets.
+
+**Common use cases**: File processing, network communication, data transformation pipelines, and handling large files without loading everything into memory.
+
 ```javascript
 const fs = require('fs');
 const { Transform } = require('stream');
 
-// Custom transform stream
+// Custom transform stream - converts text to uppercase
 class UpperCaseTransform extends Transform {
     constructor() {
         super({ objectMode: true });
@@ -357,7 +374,7 @@ class UpperCaseTransform extends Transform {
     }
 }
 
-// File processing with streams
+// File processing with streams - processes data in chunks
 const readStream = fs.createReadStream('input.txt', { 
     highWaterMark: 64 * 1024 // 64KB chunks
 });
@@ -366,7 +383,7 @@ const writeStream = fs.createWriteStream('output.txt');
 
 const transformStream = new UpperCaseTransform();
 
-// Handle backpressure
+// Handle backpressure - pauses reading when writing can't keep up
 readStream.on('data', (chunk) => {
     const canContinue = writeStream.write(chunk);
     if (!canContinue) {
@@ -378,7 +395,7 @@ writeStream.on('drain', () => {
     readStream.resume();
 });
 
-// Pipe with error handling
+// Pipe with error handling - creates a processing pipeline
 readStream
     .pipe(transformStream)
     .pipe(writeStream)
@@ -391,8 +408,15 @@ readStream
 ```
 
 #### Async Patterns
+
+**What they are**: Advanced patterns for handling asynchronous operations in Node.js, including utility functions for common async scenarios.
+
+**Key patterns**: Promise utilities (delay, timeout, retry), async generators, and worker threads for CPU-intensive tasks.
+
+**Common use cases**: API calls, database operations, file processing, and any operation that requires waiting for external resources.
+
 ```javascript
-// Promise patterns
+// Promise patterns - utility functions for common async scenarios
 class PromiseUtils {
     static delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -424,7 +448,7 @@ class PromiseUtils {
     }
 }
 
-// Async generator
+// Async generator - yields values asynchronously
 async function* asyncGenerator() {
     for (let i = 0; i < 5; i++) {
         await PromiseUtils.delay(100);
@@ -432,23 +456,14 @@ async function* asyncGenerator() {
     }
 }
 
-// Usage
-(async () => {
-    for await (const value of asyncGenerator()) {
-        console.log(value);
-    }
-})();
-
-// Worker threads for CPU-intensive tasks
+// Worker threads - offload CPU-intensive tasks to separate threads
 const { Worker, isMainThread, parentPort } = require('worker_threads');
 
 if (isMainThread) {
     const worker = new Worker(__filename);
-    
     worker.on('message', (result) => {
         console.log('Result:', result);
     });
-    
     worker.postMessage({ data: [1, 2, 3, 4, 5] });
 } else {
     parentPort.on('message', (message) => {
@@ -459,12 +474,19 @@ if (isMainThread) {
 ```
 
 #### Express/Fastify Patterns
+
+**What they are**: Common patterns and middleware implementations for Node.js web frameworks like Express and Fastify.
+
+**Key patterns**: Authentication middleware, error handling, rate limiting, route organization, and request validation.
+
+**Common use cases**: Building REST APIs, web applications, and microservices with proper security and error handling.
+
 ```javascript
-// Express middleware pattern
+// Express middleware pattern - modular request processing
 const express = require('express');
 const app = express();
 
-// Authentication middleware
+// Authentication middleware - validates JWT tokens
 const authenticate = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
@@ -480,7 +502,7 @@ const authenticate = (req, res, next) => {
     }
 };
 
-// Error handling middleware
+// Error handling middleware - centralized error processing
 const errorHandler = (err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ 
@@ -489,7 +511,7 @@ const errorHandler = (err, req, res, next) => {
     });
 };
 
-// Rate limiting middleware
+// Rate limiting middleware - prevents API abuse
 const rateLimit = require('express-rate-limit');
 
 const limiter = rateLimit({
@@ -498,7 +520,7 @@ const limiter = rateLimit({
     message: 'Too many requests from this IP'
 });
 
-// Route organization
+// Route organization - modular API structure
 const userRoutes = require('./routes/users');
 const productRoutes = require('./routes/products');
 
@@ -506,10 +528,10 @@ app.use('/api/users', authenticate, userRoutes);
 app.use('/api/products', productRoutes);
 app.use(errorHandler);
 
-// Fastify example
+// Fastify example - modern, fast web framework
 const fastify = require('fastify')({ logger: true });
 
-// Plugin system
+// Plugin system - modular feature registration
 fastify.register(require('fastify-jwt'), {
     secret: process.env.JWT_SECRET
 });
@@ -518,7 +540,7 @@ fastify.register(require('fastify-cors'), {
     origin: true
 });
 
-// Route with validation
+// Route with validation - automatic request validation
 const userSchema = {
     type: 'object',
     properties: {
@@ -540,8 +562,15 @@ fastify.post('/users', {
 ```
 
 ### NPM Ecosystem Best Practices
+
+**What they are**: Best practices for managing Node.js projects, dependencies, and development workflows using npm and related tools.
+
+**Key areas**: Script organization, dependency management, security practices, and development tooling.
+
+**Common use cases**: Setting up development environments, managing project dependencies, and automating common development tasks.
+
 ```javascript
-// Package.json scripts
+// Package.json scripts - automate common development tasks
 {
   "scripts": {
     "start": "node server.js",

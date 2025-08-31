@@ -14,21 +14,53 @@ Design patterns are reusable solutions to common software design problems. They 
 
 **What it is**: Ensures a class has only one instance and provides global access to it.
 
+**Why Singleton is NOT just a constant**:
+- **Constants are static values** that don't change and don't have behavior
+- **Singleton is a class instance** that can have state, methods, and complex behavior
+- **Constants are created at compile time** and exist throughout program execution
+- **Singleton can be lazy-initialized** (only created when first needed)
+- **Constants don't maintain state** between operations
+- **Singleton can have mutable state** that changes over time
+- **Constants can't be mocked** or replaced for testing
+- **Singleton can implement interfaces** and be polymorphic
+
+**Real-world analogy**: Think of a **constant** as a street sign (fixed, unchanging) vs. a **Singleton** as a traffic light controller (has state, behavior, and can change over time).
+
 **When to use**: 
-- Database connections
-- Logger instances
-- Configuration managers
-- Cache managers
+- Database connections (needs connection pooling, state management)
+- Logger instances (needs to maintain log levels, handlers, state)
+- Configuration managers (needs to load config, cache values, handle updates)
+- Cache managers (needs to maintain cache state, eviction policies)
+- Service locators (needs to manage service instances, lifecycle)
+- Thread pools (needs to manage worker threads, queue state)
 
 **Implementation**:
 ```python
 class Singleton:
     _instance = None
+    _initialized = False
     
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
+    
+    def __init__(self):
+        # Prevent multiple initializations
+        if not self._initialized:
+            self._initialized = True
+            self._data = {}
+            self._counter = 0
+    
+    def set_data(self, key, value):
+        self._data[key] = value
+        self._counter += 1
+    
+    def get_data(self, key):
+        return self._data.get(key)
+    
+    def get_counter(self):
+        return self._counter
 
 # Alternative with decorator
 def singleton(cls):
@@ -43,18 +75,241 @@ def singleton(cls):
 class DatabaseConnection:
     def __init__(self):
         self.connection_string = "db://localhost:5432"
+        self.connection_pool = []
+        self.active_connections = 0
+    
+    def get_connection(self):
+        if not self.connection_pool:
+            # Create new connection
+            self.active_connections += 1
+            return f"Connection_{self.active_connections}"
+        return self.connection_pool.pop()
+    
+    def return_connection(self, connection):
+        self.connection_pool.append(connection)
+    
+    def get_stats(self):
+        return {
+            'pool_size': len(self.connection_pool),
+            'active_connections': self.active_connections
+        }
+
+# Thread-safe Singleton (Python 3.7+)
+import threading
+from typing import Optional
+
+class ThreadSafeSingleton:
+    _instance: Optional['ThreadSafeSingleton'] = None
+    _lock = threading.Lock()
+    
+    def __new__(cls) -> 'ThreadSafeSingleton':
+        if cls._instance is None:
+            with cls._lock:
+                # Double-checked locking pattern
+                if cls._instance is None:
+                    cls._instance = super().__new__(cls)
+        return cls._instance
+```
+
+**Advanced Singleton Patterns**:
+
+**1. Monostate Pattern** (Shared State):
+```python
+class Monostate:
+    _shared_state = {}
+    
+    def __init__(self):
+        self.__dict__ = self._shared_state
+        if not self._shared_state:
+            self._shared_state['data'] = {}
+            self._shared_state['counter'] = 0
+    
+    def set_data(self, key, value):
+        self._shared_state['data'][key] = value
+        self._shared_state['counter'] += 1
+    
+    def get_data(self, key):
+        return self._shared_state['data'].get(key)
+```
+
+**2. Borg Pattern** (Python-specific):
+```python
+class Borg:
+    _shared_state = {}
+    
+    def __init__(self):
+        self.__dict__ = self._shared_state
+        if not self._shared_state:
+            self._shared_state['data'] = {}
+            self._shared_state['counter'] = 0
+```
+
+**3. Singleton Registry** (Multiple Singletons):
+```python
+class SingletonRegistry:
+    _instances = {}
+    
+    @classmethod
+    def get_instance(cls, class_name):
+        if class_name not in cls._instances:
+            cls._instances[class_name] = type(class_name, (), {})()
+        return cls._instances[class_name]
+    
+    @classmethod
+    def clear(cls):
+        cls._instances.clear()
+
+# Usage
+logger = SingletonRegistry.get_instance('Logger')
+cache = SingletonRegistry.get_instance('Cache')
 ```
 
 **Cost-Benefit Analysis**:
 - **Benefits**: 
-  - Guarantees single instance
-  - Lazy initialization
-  - Global access point
+  - ✅ **Guarantees single instance** across the entire application
+  - ✅ **Lazy initialization** (only created when first needed)
+  - ✅ **Global access point** for shared resources
+  - ✅ **Resource management** (connection pooling, caching)
+  - ✅ **State persistence** across multiple calls
+  - ✅ **Configuration management** (load once, use everywhere)
 - **Costs**: 
-  - Global state (hard to test)
-  - Violates single responsibility principle
-  - Can be difficult to mock in tests
-- **Use when**: You need exactly one instance and global access
+  - ❌ **Global state** (hard to test and debug)
+  - ❌ **Violates single responsibility principle** (manages both creation and behavior)
+  - ❌ **Can be difficult to mock** in unit tests
+  - ❌ **Tight coupling** (hard to replace or extend)
+  - ❌ **Memory leaks** if not properly managed
+  - ❌ **Thread safety issues** in multi-threaded environments
+- **Use when**: 
+  - You need exactly one instance and global access
+  - The instance needs to maintain state over time
+  - Resource management is critical (connections, caches)
+  - Configuration needs to be shared across the application
+
+**Anti-patterns to avoid**:
+- **God Object**: Don't make the Singleton do everything
+- **Tight Coupling**: Don't force other classes to depend on the Singleton
+- **Global Mutable State**: Be careful with shared state that can change
+- **Overuse**: Don't use Singleton for every class that should have one instance
+
+**Testing Strategies**:
+```python
+# Reset Singleton for testing
+class TestableSingleton:
+    _instance = None
+    
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+    
+    @classmethod
+    def reset(cls):
+        """Reset the singleton instance (for testing)"""
+        cls._instance = None
+
+# In tests
+def test_singleton():
+    # Reset before each test
+    TestableSingleton.reset()
+    instance1 = TestableSingleton()
+    instance2 = TestableSingleton()
+    assert instance1 is instance2
+```
+
+**Real-world Examples**:
+
+**1. Database Connection Pool**:
+```python
+@singleton
+class DatabasePool:
+    def __init__(self):
+        self.connections = []
+        self.max_connections = 10
+        self.active_connections = 0
+    
+    def get_connection(self):
+        if self.connections:
+            return self.connections.pop()
+        elif self.active_connections < self.max_connections:
+            self.active_connections += 1
+            return self._create_connection()
+        else:
+            raise Exception("No available connections")
+    
+    def return_connection(self, connection):
+        self.connections.append(connection)
+    
+    def _create_connection(self):
+        # Create new database connection
+        return f"DB_Connection_{self.active_connections}"
+```
+
+**2. Configuration Manager**:
+```python
+@singleton
+class ConfigManager:
+    def __init__(self):
+        self._config = {}
+        self._load_config()
+    
+    def _load_config(self):
+        # Load from file, environment, etc.
+        self._config = {
+            'database_url': 'postgresql://localhost:5432/mydb',
+            'redis_url': 'redis://localhost:6379',
+            'log_level': 'INFO',
+            'max_workers': 4
+        }
+    
+    def get(self, key, default=None):
+        return self._config.get(key, default)
+    
+    def set(self, key, value):
+        self._config[key] = value
+        # Could also persist to file/database
+    
+    def reload(self):
+        self._load_config()
+```
+
+**3. Logger with State**:
+```python
+@singleton
+class Logger:
+    def __init__(self):
+        self.log_level = 'INFO'
+        self.handlers = []
+        self.log_history = []
+    
+    def set_level(self, level):
+        self.log_level = level
+    
+    def add_handler(self, handler):
+        self.handlers.append(handler)
+    
+    def log(self, level, message):
+        if self._should_log(level):
+            timestamp = datetime.now()
+            log_entry = {'level': level, 'message': message, 'timestamp': timestamp}
+            self.log_history.append(log_entry)
+            
+            for handler in self.handlers:
+                handler.handle(log_entry)
+    
+    def _should_log(self, level):
+        levels = {'DEBUG': 0, 'INFO': 1, 'WARNING': 2, 'ERROR': 3, 'CRITICAL': 4}
+        return levels.get(level, 0) >= levels.get(self.log_level, 0)
+    
+    def get_history(self):
+        return self.log_history.copy()
+```
+
+**When NOT to use Singleton**:
+- **Simple configuration**: Use environment variables or config files
+- **Stateless utilities**: Use static methods or utility classes
+- **Testable code**: Prefer dependency injection
+- **Multiple instances needed**: Use factory pattern instead
+- **Temporary state**: Use regular objects with proper lifecycle management
 
 ---
 

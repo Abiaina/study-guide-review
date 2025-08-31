@@ -44,9 +44,19 @@ def f(args):
 
 ## Example 1 — Climbing Stairs (1 or 2 steps)
 
+**Problem Understanding**: You're climbing a staircase with n steps. You can climb either 1 or 2 steps at a time. How many different ways can you climb to the top?
+
+**Key Insight**: To reach step `i`, you must have come from either step `i-1` (climbing 1 step) or step `i-2` (climbing 2 steps).
+
 **State**: `dp[i]` = ways to reach step `i`.
 **Transition**: `dp[i] = dp[i-1] + dp[i-2]`.
 **Base**: `dp[0]=1`, `dp[1]=1`.
+
+**Why This Works**:
+- **Step 0**: There's 1 way to be at the ground (do nothing)
+- **Step 1**: There's 1 way to reach step 1 (climb 1 step)
+- **Step 2**: You can reach it from step 1 (climb 1) or step 0 (climb 2) = 1 + 1 = 2 ways
+- **Step 3**: You can reach it from step 2 (climb 1) or step 1 (climb 2) = 2 + 1 = 3 ways
 
 **Pseudocode**
 

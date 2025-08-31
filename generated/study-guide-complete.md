@@ -11,6 +11,82 @@ layout: default
 
 ---
 
+## 🎯 **4-Week Intensive Study Plan (5-6 Days/Week)**
+
+### **Week 1 – Foundations + Efficover kickoff**
+**Days:** Monday-Friday (5 days) | **Hours/day:** ~6-7 hrs (3.5 study + 2.5 project)
+**Weekend:** Rest, review, catch up on missed days
+
+- [ ] **Arrays/Strings/Hash Maps practice** — 10–12 problems (2 hrs) (Date: ___ )
+  - Must master: two-pointer, hash map counting, substring search, anagram grouping.
+- [ ] **DFS/BFS basics** — 3 problems (1 hr) (Date: ___ )
+  - Must know: recursive DFS, iterative BFS with queue, visited set usage.
+- [ ] **Sliding Window drills** — 3 problems (1 hr) (Date: ___ )
+  - Must master: fixed window sum, min/max substring, variable window for "longest substring without repeat."
+- [ ] **Conceptual Review** — Internet layers, TCP/UDP, DNS, React basics (30 min).
+- [ ] **System Design sketch:** Queue/Logging service (1 hr).
+- [ ] **Efficover:** draft cost model (1 hr).
+- [ ] **Efficover:** shortlist advisors/accelerators (1 hr).
+- [ ] **Beauty App:** ownership agreement outline (30 min).
+
+### **Week 2 – Graphs + Binary Search**
+**Days:** Monday-Saturday (6 days) | **Hours/day:** ~6-7 hrs (4 study + 2-3 project)
+**Sunday:** Rest and review
+
+- [ ] **Graphs:** cycle detection, shortest path, topo sort — 5–6 problems (2 hrs) (Date: ___ )
+  - Must master: detect cycle in directed graph, BFS shortest path, Kahn's algorithm for topo sort.
+- [ ] **Binary Search variations** — 5 problems (1 hr) (Date: ___ )
+  - Must know: lower/upper bound, rotated sorted array, binary search on answer space.
+- [ ] **Timed practice sets** — 2 sessions (1 hr each).
+- [ ] **Conceptual Review:** REST vs gRPC vs GraphQL, AuthN vs AuthZ (30 min).
+- [ ] **System Design mini-sketch:** compare API styles for PMS integration (30 min).
+- [ ] **Efficover:** PMS integration research (1 hr).
+- [ ] **Efficover:** draft microservices inventory (1 hr).
+- [ ] **Beauty App:** register corp + credit card (1 hr).
+
+### **Week 3 – DP + Efficover roadmap**
+**Days:** Monday-Friday (5 days) | **Hours/day:** ~7-8 hrs (4.5 study + 2.5-3.5 project)
+**Weekend:** Rest, review, catch up on missed days
+
+- [ ] **Dynamic Programming:** subsets, LIS, knapsack — 8–10 problems (3 hrs) (Date: ___ )
+  - Must master: bottom-up vs top-down, memoization, tabulation, space optimization.
+- [ ] **Mixed timed sets** — 2 sessions (90 min each).
+- [ ] **System Design sketch:** caching + observability (1 hr).
+  - Must cover: LRU cache, CDN, cache invalidation, metrics/log tracing basics.
+- [ ] **Conceptual Review:** DB transactions (ACID vs BASE), caching/CDN (30 min).
+- [ ] **Efficover:** accelerator application draft (2 hrs).
+- [ ] **Efficover:** refine cost model with infra assumptions (1 hr).
+- [ ] **Beauty App:** prep for MVP deployment (1 hr).
+
+### **Week 4 – Mock Interviews + Deployments**
+**Days:** Monday-Saturday (6 days) | **Hours/day:** ~7-8 hrs (4.5 study + 2.5-3.5 project)
+**Sunday:** Rest and final review
+
+- [ ] **Full mock interviews** — 4–5 total (1–2 hrs each) (Date: ___ )
+  - Mix: 2 DS&A + 1 System Design + 1 Behavioral.
+- [ ] **Review weakest topics** — 2 hrs (Date: ___ ).
+- [ ] **Finalize Cheat Sheet + Conceptual Flashcards** — 1 hr.
+  - Must know cold: Big-O table, graph/DP patterns, DB indexing, auth flows.
+- [ ] **Efficover:** finalize accelerator submission (2 hrs).
+- [ ] **Efficover:** draft alternative business models (1 hr).
+- [ ] **Efficover:** identify key microservices to build first (1 hr).
+- [ ] **Beauty App:** deploy MVP with designer input (2 hrs).
+
+### **✅ Interview Readiness Goals**
+- Solve ~40–50 DS&A problems covering all core patterns.
+- Complete at least **6 timed sessions** to simulate real interview pressure.
+- Deliver 4–5 **mock interviews** in final week.
+- Build **3 STAR stories** around Efficover, Beauty App, and your prior DevOps/Chaos work.
+- Be ready to **sketch system design diagrams live** (queue/log service, caching, PMS integrations).
+
+### **📅 Weekly Schedule Pattern**
+- **Monday-Friday:** Intensive study + project work
+- **Saturday (Weeks 2 & 4):** Additional study day
+- **Sunday:** Rest, review, catch up on missed days
+- **Total study days:** 22 out of 28 days (78% intensity)
+
+---
+
 ## Quick Navigation
 
 ### Core Fundamentals

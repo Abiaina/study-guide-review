@@ -4,6 +4,186 @@ title: Data Layer
 
 # Data Layer & Databases
 
+## **📚 Database Fundamentals & Definitions**
+
+Before diving into advanced concepts, let's understand the fundamental database types and terminology.
+
+---
+
+### **🗄️ SQL vs NoSQL: What Are They?**
+
+**SQL (Structured Query Language)**
+- **What**: Standard language for managing relational databases
+- **Definition**: A programming language designed for managing and querying data in relational database management systems (RDBMS)
+- **Key Characteristics**: 
+  - Structured, tabular data with predefined schemas
+  - ACID compliance for data integrity
+  - Strong consistency guarantees
+  - Complex queries with JOINs and transactions
+
+**NoSQL (Not Only SQL)**
+- **What**: Non-relational database systems designed for specific data models
+- **Definition**: Database systems that store and retrieve data in non-tabular form, often optimized for specific use cases
+- **Key Characteristics**:
+  - Flexible schemas that can evolve over time
+  - Often sacrifice ACID for performance and scalability
+  - Designed for horizontal scaling
+  - Specialized for specific data patterns
+
+---
+
+### **🏗️ Database Categories Explained**
+
+#### **1. Relational Databases (SQL)**
+**What They Are**: Databases that organize data into tables with rows and columns, where relationships between data are defined by foreign keys.
+
+**Core Concepts**:
+- **Tables**: Collections of related data (e.g., users, orders, products)
+- **Rows**: Individual records in a table
+- **Columns**: Attributes or fields for each record
+- **Relationships**: Connections between tables using foreign keys
+- **Schema**: The structure that defines tables, columns, and relationships
+
+**Examples**: PostgreSQL, MySQL, Oracle, SQL Server, SQLite
+
+**When to Use**:
+- ✅ **Structured data** with clear relationships
+- ✅ **ACID compliance** required (banking, financial systems)
+- ✅ **Complex queries** with JOINs and aggregations
+- ✅ **Data integrity** is critical
+- ❌ **Rapid schema changes** needed
+- ❌ **Massive horizontal scaling** required
+
+#### **2. Key-Value Stores (NoSQL)**
+**What They Are**: Simple databases that store data as key-value pairs, where each key maps to a single value.
+
+**Core Concepts**:
+- **Key**: Unique identifier (usually a string)
+- **Value**: Data associated with the key (can be simple or complex)
+- **No Schema**: Values can be any type without predefined structure
+- **Fast Lookups**: O(1) average time complexity for key-based access
+
+**Examples**: Redis, DynamoDB, Riak, Memcached
+
+**When to Use**:
+- ✅ **Simple data models** (user sessions, caching)
+- ✅ **High-performance lookups** by key
+- ✅ **Session storage** and temporary data
+- ✅ **Real-time counters** and simple state
+- ❌ **Complex queries** or relationships
+- ❌ **Data that needs** complex aggregations
+
+#### **3. Document Databases (NoSQL)**
+**What They Are**: Databases that store data in flexible, JSON-like documents that can have different structures.
+
+**Core Concepts**:
+- **Documents**: Self-contained data units (usually JSON/BSON)
+- **Collections**: Groups of related documents
+- **Embedded Data**: Related information can be nested within documents
+- **Schema Flexibility**: Documents can have different fields and structures
+
+**Examples**: MongoDB, Couchbase, CouchDB, Firestore
+
+**When to Use**:
+- ✅ **Flexible schemas** that evolve over time
+- ✅ **Hierarchical data** (nested objects, arrays)
+- ✅ **Content management** systems
+- ✅ **Product catalogs** with varying attributes
+- ❌ **Complex transactions** across documents
+- ❌ **Data with many relationships** between entities
+
+#### **4. Column-Family Stores (NoSQL)**
+**What They Are**: Databases that store data in columns rather than rows, optimized for reading and writing large amounts of data.
+
+**Core Concepts**:
+- **Column Families**: Groups of related columns
+- **Wide Rows**: Each row can have many columns
+- **Column-Oriented**: Data is stored by column, not by row
+- **Time-Series Friendly**: Excellent for data that changes over time
+
+**Examples**: Cassandra, HBase, Bigtable, ScyllaDB
+
+**When to Use**:
+- ✅ **Time-series data** (logs, metrics, IoT data)
+- ✅ **High write throughput** requirements
+- ✅ **Analytics and reporting** workloads
+- ✅ **Data warehousing** and large-scale storage
+- ❌ **Complex transactions** or relationships
+- ❌ **Frequent schema changes**
+
+#### **5. Graph Databases (NoSQL)**
+**What They Are**: Databases designed to store and query relationships between entities, treating relationships as first-class citizens.
+
+**Core Concepts**:
+- **Nodes**: Entities or objects in the graph
+- **Edges**: Relationships between nodes
+- **Properties**: Attributes stored on both nodes and edges
+- **Traversals**: Navigation through connected data
+
+**Examples**: Neo4j, ArangoDB, Amazon Neptune, OrientDB
+
+**When to Use**:
+- ✅ **Complex relationships** between entities
+- ✅ **Social networks** and recommendation engines
+- ✅ **Fraud detection** and network analysis
+- ✅ **Knowledge graphs** and semantic search
+- ❌ **Simple CRUD operations** without relationships
+- ❌ **Traditional reporting** and analytics
+
+#### **6. Search Engines (Specialized NoSQL)**
+**What They Are**: Databases optimized for full-text search, complex queries, and text-based analytics.
+
+**Core Concepts**:
+- **Inverted Indexes**: Maps terms to documents containing them
+- **Text Analysis**: Tokenization, stemming, and language processing
+- **Scoring**: Relevance ranking for search results
+- **Aggregations**: Complex analytics on search results
+
+**Examples**: Elasticsearch, OpenSearch, Solr, Algolia
+
+**When to Use**:
+- ✅ **Full-text search** requirements
+- ✅ **Log analysis** and monitoring
+- ✅ **Content search** and discovery
+- ✅ **Real-time analytics** on text data
+- ❌ **Primary data storage** (use as secondary)
+- ❌ **ACID transactions** or strong consistency
+
+---
+
+### **🔄 ACID vs BASE: Transaction Models**
+
+#### **ACID (Traditional SQL)**
+**Atomicity**: All operations in a transaction succeed or fail together
+**Consistency**: Data moves from one valid state to another
+**Isolation**: Concurrent transactions don't interfere with each other
+**Durability**: Committed changes survive system failures
+
+**Use Cases**: Banking, financial systems, inventory management, any system where data integrity is critical
+
+#### **BASE (Common in NoSQL)**
+**Basically Available**: System guarantees availability over consistency
+**Soft State**: Data may change over time due to eventual consistency
+**Eventual Consistency**: System will become consistent over time if no new updates occur
+
+**Use Cases**: Social media, content management, real-time analytics, systems where availability is more important than immediate consistency
+
+---
+
+### **📊 CAP Theorem: The Fundamental Trade-off**
+
+**What is CAP Theorem?**
+In distributed database systems, you can only guarantee **2 out of 3** properties:
+
+1. **Consistency (C)**: All nodes see the same data at the same time
+2. **Availability (A)**: Every request receives a response
+3. **Partition Tolerance (P)**: System continues operating despite network failures
+
+**Real-World Implications**:
+- **CP Systems**: Choose consistency over availability (banking, financial)
+- **AP Systems**: Choose availability over consistency (social media, content)
+- **CA Systems**: Only possible in single-node systems (not truly distributed)
+
 ---
 
 ## 1. Key Theoretical Foundations

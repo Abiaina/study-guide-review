@@ -15,6 +15,30 @@ title: Core Data Structures
 | Sorting (sorted, list.sort) | O(n log n)      | Timsort (optimized for partially sorted data) |
 | Heap push/pop (`heapq`)     | O(log n)        | Priority queue                                |
 
+### **Understanding Time Complexities**
+
+**O(1) - Constant Time**
+- **Indexing**: Direct memory access using offset calculation
+- **Append (amortized)**: Most of the time it's O(1), but occasionally Python needs to reallocate memory and copy elements
+- **Dictionary/Set lookup**: Hash function computes memory location directly
+
+**O(n) - Linear Time**
+- **Linear search**: Must examine each element until target is found
+- **Insert/Delete at beginning**: All elements must shift to make room
+- **Sorting**: Timsort is O(n log n) but can be O(n) for nearly sorted data
+
+**O(log n) - Logarithmic Time**
+- **Heap operations**: Tree structure allows efficient bubbling up/down
+- **Binary search**: Each comparison eliminates half the remaining elements
+
+### **Why "Amortized" O(1) for Append?**
+
+Python lists use **dynamic arrays** that grow exponentially:
+- Start with small capacity (e.g., 4 elements)
+- When full, allocate 2x capacity and copy elements
+- Most appends are O(1), occasional copies are O(n)
+- **Average cost**: O(1) per operation over many operations
+
 **Helper libraries in Python**
 
 - `collections.deque` → O(1) pops/appends at both ends.
@@ -45,8 +69,9 @@ title: Core Data Structures
 ---
 
 Compare Core Data Structures
+
 | Operation | List | Dict | Set | Queue/Deque |
-| ----------------- | --------------- | -------------------------- | -------------- | --------------------- |
+|-----------|------|------|-----|--------------|
 | `len()` | ✅ | ✅ | ✅ | ✅ |
 | `in` (membership) | O(n) | O(1) | O(1) | O(n) |
 | `pop()` | End only (O(1)) | By key (O(1) avg) | Arbitrary O(1) | Left/right O(1) |

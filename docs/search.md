@@ -98,36 +98,56 @@ def linear_search(arr, target):
 
 ### Binary Search
 
-- O(log n). Requires sorted data.
+**What is Binary Search?**
+Binary search is an efficient algorithm for finding a target element in a **sorted array**. It works by repeatedly dividing the search interval in half, eliminating half of the remaining elements in each step.
 
-**Pseudocode**
+**When to Use Binary Search:**
+1. **Array is sorted** (or can be made sorted)
+2. **Looking for a specific value** or **finding insertion point**
+3. **Need O(log n) time complexity** instead of O(n) linear search
+4. **Search space can be divided in half** at each step
 
+**Key Insight**: Each comparison eliminates half of the remaining search space, making it extremely efficient.
+
+**Core Algorithm**:
 ```
-binary_search(arr, target):
-    left = 0
-    right = len(arr)-1
-    while left <= right:
-        mid = (left + right) // 2
-        if arr[mid] == target: return mid
-        elif arr[mid] < target: left = mid + 1
-        else: right = mid - 1
-    return -1
+1. Set left = 0, right = n-1
+2. While left <= right:
+   - mid = (left + right) // 2
+   - If arr[mid] == target: return mid
+   - If arr[mid] < target: left = mid + 1
+   - If arr[mid] > target: right = mid - 1
+3. Return -1 (not found)
 ```
 
-**Python**
+**Why O(log n)?**
+- Each iteration eliminates half the remaining elements
+- If you start with n elements, after k iterations you have n/2^k elements
+- When n/2^k = 1, you've found the element
+- Solving: k = log₂(n)
 
+**Python Implementation**:
 ```python
 def binary_search(arr, target):
-    left, right = 0, len(arr)-1
+    left, right = 0, len(arr) - 1
+    
     while left <= right:
-        mid = (left + right)//2
+        mid = (left + right) // 2
+        
         if arr[mid] == target:
             return mid
         elif arr[mid] < target:
             left = mid + 1
         else:
             right = mid - 1
-    return -1
+    
+    return -1  # Not found
+
+# Example
+arr = [1, 3, 5, 7, 9, 11, 13, 15]
+target = 7
+result = binary_search(arr, target)
+print(f"Found {target} at index {result}")  # Output: Found 7 at index 3
 ```
 
 ### Variants of Binary Search
