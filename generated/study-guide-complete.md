@@ -3237,6 +3237,7 @@ requestAnimationFrame(animate);
 
 #### JSX
 ```jsx
+{% raw %}
 // JSX is syntactic sugar for React.createElement
 const element = <h1>Hello, World!</h1>;
 
@@ -3254,10 +3255,12 @@ const element = (
         <p>Paragraph</p>
     </div>
 );
+{% endraw %}
 ```
 
 #### Components
 ```jsx
+{% raw %}
 // Function Component
 function Welcome(props) {
     return <h1>Hello, {props.name}!</h1>;
@@ -3274,12 +3277,16 @@ class Welcome extends React.Component {
         return <h1>Hello, {this.props.name}!</h1>;
     }
 }
+{% endraw %}
 ```
+{% raw %}
 
 ### React Hooks
 
 #### useState
+{% endraw %}
 ```jsx
+{% raw %}
 import React, { useState } from 'react';
 
 function Counter() {
@@ -3299,10 +3306,12 @@ function Counter() {
         </div>
     );
 }
+{% endraw %}
 ```
 
 #### useEffect
 ```jsx
+{% raw %}
 import React, { useState, useEffect } from 'react';
 
 function UserProfile({ userId }) {
@@ -3347,10 +3356,12 @@ function UserProfile({ userId }) {
         </div>
     );
 }
+{% endraw %}
 ```
 
 #### useRef
 ```jsx
+{% raw %}
 import React, { useRef, useEffect } from 'react';
 
 function FocusInput() {
@@ -3370,10 +3381,12 @@ function FocusInput() {
         </div>
     );
 }
+{% endraw %}
 ```
 
 #### Custom Hooks
 ```jsx
+{% raw %}
 // Custom hook for API calls
 function useApi(url) {
     const [data, setData] = useState(null);
@@ -3415,6 +3428,7 @@ function UserList() {
         </ul>
     );
 }
+{% endraw %}
 ```
 
 ---
@@ -3425,6 +3439,7 @@ function UserList() {
 
 #### Single Responsibility Principle
 ```jsx
+{% raw %}
 // ❌ Bad: Component doing too many things
 function UserDashboard() {
     const [users, setUsers] = useState([]);
@@ -3455,10 +3470,12 @@ function UserList() {
     // Only user-related logic
     return <div>{/* User rendering */}</div>;
 }
+{% endraw %}
 ```
 
 #### Props Design
 ```jsx
+{% raw %}
 // ❌ Bad: Too many props
 function UserCard({ id, name, email, avatar, bio, location, website, twitter, github, linkedin, skills, experience, education, projects, followers, following, createdAt, updatedAt, status, role, permissions, settings, preferences, notifications, theme, language, timezone, currency, units, privacy, security, verification, badges, achievements, level, points, rank, tier, subscription, plan, billing, payment, history, logs, analytics, reports, exports, imports, backups, restores, migrations, updates, patches, hotfixes, releases, versions, builds, deployments, environments, configs, secrets, keys, tokens, sessions, cookies, cache, storage, database, api, endpoints, routes, middleware, validation, sanitization, encryption, hashing, compression, optimization, minification, bundling, transpilation, polyfills, shims, fallbacks, polyfills, shims, fallbacks }) {
     // Component with 100+ props
@@ -3479,10 +3496,12 @@ function UserCard({ user, actions, theme }) {
     actions={{ onEdit, onDelete, onFollow }}
     theme={{ colors: 'dark', spacing: 'compact' }}
 />
+{% endraw %}
 ```
 
 #### Conditional Rendering
 ```jsx
+{% raw %}
 // ❌ Bad: Complex nested ternaries
 function UserStatus({ user }) {
     return (
@@ -3529,12 +3548,14 @@ function UserStatus({ user }) {
         </span>
     );
 }
+{% endraw %}
 ```
 
 ### Performance Optimization
 
 #### React.memo
 ```jsx
+{% raw %}
 import React, { memo } from 'react';
 
 const ExpensiveComponent = memo(function ExpensiveComponent({ data, onAction }) {
@@ -3557,10 +3578,12 @@ const ExpensiveComponent = memo(function ExpensiveComponent({ data, onAction }) 
 
 // Only re-renders if props change
 <ExpensiveComponent data={userData} onAction={handleAction} />
+{% endraw %}
 ```
 
 #### useMemo and useCallback
 ```jsx
+{% raw %}
 import React, { useState, useMemo, useCallback } from 'react';
 
 function UserDashboard({ users, filters }) {
@@ -3608,10 +3631,12 @@ function UserDashboard({ users, filters }) {
         </div>
     );
 }
+{% endraw %}
 ```
 
 #### Code Splitting
 ```jsx
+{% raw %}
 import React, { Suspense, lazy } from 'react';
 
 // Lazy load components
@@ -3632,6 +3657,7 @@ function App() {
         </Router>
     );
 }
+{% endraw %}
 ```
 
 ---
@@ -3640,6 +3666,7 @@ function App() {
 
 ### Reusable Button Component
 ```jsx
+{% raw %}
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -3709,10 +3736,12 @@ Button.propTypes = {
 };
 
 export default Button;
+{% endraw %}
 ```
 
 ### Form Component with Validation
 ```jsx
+{% raw %}
 import React, { useState, useCallback } from 'react';
 
 function useForm(initialValues, validationSchema) {
@@ -3831,6 +3860,7 @@ function LoginForm() {
         </form>
     );
 }
+{% endraw %}
 ```
 
 ---
@@ -3862,6 +3892,7 @@ function ReactUpdate() {
 
 #### 2. Explain React's Component Lifecycle
 ```jsx
+{% raw %}
 class ClassComponent extends React.Component {
     // Mounting Phase
     constructor(props) {
@@ -3923,10 +3954,12 @@ function FunctionalComponent({ id }) {
 
     return <div>{data}</div>;
 }
+{% endraw %}
 ```
 
 #### 3. State Management Patterns
 ```jsx
+{% raw %}
 // Local State
 function LocalStateExample() {
     const [count, setCount] = useState(0);
@@ -3975,10 +4008,12 @@ function useCounter(initialValue = 0) {
     
     return { count, increment, decrement, reset };
 }
+{% endraw %}
 ```
 
 #### 4. Performance Optimization Techniques
 ```jsx
+{% raw %}
 // 1. React.memo for expensive components
 const ExpensiveComponent = React.memo(({ data }) => {
     // Only re-renders if props change
@@ -4018,10 +4053,12 @@ function App() {
         </Suspense>
     );
 }
+{% endraw %}
 ```
 
 #### 5. Error Boundaries
 ```jsx
+{% raw %}
 class ErrorBoundary extends React.Component {
     constructor(props) {
         super(props);
@@ -4057,10 +4094,12 @@ class ErrorBoundary extends React.Component {
 <ErrorBoundary>
     <ComponentThatMightError />
 </ErrorBoundary>
+{% endraw %}
 ```
 
 ### CSS-in-JS and Styling
 ```jsx
+{% raw %}
 // Styled Components
 import styled from 'styled-components';
 
@@ -4108,6 +4147,7 @@ const buttonStyle = css`
 function Button({ children }) {
     return <button css={buttonStyle}>{children}</button>;
 }
+{% endraw %}
 ```
 
 ---
@@ -4995,6 +5035,7 @@ k8s_management() {
 
 #### Higher-Order Components (HOC)
 ```jsx
+{% raw %}
 // HOC for authentication
 const withAuth = (WrappedComponent) => {
     return class extends React.Component {
@@ -5055,10 +5096,12 @@ const withAuth = (WrappedComponent) => {
 
 // Usage
 const ProtectedDashboard = withAuth(Dashboard);
+{% endraw %}
 ```
 
 #### Render Props Pattern
 ```jsx
+{% raw %}
 // Data fetcher with render props
 class DataFetcher extends React.Component {
     constructor(props) {
@@ -5109,10 +5152,12 @@ class DataFetcher extends React.Component {
         );
     }}
 </DataFetcher>
+{% endraw %}
 ```
 
 #### Custom Hooks
 ```jsx
+{% raw %}
 // Custom hook for API calls
 const useApi = (url, options = {}) => {
     const [data, setData] = useState(null);
@@ -5218,12 +5263,14 @@ const useFormValidation = (initialValues, validationSchema) => {
         validate
     };
 };
+{% endraw %}
 ```
 
 ### Performance Optimization
 
 #### React.memo and useMemo
 ```jsx
+{% raw %}
 // Optimized component with React.memo
 const ExpensiveComponent = React.memo(({ data, onAction }) => {
     // Expensive computation
@@ -5275,10 +5322,12 @@ const VirtualList = ({ items, itemHeight, containerHeight }) => {
         </div>
     );
 };
+{% endraw %}
 ```
 
 #### Code Splitting and Lazy Loading
 ```jsx
+{% raw %}
 // Lazy loading components
 const LazyDashboard = React.lazy(() => import('./Dashboard'));
 const LazySettings = React.lazy(() => import('./Settings'));
@@ -5333,12 +5382,14 @@ const MyComponent = () => {
     
     return <Component />;
 };
+{% endraw %}
 ```
 
 ### State Management Patterns
 
 #### Context API with useReducer
 ```jsx
+{% raw %}
 // Global state management
 const initialState = {
     user: null,
@@ -5403,6 +5454,7 @@ const useApp = () => {
     }
     return context;
 };
+{% endraw %}
 ```
 
 ---

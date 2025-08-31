@@ -799,19 +799,19 @@ docker_health_check() {
     
     # Check running containers
     echo "Running Containers:"
-    docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+    docker ps --format "table {% raw %}{{.Names}}{% endraw %}\t{% raw %}{{.Status}}{% endraw %}\t{% raw %}{{.Ports}}{% endraw %}"
     
     echo ""
     
     # Check container resource usage
     echo "Container Resource Usage:"
-    docker stats --no-stream --format "table {{.Container}}\t{{.CPUPerc}}\t{{.MemUsage}}"
+    docker stats --no-stream --format "table {% raw %}{{.Container}}{% endraw %}\t{% raw %}{{.CPUPerc}}{% endraw %}\t{% raw %}{{.MemUsage}}{% endraw %}"
     
     echo ""
     
     # Check for unhealthy containers
     echo "Unhealthy Containers:"
-    docker ps --filter "health=unhealthy" --format "table {{.Names}}\t{{.Status}}"
+    docker ps --filter "health=unhealthy" --format "table {% raw %}{{.Names}}{% endraw %}\t{% raw %}{{.Status}}{% endraw %}"
 }
 
 # Kubernetes management
@@ -849,6 +849,7 @@ k8s_management() {
 
 #### Higher-Order Components (HOC)
 ```jsx
+{% raw %}
 // HOC for authentication
 const withAuth = (WrappedComponent) => {
     return class extends React.Component {
@@ -909,10 +910,12 @@ const withAuth = (WrappedComponent) => {
 
 // Usage
 const ProtectedDashboard = withAuth(Dashboard);
+{% endraw %}
 ```
 
 #### Render Props Pattern
 ```jsx
+{% raw %}
 // Data fetcher with render props
 class DataFetcher extends React.Component {
     constructor(props) {
@@ -963,10 +966,12 @@ class DataFetcher extends React.Component {
         );
     }}
 </DataFetcher>
+{% endraw %}
 ```
 
 #### Custom Hooks
 ```jsx
+{% raw %}
 // Custom hook for API calls
 const useApi = (url, options = {}) => {
     const [data, setData] = useState(null);
@@ -1072,12 +1077,14 @@ const useFormValidation = (initialValues, validationSchema) => {
         validate
     };
 };
+{% endraw %}
 ```
 
 ### Performance Optimization
 
 #### React.memo and useMemo
 ```jsx
+{% raw %}
 // Optimized component with React.memo
 const ExpensiveComponent = React.memo(({ data, onAction }) => {
     // Expensive computation
@@ -1129,10 +1136,12 @@ const VirtualList = ({ items, itemHeight, containerHeight }) => {
         </div>
     );
 };
+{% endraw %}
 ```
 
 #### Code Splitting and Lazy Loading
 ```jsx
+{% raw %}
 // Lazy loading components
 const LazyDashboard = React.lazy(() => import('./Dashboard'));
 const LazySettings = React.lazy(() => import('./Settings'));
@@ -1187,12 +1196,14 @@ const MyComponent = () => {
     
     return <Component />;
 };
+{% endraw %}
 ```
 
 ### State Management Patterns
 
 #### Context API with useReducer
 ```jsx
+{% raw %}
 // Global state management
 const initialState = {
     user: null,
@@ -1257,6 +1268,7 @@ const useApp = () => {
     }
     return context;
 };
+{% endraw %}
 ```
 
 ---

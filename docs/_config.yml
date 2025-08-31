@@ -74,11 +74,8 @@ defaults:
       path: ""
       type: "docs"
     values:
-      layout: "default"
+      layout: "page"
       author: "Study Guide Team"
-
-# Theme settings
-theme: jekyll-theme-cayman
 
 # GitHub Pages settings
 github:
