@@ -1,3 +1,9 @@
+---
+title: Study Guide - Printable Version
+layout: page
+description: Printable version of the complete study guide for offline study
+---
+
 # DevOps & Backend Study Guide - Complete Edition
 
 *A comprehensive study guide covering DevOps, Chaos Engineering, and Backend Development fundamentals*
@@ -4973,19 +4979,19 @@ docker_health_check() {
     
     # Check running containers
     echo "Running Containers:"
-    docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+    docker ps --format "table {% raw %}{{.Names}}{% endraw %}\t{% raw %}{{.Status}}{% endraw %}\t{% raw %}{{.Ports}}{% endraw %}"
     
     echo ""
     
     # Check container resource usage
     echo "Container Resource Usage:"
-    docker stats --no-stream --format "table {{.Container}}\t{{.CPUPerc}}\t{{.MemUsage}}"
+    docker stats --no-stream --format "table {% raw %}{{.Container}}{% endraw %}\t{% raw %}{{.CPUPerc}}{% endraw %}\t{% raw %}{{.MemUsage}}{% endraw %}"
     
     echo ""
     
     # Check for unhealthy containers
     echo "Unhealthy Containers:"
-    docker ps --filter "health=unhealthy" --format "table {{.Names}}\t{{.Status}}"
+    docker ps --filter "health=unhealthy" --format "table {% raw %}{{.Names}}{% endraw %}\t{% raw %}{{.Status}}{% endraw %}"
 }
 
 # Kubernetes management

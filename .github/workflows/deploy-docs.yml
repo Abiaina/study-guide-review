@@ -26,6 +26,14 @@ jobs:
           ruby-version: '3.0'
           bundler-cache: true
 
+      - name: Clean build directory
+        run: rm -rf _site
+
+      - name: Copy generated files to docs
+        run: |
+          cp generated/study-guide-complete.md docs/
+          cp generated/study-guide-printable.md docs/
+
       - name: Install dependencies
         run: |
           cd docs
@@ -39,7 +47,7 @@ jobs:
       - name: Upload site content
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: ./_site
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4

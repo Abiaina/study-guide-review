@@ -12,8 +12,12 @@ permalink: /:title/
 navigation:
   - title: Home
     url: /
-  - title: Complete Study Guide
-    url: /study-guide-complete/
+  - title: Study Guide Versions
+    children:
+      - title: Complete Study Guide
+        url: /study-guide-complete/
+      - title: Printable Version
+        url: /study-guide-printable/
   - title: Core Fundamentals
     children:
       - title: Algorithms
