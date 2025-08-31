@@ -10,13 +10,13 @@
 
 ### Core Fundamentals
 
+- Data Structures Overview
+
 - Algorithms & Data Structures
 
-- Core Data Structures
+- Complex Data Structures (Trees, Graphs)
 
-- Complex Data Structures
-
-- Searching & Sorting
+- Searching & Sorting Algorithms
 
 - Sliding Window Algorithms
 
@@ -33,8 +33,6 @@
 
 - Design Patterns
 
-- Cheat Sheet
-
 
 ### DevOps & Cloud
 
@@ -43,14 +41,350 @@
 - Reliability Engineering (Internet Fundamentals, Observability, Chaos Engineering, Load Testing)
 
 
-### Security & Performance
+### Security & Compliance
 
 - Security & Compliance
+
+
+### Quick Reference & Cheat Sheets
+
+- Comprehensive Cheat Sheet
 
 
 ---
 
 # Core Fundamentals
+
+## Data Structures Overview
+
+## **1. Big-O Complexity Cheat Sheet**
+
+| Operation (Python)          | Time Complexity | Notes / Helpers                               |
+| --------------------------- | --------------- | --------------------------------------------- |
+| Indexing (list\[i])         | O(1)            | Direct access                                 |
+| Append (list.append)        | O(1) amortized  | Occasionally reallocates                      |
+| Insert / Pop (at end)       | O(1)            | Good for stack ops                            |
+| Insert / Pop (at beginning) | O(n)            | Use `collections.deque` for O(1)              |
+| Search (in list)            | O(n)            | Linear scan                                   |
+| Dictionary / Set lookup     | O(1) average    | Hash-based                                    |
+| Sorting (sorted, list.sort) | O(n log n)      | Timsort (optimized for partially sorted data) |
+| Heap push/pop (`heapq`)     | O(log n)        | Priority queue                                |
+
+**Helper libraries in Python**
+
+- `collections.deque` → O(1) pops/appends at both ends.
+- `collections.Counter` → Fast frequency counting.
+- `collections.defaultdict` → Cleaner hash maps with default values.
+- `heapq` → Priority queue implementation.
+- `bisect` → Binary search on sorted arrays.
+
+---
+
+## **2. Strings & Arrays**
+
+### Common Patterns
+
+- **Two pointers**: Used for palindromes, merging sorted arrays, sliding windows.
+- **Sliding window**: Substring/array problems (`longest substring`, `max sum subarray`).
+- **Prefix sums**: Range queries, subarray sums.
+- **Hash maps (dict)**: Fast lookup for duplicates, anagrams, substrings.
+
+### Practice Problems
+
+1. Reverse a string → O(n).
+2. Check palindrome (ignore punctuation, spaces).
+3. Longest substring without repeating characters (sliding window).
+4. Two Sum (hash map, O(n)).
+5. Maximum subarray (Kadane’s algorithm, O(n)).
+
+---
+
+Compare Core Data Structures
+| Operation | List | Dict | Set | Queue/Deque |
+| ----------------- | --------------- | -------------------------- | -------------- | --------------------- |
+| `len()` | ✅ | ✅ | ✅ | ✅ |
+| `in` (membership) | O(n) | O(1) | O(1) | O(n) |
+| `pop()` | End only (O(1)) | By key (O(1) avg) | Arbitrary O(1) | Left/right O(1) |
+| `clear()` | ✅ | ✅ | ✅ | ✅ |
+| `sorted()` | ✅ | On `.items()` (O(n log n)) | ✅ | Convert to list first |
+| Iteration | `for x in list` | `for k,v in dict.items()` | `for x in set` | `for x in deque` |
+
+---
+
+# Arrays & Lists (Python Focus)
+
+### Key Properties
+
+| Feature       | Python `list`             | Python `array` (from `array` module) |
+| ------------- | ------------------------- | ------------------------------------ |
+| Storage       | Dynamic, heterogeneous    | Homogeneous (all same typecode)      |
+| Typical Usage | General-purpose container | Numeric data, memory-efficient       |
+| Resize        | Automatic                 | Automatic                            |
+| Indexing      | O(1)                      | O(1)                                 |
+| Insert/Delete | O(n) (shifts elements)    | O(n)                                 |
+| Iteration     | O(n)                      | O(n)                                 |
+
+---
+
+### Common Operations
+
+| Operation           | Python `list` Example             | Notes                          |
+| ------------------- | --------------------------------- | ------------------------------ |
+| **Create**          | `nums = [1,2,3]`                  | Literal syntax                 |
+| **Iterate**         | `for x in nums: print(x)`         | Sequential traversal           |
+| **Index**           | `nums[0]` → `1`                   | O(1)                           |
+| **Slice**           | `nums[1:3]` → `[2,3]`             | Returns new list               |
+| **Add (append)**    | `nums.append(4)`                  | O(1) amortized                 |
+| **Insert**          | `nums.insert(1, 10)`              | O(n), shifts                   |
+| **Delete (by val)** | `nums.remove(2)`                  | First match only               |
+| **Delete (by idx)** | `del nums[0]`                     | Shifts                         |
+| **Pop**             | `nums.pop()` → last el            | O(1) for end                   |
+| **Sort**            | `nums.sort()`                     | In-place, Timsort (O(n log n)) |
+| **Reverse**         | `nums.reverse()`                  | In-place                       |
+| **Special**         | `len(nums), sum(nums), max(nums)` | Common helpers                 |
+
+---
+
+### Example Snippets
+
+#### Iterating
+
+```python
+nums = [1, 2, 3, 4]
+for x in nums:
+    print(x)
+```
+
+#### Adding & Removing
+
+```python
+nums.append(5)       # [1,2,3,4,5]
+nums.insert(2, 10)   # [1,2,10,3,4,5]
+nums.remove(3)       # removes first '3'
+popped = nums.pop()  # removes last element, returns it
+```
+
+#### Sorting
+
+```python
+nums.sort()          # ascending
+nums.sort(reverse=True)  # descending
+sorted_copy = sorted(nums)  # returns new list
+```
+
+#### Pseudocode (for clarity)
+
+```text
+function insert(list, index, value):
+    shift elements right from index
+    place value at index
+```
+
+---
+
+# Dictionaries (Python `dict`)
+
+### Key Properties
+
+- Key-value store (hash table under the hood).
+- Keys must be **hashable** (immutable types: str, int, tuple).
+- Average-case operations: O(1) lookup, insert, delete.
+- Worst-case O(n) (rare, due to hash collisions).
+
+---
+
+### Common Operations
+
+| Operation          | Example                  | Notes                      |
+| ------------------ | ------------------------ | -------------------------- |
+| **Create**         | `d = {"a": 1, "b": 2}`   | Literal syntax             |
+| **Iterate keys**   | `for k in d:`            | Same as `d.keys()`         |
+| **Iterate values** | `for v in d.values():`   | Values only                |
+| **Iterate items**  | `for k, v in d.items():` | Key + value                |
+| **Access**         | `d["a"]` → `1`           | KeyError if missing        |
+| **Safe access**    | `d.get("c", 0)`          | Returns default if missing |
+| **Add / Update**   | `d["c"] = 3`             | Insert or overwrite        |
+| **Delete by key**  | `del d["a"]`             | Key must exist             |
+| **Pop**            | `d.pop("a", None)`       | Optional default           |
+| **Clear**          | `d.clear()`              | Remove all items           |
+| **Check key**      | `"a" in d`               | Membership test            |
+| **Length**         | `len(d)`                 | Number of pairs            |
+
+---
+
+### Special Methods
+
+- `.keys()` → view of all keys (iterable).
+- `.values()` → view of all values.
+- `.items()` → iterable of `(key, value)` tuples.
+- `.update({...})` → bulk add/update.
+- `.popitem()` → remove _last_ inserted (Python ≥ 3.7 keeps insertion order).
+
+---
+
+### Example Snippets
+
+#### Iteration
+
+```python
+d = {"a": 1, "b": 2, "c": 3}
+
+for k in d:                # keys
+    print(k)
+
+for v in d.values():       # values
+    print(v)
+
+for k, v in d.items():     # key-value pairs
+    print(k, v)
+```
+
+#### Adding & Removing
+
+```python
+d["d"] = 4            # add
+d.update({"e": 5})    # bulk add/update
+del d["a"]            # delete
+d.pop("b", None)      # delete with default
+```
+
+#### Sorting
+
+```python
+# sort by key
+print(sorted(d.items()))    # [('c', 3), ('d', 4), ('e', 5)]
+
+# sort by value
+print(sorted(d.items(), key=lambda x: x[1]))
+```
+
+---
+
+# Sets (`set` in Python)
+
+### Key Properties
+
+- Unordered, unique elements only.
+- Backed by hash table → O(1) avg lookup/insert/delete.
+- No duplicates, no indexing.
+
+### Common Operations
+
+| Operation        | Example         | Notes                     |         |
+| ---------------- | --------------- | ------------------------- | ------- |
+| **Create**       | `s = {1, 2, 3}` | Or `set([1,2,3])`         |         |
+| **Iterate**      | `for x in s:`   | Order not guaranteed      |         |
+| **Add**          | `s.add(4)`      | Insert element            |         |
+| **Remove**       | `s.remove(2)`   | KeyError if missing       |         |
+| **Discard**      | `s.discard(2)`  | Safe remove               |         |
+| **Pop**          | `s.pop()`       | Removes arbitrary element |         |
+| **Clear**        | `s.clear()`     | Remove all                |         |
+| **Check**        | `3 in s`        | Membership test           |         |
+| **Union**        | \`s1            | s2\`                      | Combine |
+| **Intersection** | `s1 & s2`       | Common elements           |         |
+| **Difference**   | `s1 - s2`       | Unique to s1              |         |
+
+### Special Methods
+
+- `.update(iterable)` → bulk add.
+- `.issubset()`, `.issuperset()`.
+- `.symmetric_difference()`.
+
+### Examples
+
+```python
+s = {1, 2, 3}
+s.add(4)             # {1,2,3,4}
+s.remove(2)          # {1,3,4}
+print(3 in s)        # True
+print(s.union({5}))  # {1,3,4,5}
+```
+
+---
+
+# Stacks (LIFO)
+
+### Key Properties
+
+- Last In, First Out (LIFO).
+- Implement with `list` or `collections.deque`.
+
+### Common Operations
+
+| Operation   | Example           | Notes       |
+| ----------- | ----------------- | ----------- |
+| **Push**    | `stack.append(x)` | O(1)        |
+| **Pop**     | `stack.pop()`     | O(1)        |
+| **Peek**    | `stack[-1]`       | Look at top |
+| **Iterate** | `for x in stack:` |             |
+
+### Example
+
+```python
+stack = []
+stack.append(1)
+stack.append(2)
+top = stack.pop()  # 2
+```
+
+---
+
+# Queues (FIFO)
+
+### Key Properties
+
+- First In, First Out (FIFO).
+- Use `collections.deque` for O(1) operations.
+
+### Common Operations
+
+| Operation   | Example       | Notes         |
+| ----------- | ------------- | ------------- |
+| **Enqueue** | `q.append(x)` | Add to right  |
+| **Dequeue** | `q.popleft()` | Remove left   |
+| **Peek**    | `q[0]`        | Front element |
+| **Iterate** | `for x in q:` |               |
+
+### Example
+
+```python
+from collections import deque
+q = deque([1, 2])
+q.append(3)        # [1,2,3]
+front = q.popleft() # 1
+```
+
+---
+
+# Heaps / Priority Queues (`heapq`)
+
+### Key Properties
+
+- Min-heap by default in Python.
+- O(log n) insert/remove, O(1) peek min.
+- Useful for scheduling, Dijkstra’s shortest path, top-K problems.
+
+### Common Operations
+
+| Operation     | Example                               | Notes            |
+| ------------- | ------------------------------------- | ---------------- |
+| **Create**    | `heap = [3,1,4]; heapq.heapify(heap)` | O(n)             |
+| **Push**      | `heapq.heappush(heap, 2)`             | O(log n)         |
+| **Pop (min)** | `heapq.heappop(heap)`                 | O(log n)         |
+| **Peek**      | `heap[0]`                             | Smallest element |
+| **Max-Heap**  | `heapq.heappush(heap, -val)`          | Store negatives  |
+
+### Example
+
+```python
+import heapq
+heap = [3, 1, 4]
+heapq.heapify(heap)
+heapq.heappush(heap, 2)
+print(heapq.heappop(heap)) # 1
+```
+
+---
 
 ## Algorithms & Data Structures
 
@@ -493,340 +827,476 @@ return heap[0]
 
 ---
 
----
+## Algorithm Patterns & Techniques
 
-## Core Data Structures
+### Two Pointers Technique
+**When to use**: Array problems, linked lists, string manipulation
+**Pattern**: Use two pointers moving at different speeds or directions
 
-## **1. Big-O Complexity Cheat Sheet**
-
-| Operation (Python)          | Time Complexity | Notes / Helpers                               |
-| --------------------------- | --------------- | --------------------------------------------- |
-| Indexing (list\[i])         | O(1)            | Direct access                                 |
-| Append (list.append)        | O(1) amortized  | Occasionally reallocates                      |
-| Insert / Pop (at end)       | O(1)            | Good for stack ops                            |
-| Insert / Pop (at beginning) | O(n)            | Use `collections.deque` for O(1)              |
-| Search (in list)            | O(n)            | Linear scan                                   |
-| Dictionary / Set lookup     | O(1) average    | Hash-based                                    |
-| Sorting (sorted, list.sort) | O(n log n)      | Timsort (optimized for partially sorted data) |
-| Heap push/pop (`heapq`)     | O(log n)        | Priority queue                                |
-
-**Helper libraries in Python**
-
-- `collections.deque` → O(1) pops/appends at both ends.
-- `collections.Counter` → Fast frequency counting.
-- `collections.defaultdict` → Cleaner hash maps with default values.
-- `heapq` → Priority queue implementation.
-- `bisect` → Binary search on sorted arrays.
-
----
-
-## **2. Strings & Arrays**
-
-### Common Patterns
-
-- **Two pointers**: Used for palindromes, merging sorted arrays, sliding windows.
-- **Sliding window**: Substring/array problems (`longest substring`, `max sum subarray`).
-- **Prefix sums**: Range queries, subarray sums.
-- **Hash maps (dict)**: Fast lookup for duplicates, anagrams, substrings.
-
-### Practice Problems
-
-1. Reverse a string → O(n).
-2. Check palindrome (ignore punctuation, spaces).
-3. Longest substring without repeating characters (sliding window).
-4. Two Sum (hash map, O(n)).
-5. Maximum subarray (Kadane’s algorithm, O(n)).
-
----
-
-Compare Core Data Structures
-| Operation | List | Dict | Set | Queue/Deque |
-| ----------------- | --------------- | -------------------------- | -------------- | --------------------- |
-| `len()` | ✅ | ✅ | ✅ | ✅ |
-| `in` (membership) | O(n) | O(1) | O(1) | O(n) |
-| `pop()` | End only (O(1)) | By key (O(1) avg) | Arbitrary O(1) | Left/right O(1) |
-| `clear()` | ✅ | ✅ | ✅ | ✅ |
-| `sorted()` | ✅ | On `.items()` (O(n log n)) | ✅ | Convert to list first |
-| Iteration | `for x in list` | `for k,v in dict.items()` | `for x in set` | `for x in deque` |
-
----
-
-# Arrays & Lists (Python Focus)
-
-### Key Properties
-
-| Feature       | Python `list`             | Python `array` (from `array` module) |
-| ------------- | ------------------------- | ------------------------------------ |
-| Storage       | Dynamic, heterogeneous    | Homogeneous (all same typecode)      |
-| Typical Usage | General-purpose container | Numeric data, memory-efficient       |
-| Resize        | Automatic                 | Automatic                            |
-| Indexing      | O(1)                      | O(1)                                 |
-| Insert/Delete | O(n) (shifts elements)    | O(n)                                 |
-| Iteration     | O(n)                      | O(n)                                 |
-
----
-
-### Common Operations
-
-| Operation           | Python `list` Example             | Notes                          |
-| ------------------- | --------------------------------- | ------------------------------ |
-| **Create**          | `nums = [1,2,3]`                  | Literal syntax                 |
-| **Iterate**         | `for x in nums: print(x)`         | Sequential traversal           |
-| **Index**           | `nums[0]` → `1`                   | O(1)                           |
-| **Slice**           | `nums[1:3]` → `[2,3]`             | Returns new list               |
-| **Add (append)**    | `nums.append(4)`                  | O(1) amortized                 |
-| **Insert**          | `nums.insert(1, 10)`              | O(n), shifts                   |
-| **Delete (by val)** | `nums.remove(2)`                  | First match only               |
-| **Delete (by idx)** | `del nums[0]`                     | Shifts                         |
-| **Pop**             | `nums.pop()` → last el            | O(1) for end                   |
-| **Sort**            | `nums.sort()`                     | In-place, Timsort (O(n log n)) |
-| **Reverse**         | `nums.reverse()`                  | In-place                       |
-| **Special**         | `len(nums), sum(nums), max(nums)` | Common helpers                 |
-
----
-
-### Example Snippets
-
-#### Iterating
-
+#### **Two Pointers - Same Direction (Fast/Slow)**
 ```python
-nums = [1, 2, 3, 4]
-for x in nums:
-    print(x)
+# Find middle of linked list
+def find_middle(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next          # Move 1 step
+        fast = fast.next.next     # Move 2 steps
+    return slow
+
+# Detect cycle in linked list
+def has_cycle(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:          # Cycle detected
+            return True
+    return False
 ```
 
-#### Adding & Removing
-
+#### **Two Pointers - Opposite Directions**
 ```python
-nums.append(5)       # [1,2,3,4,5]
-nums.insert(2, 10)   # [1,2,10,3,4,5]
-nums.remove(3)       # removes first '3'
-popped = nums.pop()  # removes last element, returns it
+# Two Sum in sorted array
+def two_sum_sorted(nums, target):
+    left, right = 0, len(nums) - 1
+    while left < right:
+        current_sum = nums[left] + nums[right]
+        if current_sum == target:
+            return [left, right]
+        elif current_sum < target:
+            left += 1
+        else:
+            right -= 1
+    return []
+
+# Valid palindrome
+def is_palindrome(s):
+    left, right = 0, len(s) - 1
+    while left < right:
+        # Skip non-alphanumeric characters
+        while left < right and not s[left].isalnum():
+            left += 1
+        while left < right and not s[right].isalnum():
+            right -= 1
+        
+        if s[left].lower() != s[right].lower():
+            return False
+        left += 1
+        right -= 1
+    return True
 ```
 
-#### Sorting
+### Sliding Window Technique
+**When to use**: Subarray/substring problems, fixed or variable size windows
+**Pattern**: Maintain a window that slides through the array
 
+#### **Fixed Size Window**
 ```python
-nums.sort()          # ascending
-nums.sort(reverse=True)  # descending
-sorted_copy = sorted(nums)  # returns new list
+# Maximum sum of subarray of size k
+def max_sum_subarray_k(nums, k):
+    if len(nums) < k:
+        return 0
+    
+    # Calculate sum of first window
+    window_sum = sum(nums[:k])
+    max_sum = window_sum
+    
+    # Slide window
+    for i in range(k, len(nums)):
+        window_sum = window_sum - nums[i-k] + nums[i]
+        max_sum = max(max_sum, window_sum)
+    
+    return max_sum
 ```
 
-#### Pseudocode (for clarity)
-
-```text
-function insert(list, index, value):
-    shift elements right from index
-    place value at index
-```
-
----
-
-# Dictionaries (Python `dict`)
-
-### Key Properties
-
-- Key-value store (hash table under the hood).
-- Keys must be **hashable** (immutable types: str, int, tuple).
-- Average-case operations: O(1) lookup, insert, delete.
-- Worst-case O(n) (rare, due to hash collisions).
-
----
-
-### Common Operations
-
-| Operation          | Example                  | Notes                      |
-| ------------------ | ------------------------ | -------------------------- |
-| **Create**         | `d = {"a": 1, "b": 2}`   | Literal syntax             |
-| **Iterate keys**   | `for k in d:`            | Same as `d.keys()`         |
-| **Iterate values** | `for v in d.values():`   | Values only                |
-| **Iterate items**  | `for k, v in d.items():` | Key + value                |
-| **Access**         | `d["a"]` → `1`           | KeyError if missing        |
-| **Safe access**    | `d.get("c", 0)`          | Returns default if missing |
-| **Add / Update**   | `d["c"] = 3`             | Insert or overwrite        |
-| **Delete by key**  | `del d["a"]`             | Key must exist             |
-| **Pop**            | `d.pop("a", None)`       | Optional default           |
-| **Clear**          | `d.clear()`              | Remove all items           |
-| **Check key**      | `"a" in d`               | Membership test            |
-| **Length**         | `len(d)`                 | Number of pairs            |
-
----
-
-### Special Methods
-
-- `.keys()` → view of all keys (iterable).
-- `.values()` → view of all values.
-- `.items()` → iterable of `(key, value)` tuples.
-- `.update({...})` → bulk add/update.
-- `.popitem()` → remove _last_ inserted (Python ≥ 3.7 keeps insertion order).
-
----
-
-### Example Snippets
-
-#### Iteration
-
+#### **Variable Size Window**
 ```python
-d = {"a": 1, "b": 2, "c": 3}
-
-for k in d:                # keys
-    print(k)
-
-for v in d.values():       # values
-    print(v)
-
-for k, v in d.items():     # key-value pairs
-    print(k, v)
+# Longest substring without repeating characters
+def length_of_longest_substring(s):
+    char_map = {}
+    left = max_length = 0
+    
+    for right, char in enumerate(s):
+        # If character exists, move left pointer
+        if char in char_map and char_map[char] >= left:
+            left = char_map[char] + 1
+        
+        char_map[char] = right
+        max_length = max(max_length, right - left + 1)
+    
+    return max_length
 ```
 
-#### Adding & Removing
+### Binary Search Variations
+**When to use**: Sorted arrays, searching problems, optimization problems
+**Pattern**: Divide search space in half each iteration
 
+#### **Standard Binary Search**
 ```python
-d["d"] = 4            # add
-d.update({"e": 5})    # bulk add/update
-del d["a"]            # delete
-d.pop("b", None)      # delete with default
+def binary_search(nums, target):
+    left, right = 0, len(nums) - 1
+    
+    while left <= right:
+        mid = left + (right - left) // 2
+        
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return -1
 ```
 
-#### Sorting
-
+#### **Binary Search on Answer**
 ```python
-# sort by key
-print(sorted(d.items()))    # [('c', 3), ('d', 4), ('e', 5)]
-
-# sort by value
-print(sorted(d.items(), key=lambda x: x[1]))
+# Find minimum capacity to ship packages within D days
+def ship_within_days(weights, days):
+    def can_ship(capacity):
+        current_weight = 0
+        days_needed = 1
+        
+        for weight in weights:
+            if current_weight + weight > capacity:
+                days_needed += 1
+                current_weight = weight
+            else:
+                current_weight += weight
+        
+        return days_needed <= days
+    
+    left, right = max(weights), sum(weights)
+    
+    while left < right:
+        mid = left + (right - left) // 2
+        
+        if can_ship(mid):
+            right = mid
+        else:
+            left = mid + 1
+    
+    return left
 ```
 
----
-
-# Sets (`set` in Python)
-
-### Key Properties
-
-- Unordered, unique elements only.
-- Backed by hash table → O(1) avg lookup/insert/delete.
-- No duplicates, no indexing.
-
-### Common Operations
-
-| Operation        | Example         | Notes                     |         |
-| ---------------- | --------------- | ------------------------- | ------- |
-| **Create**       | `s = {1, 2, 3}` | Or `set([1,2,3])`         |         |
-| **Iterate**      | `for x in s:`   | Order not guaranteed      |         |
-| **Add**          | `s.add(4)`      | Insert element            |         |
-| **Remove**       | `s.remove(2)`   | KeyError if missing       |         |
-| **Discard**      | `s.discard(2)`  | Safe remove               |         |
-| **Pop**          | `s.pop()`       | Removes arbitrary element |         |
-| **Clear**        | `s.clear()`     | Remove all                |         |
-| **Check**        | `3 in s`        | Membership test           |         |
-| **Union**        | \`s1            | s2\`                      | Combine |
-| **Intersection** | `s1 & s2`       | Common elements           |         |
-| **Difference**   | `s1 - s2`       | Unique to s1              |         |
-
-### Special Methods
-
-- `.update(iterable)` → bulk add.
-- `.issubset()`, `.issuperset()`.
-- `.symmetric_difference()`.
-
-### Examples
-
+#### **Finding Insert Position**
 ```python
-s = {1, 2, 3}
-s.add(4)             # {1,2,3,4}
-s.remove(2)          # {1,3,4}
-print(3 in s)        # True
-print(s.union({5}))  # {1,3,4,5}
+def search_insert(nums, target):
+    left, right = 0, len(nums)
+    
+    while left < right:
+        mid = left + (right - left) // 2
+        
+        if nums[mid] < target:
+            left = mid + 1
+        else:
+            right = mid
+    
+    return left
 ```
 
----
+### Graph Algorithms
 
-# Stacks (LIFO)
-
-### Key Properties
-
-- Last In, First Out (LIFO).
-- Implement with `list` or `collections.deque`.
-
-### Common Operations
-
-| Operation   | Example           | Notes       |
-| ----------- | ----------------- | ----------- |
-| **Push**    | `stack.append(x)` | O(1)        |
-| **Pop**     | `stack.pop()`     | O(1)        |
-| **Peek**    | `stack[-1]`       | Look at top |
-| **Iterate** | `for x in stack:` |             |
-
-### Example
-
+#### **Depth-First Search (DFS)**
 ```python
-stack = []
-stack.append(1)
-stack.append(2)
-top = stack.pop()  # 2
+# DFS with recursion
+def dfs_recursive(graph, node, visited):
+    if node in visited:
+        return
+    
+    visited.add(node)
+    print(f"Visiting: {node}")
+    
+    for neighbor in graph[node]:
+        dfs_recursive(graph, neighbor, visited)
+
+# DFS with stack (iterative)
+def dfs_iterative(graph, start):
+    visited = set()
+    stack = [start]
+    
+    while stack:
+        node = stack.pop()
+        
+        if node in visited:
+            continue
+        
+        visited.add(node)
+        print(f"Visiting: {node}")
+        
+        # Add unvisited neighbors to stack
+        for neighbor in reversed(graph[node]):
+            if neighbor not in visited:
+                stack.append(neighbor)
 ```
 
----
-
-# Queues (FIFO)
-
-### Key Properties
-
-- First In, First Out (FIFO).
-- Use `collections.deque` for O(1) operations.
-
-### Common Operations
-
-| Operation   | Example       | Notes         |
-| ----------- | ------------- | ------------- |
-| **Enqueue** | `q.append(x)` | Add to right  |
-| **Dequeue** | `q.popleft()` | Remove left   |
-| **Peek**    | `q[0]`        | Front element |
-| **Iterate** | `for x in q:` |               |
-
-### Example
-
+#### **Breadth-First Search (BFS)**
 ```python
 from collections import deque
-q = deque([1, 2])
-q.append(3)        # [1,2,3]
-front = q.popleft() # 1
+
+def bfs(graph, start):
+    visited = set()
+    queue = deque([start])
+    visited.add(start)
+    
+    while queue:
+        node = queue.popleft()
+        print(f"Visiting: {node}")
+        
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
 ```
 
----
-
-# Heaps / Priority Queues (`heapq`)
-
-### Key Properties
-
-- Min-heap by default in Python.
-- O(log n) insert/remove, O(1) peek min.
-- Useful for scheduling, Dijkstra’s shortest path, top-K problems.
-
-### Common Operations
-
-| Operation     | Example                               | Notes            |
-| ------------- | ------------------------------------- | ---------------- |
-| **Create**    | `heap = [3,1,4]; heapq.heapify(heap)` | O(n)             |
-| **Push**      | `heapq.heappush(heap, 2)`             | O(log n)         |
-| **Pop (min)** | `heapq.heappop(heap)`                 | O(log n)         |
-| **Peek**      | `heap[0]`                             | Smallest element |
-| **Max-Heap**  | `heapq.heappush(heap, -val)`          | Store negatives  |
-
-### Example
-
+#### **Topological Sort (Kahn's Algorithm)**
 ```python
-import heapq
-heap = [3, 1, 4]
-heapq.heapify(heap)
-heapq.heappush(heap, 2)
-print(heapq.heappop(heap)) # 1
+def topological_sort(graph):
+    # Calculate in-degrees
+    in_degree = {node: 0 for node in graph}
+    for node in graph:
+        for neighbor in graph[node]:
+            in_degree[neighbor] += 1
+    
+    # Find nodes with 0 in-degree
+    queue = deque([node for node in in_degree if in_degree[node] == 0])
+    result = []
+    
+    while queue:
+        node = queue.popleft()
+        result.append(node)
+        
+        # Reduce in-degree of neighbors
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    
+    # Check if all nodes were processed
+    return result if len(result) == len(graph) else []
+```
+
+### Tree Traversal Patterns
+
+#### **Inorder Traversal (Left -> Root -> Right)**
+```python
+def inorder_traversal(root):
+    result = []
+    
+    def inorder(node):
+        if not node:
+            return
+        
+        inorder(node.left)        # Visit left subtree
+        result.append(node.val)    # Visit root
+        inorder(node.right)       # Visit right subtree
+    
+    inorder(root)
+    return result
+
+# Iterative version using stack
+def inorder_iterative(root):
+    result = []
+    stack = []
+    current = root
+    
+    while current or stack:
+        # Go to leftmost node
+        while current:
+            stack.append(current)
+            current = current.left
+        
+        # Process current node
+        current = stack.pop()
+        result.append(current.val)
+        
+        # Move to right subtree
+        current = current.right
+    
+    return result
+```
+
+#### **Level Order Traversal (BFS)**
+```python
+from collections import deque
+
+def level_order_traversal(root):
+    if not root:
+        return []
+    
+    result = []
+    queue = deque([root])
+    
+    while queue:
+        level_size = len(queue)
+        current_level = []
+        
+        for _ in range(level_size):
+            node = queue.popleft()
+            current_level.append(node.val)
+            
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        
+        result.append(current_level)
+    
+    return result
+```
+
+### String Algorithms
+
+#### **KMP Algorithm for Pattern Matching**
+```python
+def kmp_search(text, pattern):
+    def build_lps(pattern):
+        lps = [0] * len(pattern)
+        length = 0
+        i = 1
+        
+        while i < len(pattern):
+            if pattern[i] == pattern[length]:
+                length += 1
+                lps[i] = length
+                i += 1
+            else:
+                if length != 0:
+                    length = lps[length - 1]
+                else:
+                    lps[i] = 0
+                    i += 1
+        
+        return lps
+    
+    if not pattern:
+        return 0
+    
+    lps = build_lps(pattern)
+    i = j = 0
+    
+    while i < len(text):
+        if pattern[j] == text[i]:
+            i += 1
+            j += 1
+        
+        if j == len(pattern):
+            return i - j
+        elif i < len(text) and pattern[j] != text[i]:
+            if j != 0:
+                j = lps[j - 1]
+            else:
+                i += 1
+    
+    return -1
+```
+
+#### **Rabin-Karp Algorithm**
+```python
+def rabin_karp_search(text, pattern):
+    if len(pattern) > len(text):
+        return -1
+    
+    # Hash function parameters
+    d = 256  # Number of characters in input alphabet
+    q = 101  # Prime number
+    
+    # Calculate hash values
+    pattern_hash = 0
+    text_hash = 0
+    h = 1
+    
+    # Calculate h = d^(m-1) % q
+    for i in range(len(pattern) - 1):
+        h = (h * d) % q
+    
+    # Calculate hash for pattern and first window of text
+    for i in range(len(pattern)):
+        pattern_hash = (d * pattern_hash + ord(pattern[i])) % q
+        text_hash = (d * text_hash + ord(text[i])) % q
+    
+    # Slide the pattern over text one by one
+    for i in range(len(text) - len(pattern) + 1):
+        if pattern_hash == text_hash:
+            # Check if characters match
+            if text[i:i+len(pattern)] == pattern:
+                return i
+        
+        # Calculate hash for next window
+        if i < len(text) - len(pattern):
+            text_hash = (d * (text_hash - ord(text[i]) * h) + ord(text[i + len(pattern)])) % q
+            if text_hash < 0:
+                text_hash += q
+    
+    return -1
+```
+
+### Dynamic Programming Advanced Patterns
+
+#### **State Compression DP**
+```python
+# Traveling Salesman Problem with bitmask
+def tsp_dp(graph):
+    n = len(graph)
+    # dp[mask][pos] = minimum cost to visit all cities in mask ending at pos
+    dp = [[float('inf')] * n for _ in range(1 << n)]
+    
+    # Base case: starting from city 0
+    dp[1][0] = 0
+    
+    # Try all possible subsets
+    for mask in range(1 << n):
+        for pos in range(n):
+            if not (mask & (1 << pos)):
+                continue
+            
+            # Try to come from previous city
+            prev_mask = mask ^ (1 << pos)
+            for prev_pos in range(n):
+                if prev_mask & (1 << prev_pos):
+                    dp[mask][pos] = min(dp[mask][pos], 
+                                      dp[prev_mask][prev_pos] + graph[prev_pos][pos])
+    
+    # Return to starting city
+    result = float('inf')
+    for pos in range(1, n):
+        result = min(result, dp[(1 << n) - 1][pos] + graph[pos][0])
+    
+    return result
+```
+
+#### **Digit DP**
+```python
+# Count numbers with digit sum equal to target
+def count_numbers_with_digit_sum(n, target):
+    def digit_dp(pos, tight, sum_so_far, dp):
+        if pos == len(str_n):
+            return 1 if sum_so_far == target else 0
+        
+        if dp[pos][tight][sum_so_far] != -1:
+            return dp[pos][tight][sum_so_far]
+        
+        limit = int(str_n[pos]) if tight else 9
+        result = 0
+        
+        for digit in range(limit + 1):
+            new_tight = tight and (digit == limit)
+            new_sum = sum_so_far + digit
+            
+            if new_sum <= target:
+                result += digit_dp(pos + 1, new_tight, new_sum, dp)
+        
+        dp[pos][tight][sum_so_far] = result
+        return result
+    
+    str_n = str(n)
+    dp = [[[-1] * (target + 1) for _ in range(2)] for _ in range(len(str_n))]
+    return digit_dp(0, True, 0, dp)
 ```
 
 ---
 
-## Complex Data Structures
+## Complex Data Structures (Trees, Graphs)
 
 ### Key Properties
 
@@ -1468,7 +1938,7 @@ def isBalanced(root):
 
 ---
 
-## Searching & Sorting
+## Searching & Sorting Algorithms
 
 ---
 
@@ -5957,287 +6427,6 @@ remote.press_undo()       # Undo last command
 
 ---
 
-## Cheat Sheet
-
-## 1) Load Balancing
-
-### What to choose & why
-
-| Strategy           | How it works                         | Pros                            | Cons                          | When to use                      |
-| ------------------ | ------------------------------------ | ------------------------------- | ----------------------------- | -------------------------------- |
-| Round Robin        | Rotate across backends               | Simple                          | Ignores load differences      | Homogeneous stateless apps       |
-| Weighted RR        | Like RR but with weights             | Skews toward stronger nodes     | Manual tuning                 | Mixed instance sizes             |
-| Least Connections  | Pick server with fewest active conns | Adapts to variable request time | Needs connection tracking     | Long-lived/variable requests     |
-| IP Hash            | Hash(client IP) → server             | Sticky by client                | Poorly balances NAT’d clients | Session affinity without cookies |
-| Header/Cookie Hash | Hash on header/cookie                | Fine-grained stickiness         | Requires header/cookie        | Stateful session shards          |
-| Consistent Hash    | Hash(key) on ring                    | Minimal reshuffle on scale      | Requires key choice           | Caches, sharded stores           |
-| Anycast + LB       | Route to nearest POP                 | Low latency                     | Network expertise             | Global edges (CDN/API edge)      |
-
-### Health checks & routing
-
-- **Liveness** (process up) vs **readiness** (can serve traffic).
-- Graceful drain on deploys; slow-start newly added instances.
-
----
-
-## 2) Caching Tiers (quick recap + design tips)
-
-- **Where:** client → CDN → edge/API gateway → app → Redis/memcached → DB.
-- **Patterns:** cache-aside (lazy), read-through, write-through, write-back.
-- **Invalidation:** TTLs, versioned keys (`user:123:v42`), pub/sub invalidations.
-- **Avoid stampedes:** single-flight locks, randomized TTLs, early refresh.
-
----
-
-## 3) Consistent Hashing (for caches/shards)
-
-**Idea:** Place servers on a hash ring; `node = first_server_clockwise(hash(key))`.
-**Why:** Adding/removing a server only remaps a small slice of keys.
-**Tips:** Use **virtual nodes** (many tokens per server) for smoother balance.
-
-**Pseudocode**
-
-```
-# ring: sorted list of (token, server)
-# tokens: hash(server_id + vnode_index)
-
-function lookup(key):
-    # hash key onto ring
-    h = hash(key)
-    # find first token >= h (wrap if needed)
-    s = ring.lower_bound(h) or ring[0]
-    return s.server
-```
-
----
-
-## 4) Queues & Pub/Sub
-
-### Concepts
-
-- **Queue (point-to-point):** workers pull; each message to one consumer.
-- **Pub/Sub (fan-out):** topics; multiple subscribers receive messages.
-- **Ordering:** per-partition FIFO (Kafka); SQS FIFO queues.
-- **Consumer groups:** scale horizontally; each partition to one consumer in the group.
-- **Backpressure:** control concurrency; rate limit producers; DLQ for poison pills.
-
-### Delivery semantics
-
-| Semantics      | What it means                | Typical systems             | Design requirement       |
-| -------------- | ---------------------------- | --------------------------- | ------------------------ |
-| At-most-once   | May drop messages, no dupes  | UDP-like, rare for business | Accept loss              |
-| At-least-once  | No loss, possible duplicates | SQS std, Kafka              | **Idempotent** consumers |
-| Exactly-once\* | No loss, no duplicates       | Kafka EOS (within scopes)   | Careful txn boundaries   |
-
-\*Exactly-once is contextual; end-to-end often reduces to **at-least-once + idempotency**.
-
-**Idempotency pattern**
-
-- Deterministic **idempotency key** (e.g., order_id).
-- Store processed keys; ignore repeats.
-
-**Retry/backoff (pseudocode)**
-
-```
-retries = 0
-delay = base
-while retries < max_retries:
-    ok = call()
-    if ok: return OK
-    sleep(delay)
-    delay = min(delay * 2, max_delay)  # exponential backoff + cap
-    retries += 1
-return FAIL
-```
-
----
-
-## 5) Eventual Consistency
-
-- **Definition:** replicas converge if no new writes occur.
-- **Read models:** read-repair on access; async background anti-entropy.
-- **Client strategies:** **read-your-writes**, **monotonic reads**, **session consistency** where supported.
-- **Write conflicts:** timestamps + last-write-wins, vector clocks, or CRDTs.
-
----
-
-## 6) SLI / SLO / SLA
-
-- **SLI** (indicator): measured metric (e.g., request success rate, p95 latency).
-- **SLO** (objective): target for SLI (e.g., **99.9%** success over 30 days).
-- **SLA** (agreement): external contract; includes penalties/credits.
-
-**Error budget**
-
-- Budget = 1 − SLO. Example: 99.9% monthly → \~43.2 minutes budget.
-- Spend budget on launches; pause risky changes when burning too fast.
-
-**Burn-rate alerts (example)**
-
-- Fast burn: 2% of budget in 1 hour → page now.
-- Slow burn: 5% of budget in 6 hours → ticket & investigate.
-
-**Useful SLIs**
-
-- Availability: `2xx+3xx / total`.
-- Latency: % of requests under threshold (p90/p95/p99).
-- Quality: error rate of critical transactions.
-- Saturation: CPU, memory, queue depth.
-
----
-
-## 7) Reliability Guards
-
-**Circuit breaker (pseudocode)**
-
-```
-state = CLOSED
-failures = 0
-last_open = -inf
-
-function call():
-    if state == OPEN and now < last_open + cool_down:
-        return FAIL_FAST
-    if state == HALF_OPEN:
-        allow_only_small_probe_rate()
-
-    ok = downstream()
-    if ok:
-        if state == HALF_OPEN: state = CLOSED; failures = 0
-        else: failures = 0
-        return OK
-    else:
-        failures += 1
-        if failures >= threshold:
-            state = OPEN
-            last_open = now
-        return FAIL
-```
-
-**Bulkheads:** isolate pools; one noisy neighbor can’t drain all threads/connections.
-**Timeouts:** every remote call needs a timeout + retry policy.
-**Dead-letter queues:** capture poisoned messages.
-
----
-
-# Final Cheat Sheet — 1 Page
-
-## A) Cross-Structure Operations (Python)
-
-| Operation       | list                                 | dict                                | set                          | deque                           | heapq                       |               |
-| --------------- | ------------------------------------ | ----------------------------------- | ---------------------------- | ------------------------------- | --------------------------- | ------------- |
-| `len(x)`        | ✓                                    | ✓                                   | ✓                            | ✓                               | ✓ (len of list)             |               |
-| Membership `in` | O(n)                                 | O(1) avg                            | O(1) avg                     | O(n)                            | —                           |               |
-| Add             | `.append(x)` / `.insert(i,x)`        | `d[k]=v`                            | `.add(x)`                    | `.append(x)` / `.appendleft(x)` | `heappush(h,x)`             |               |
-| Remove          | `.remove(x)` / `.pop()` / `del a[i]` | `del d[k]` / `.pop(k)`              | `.remove(x)` / `.discard(x)` | `.popleft()` / `.pop()`         | `heappop(h)`                |               |
-| Iterate         | `for v in a`                         | `for k,v in d.items()`              | `for v in s`                 | `for v in q`                    | `for v in h` (unsorted)     |               |
-| Sort            | `.sort()` / `sorted(a)`              | `sorted(d.items())`                 | `sorted(s)`                  | convert → list                  | heaps are partially ordered |               |
-| Special         | slicing, `.reverse()`                | `.keys() .values() .items() .get()` | set ops \`                   | & - ^\`                         | O(1) ends                   | min at `h[0]` |
-
-## B) Big-O Quick Table
-
-| Structure      | Access   | Search   | Insert   | Delete   |
-| -------------- | -------- | -------- | -------- | -------- |
-| Array/list     | O(1)     | O(n)     | O(n)     | O(n)     |
-| Dict           | —        | O(1) avg | O(1) avg | O(1) avg |
-| Set            | —        | O(1) avg | O(1) avg | O(1) avg |
-| Heap           | —        | O(n)     | O(log n) | O(log n) |
-| BST (balanced) | O(log n) | O(log n) | O(log n) | O(log n) |
-
-## C) Algorithm Skeletons (minimal)
-
-**Recursion template**
-
-```python
-def solve(x):
-    # base case(s)
-    # combine results from smaller subproblems
-    return result
-```
-
-**DFS (graph)**
-
-```python
-def dfs(u):
-    if u in seen: return
-    seen.add(u)
-    for v in G[u]:
-        dfs(v)
-```
-
-**BFS (graph)**
-
-```python
-from collections import deque
-def bfs(s):
-    q, seen = deque([s]), {s}
-    while q:
-        u = q.popleft()
-        for v in G[u]:
-            if v not in seen:
-                seen.add(v); q.append(v)
-```
-
-**Binary search (index or insert position)**
-
-```python
-def bsearch(a, t):
-    l, r = 0, len(a)-1
-    while l <= r:
-        m = (l+r)//2
-        if a[m]==t: return m
-        if a[m]<t: l = m+1
-        else: r = m-1
-    return l  # insert position
-```
-
-**Sliding window (no repeats)**
-
-```python
-def longest(s):
-    pos, L, best = {}, 0, 0
-    for R,ch in enumerate(s):
-        if ch in pos and pos[ch] >= L: L = pos[ch]+1
-        pos[ch] = R
-        best = max(best, R-L+1)
-    return best
-```
-
-**Dijkstra (min distances)**
-
-```python
-import heapq
-def dijkstra(G, s):
-    dist = {s:0}; pq = [(0,s)]
-    while pq:
-        d,u = heapq.heappop(pq)
-        if d != dist.get(u, float('inf')): continue
-        for v,w in G[u]:
-            nd = d + w
-            if nd < dist.get(v, float('inf')):
-                dist[v] = nd; heapq.heappush(pq, (nd,v))
-    return dist
-```
-
-**DP template**
-
-```python
-# define state dp[...] and base cases
-# fill in dependency order using transitions
-return answer_state
-```
-
-## D) Python Interview Reminders
-
-- **Strings are immutable**; use `''.join(parts)` for concatenation in loops.
-- **List slicing makes a copy**: `a[i:j]` is O(k).
-- Use **`deque`** for O(1) queue ops; avoid `pop(0)` on lists.
-- `heapq` is a **min-heap**; for max-heap push negatives.
-- Sorting is **Timsort** (stable, O(n log n)).
-- Don’t use **mutable defaults** in function params; use `None` then set.
-
----
-
 # DevOps & Cloud
 
 ## CI/CD & Infrastructure
@@ -6245,6 +6434,116 @@ return answer_state
 The goal here is to be able to “drop in” a minimal but realistic setup during interviews or when spinning up a demo.
 
 ## 1) Terraform mini-project (AWS VPC + EC2 + S3, remote state)
+
+### Key Infrastructure Concepts
+
+#### **VPC (Virtual Private Cloud)**
+A **VPC** is a logically isolated section of the AWS cloud where you can launch AWS resources in a virtual network that you define. Think of it as your own private data center in the cloud.
+
+**What it provides:**
+- **Network isolation** from other AWS customers
+- **Custom IP address ranges** (CIDR blocks like 10.0.0.0/16)
+- **Subnet configuration** for organizing resources
+- **Route tables** for controlling traffic flow
+- **Security groups** and **Network ACLs** for access control
+- **Internet connectivity** control (public vs private subnets)
+
+**Why it matters:**
+- **Security**: Isolates your resources from other AWS customers
+- **Compliance**: Required for HIPAA, SOC2, and other security standards
+- **Cost control**: Prevents unauthorized resource creation
+- **Network design**: Allows you to design your network architecture
+
+#### **Subnets**
+**Subnets** are subdivisions of your VPC that allow you to group resources and control network access. They're like different floors or sections in a building.
+
+**Types of Subnets:**
+- **Public Subnets**: 
+  - Resources can have public IP addresses
+  - Direct internet access through Internet Gateway
+  - Used for load balancers, bastion hosts
+  - **Security risk**: More exposed to internet threats
+  
+- **Private Subnets**:
+  - No public IP addresses assigned
+  - Internet access through NAT Gateway (controlled)
+  - Used for application servers, databases
+  - **Security benefit**: Protected from direct internet access
+
+**Subnet Design Best Practices:**
+- **Availability Zones**: Distribute subnets across multiple AZs for high availability
+- **CIDR Planning**: Use non-overlapping IP ranges (e.g., 10.0.1.0/24, 10.0.2.0/24)
+- **Resource Grouping**: Group similar resources in the same subnet
+- **Security**: Use private subnets for sensitive resources
+
+#### **Spot Instances**
+**Spot Instances** are AWS EC2 instances that you can bid on and use for up to 90% off the On-Demand price. AWS sells unused capacity at a discount.
+
+**How Spot Instances Work:**
+- **Bidding**: You set a maximum price you're willing to pay
+- **Availability**: AWS fills your request if spot price ≤ your bid
+- **Interruption**: AWS can terminate your instance with 2-minute notice if:
+  - Spot price exceeds your bid
+  - AWS needs the capacity back
+  - Spot capacity is no longer available
+
+**Use Cases:**
+- **Batch processing**: Data analysis, video encoding, scientific computing
+- **Testing/Development**: Non-critical workloads
+- **Cost optimization**: Up to 90% savings vs On-Demand
+- **Fault-tolerant applications**: Can handle interruptions
+
+**Spot Instance Strategies:**
+- **Diversification**: Use multiple instance types and AZs
+- **Bid strategy**: Set bid at On-Demand price for better availability
+- **Interruption handling**: Implement graceful shutdown and recovery
+- **Fallback**: Use On-Demand instances as backup
+
+#### **Incident Severity Levels (SEV 1-4)**
+
+**SEV-1 (Critical) - "All Hands on Deck"**
+- **Definition**: Service completely down, data loss, security breach
+- **Response Time**: Immediate (within 5 minutes)
+- **Communication**: All stakeholders, status page updates, executive notification
+- **Resolution Target**: 1 hour
+- **Examples**: 
+  - Database corruption
+  - Complete service outage
+  - Customer data breach
+  - Payment system failure
+
+**SEV-2 (High) - "Urgent Response Required"**
+- **Definition**: Major feature broken, significant performance degradation
+- **Response Time**: Within 15 minutes
+- **Communication**: Engineering team, product managers, customer support
+- **Resolution Target**: 4 hours
+- **Examples**:
+  - Core feature unavailable
+  - 50%+ performance degradation
+  - Multiple customers affected
+  - Revenue-impacting issues
+
+**SEV-3 (Medium) - "Normal Priority"**
+- **Definition**: Minor feature broken, slight performance impact
+- **Response Time**: Within 1 hour
+- **Communication**: Engineering team, internal stakeholders
+- **Resolution Target**: 24 hours
+- **Examples**:
+  - Non-critical feature broken
+  - Minor performance issues
+  - Limited customer impact
+  - Cosmetic bugs
+
+**SEV-4 (Low) - "Business Hours"**
+- **Definition**: Cosmetic issues, minor bugs, enhancement requests
+- **Response Time**: Within 4 hours
+- **Communication**: Engineering team
+- **Resolution Target**: 1 week
+- **Examples**:
+  - UI text typos
+  - Minor styling issues
+  - Enhancement requests
+  - Documentation updates
 
 ### Multi-Environment Setup
 This example shows how to structure Terraform for multiple environments (dev, staging, prod) with shared modules.
@@ -6262,139 +6561,152 @@ terraform/
   backend.hcl
 ```
 
-**backend.hcl** (remote state)
-
+**backend.hcl** (remote state configuration)
 ```bash
-bucket         = "my-tf-state-bucket"
-key            = "envs/dev/terraform.tfstate"
-region         = "us-west-2"
-dynamodb_table = "my-tf-locks"
-encrypt        = true
+bucket         = "my-tf-state-bucket"    # S3 bucket to store Terraform state
+key            = "envs/dev/terraform.tfstate"  # Path within bucket for this environment
+region         = "us-west-2"             # AWS region for the backend
+dynamodb_table = "my-tf-locks"           # DynamoDB table for state locking (prevents concurrent modifications)
+encrypt        = true                    # Encrypt state files at rest
 ```
 
-**main.tf**
-
+**main.tf** (provider and version configuration)
 ```bash
 terraform {
-  required_version = ">= 1.6.0"
-  backend "s3" {}          # configured via backend.hcl at init-time
+  required_version = ">= 1.6.0"         # Minimum Terraform version required
+  backend "s3" {}                       # Use S3 backend for remote state (configured via backend.hcl at init-time)
   required_providers {
-    aws = { source = "hashicorp/aws", version = "~> 5.0" }
+    aws = { source = "hashicorp/aws", version = "~> 5.0" }  # AWS provider with version constraint
   }
 }
 
 provider "aws" {
-  region = var.region
+  region = var.region                    # AWS region for all resources
 }
 ```
 
-**vpc.tf** (very minimal)
-
+**vpc.tf** (networking infrastructure)
 ```bash
+# Virtual Private Cloud - isolated network environment
 resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"
-  tags = { Name = "demo-vpc" }
+  cidr_block = "10.0.0.0/16"           # Private IP range: 10.0.0.0 to 10.0.255.255
+  tags = { Name = "demo-vpc" }          # Resource tagging for cost tracking and organization
 }
 
+# Public subnet in availability zone 'a' - accessible from internet
 resource "aws_subnet" "public_a" {
-  vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.1.0/24"
-  map_public_ip_on_launch = true
-  availability_zone       = "${var.region}a"
+  vpc_id                  = aws_vpc.main.id                    # Associate with our VPC
+  cidr_block              = "10.0.1.0/24"                     # Subnet range: 10.0.1.0 to 10.0.1.255
+  map_public_ip_on_launch = true                               # Auto-assign public IPs to instances
+  availability_zone       = "${var.region}a"                   # Place in first AZ (e.g., us-west-2a)
 }
 
+# Internet Gateway - allows VPC to communicate with internet
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = aws_vpc.main.id              # Attach to our VPC
 }
 ```
 
-**ec2.tf**
-
+**ec2.tf** (compute and security)
 ```bash
+# Security Group - firewall rules for EC2 instances
 resource "aws_security_group" "web" {
-  name   = "web-sg"
-  vpc_id = aws_vpc.main.id
+  name   = "web-sg"                     # Security group name
+  vpc_id = aws_vpc.main.id             # Associate with our VPC
 
+  # Allow SSH access from anywhere (0.0.0.0/0 = all IPs)
   ingress {
-    from_port = 22
+    from_port = 22                      # SSH port
     to_port   = 22
     protocol  = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"]        # WARNING: In production, restrict to specific IPs
   }
+  
+  # Allow HTTP access from anywhere (for web traffic)
   ingress {
-    from_port = 80
+    from_port = 80                      # HTTP port
     to_port   = 80
     protocol  = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"]        # WARNING: In production, restrict to specific IPs
   }
+  
+  # Allow all outbound traffic (instances can reach internet)
   egress {
-    from_port = 0
+    from_port = 0                       # All ports
     to_port   = 0
-    protocol  = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    protocol  = "-1"                    # All protocols
+    cidr_blocks = ["0.0.0.0/0"]        # All destinations
   }
 }
 
+# Data source to get latest Amazon Linux AMI
 data "aws_ami" "amazon_linux" {
-  most_recent = true
-  owners = ["amazon"]
+  most_recent = true                    # Get the newest available
+  owners = ["amazon"]                   # Official Amazon AMIs
   filter {
-    name = "name"
-    values = ["al2023-ami-*-x86_64"]
+    name = "name"                       # Filter by AMI name
+    values = ["al2023-ami-*-x86_64"]   # Amazon Linux 2023, 64-bit
   }
 }
+```
 
 resource "aws_instance" "web" {
-  ami                    = data.aws_ami.amazon_linux.id
-  instance_type          = "t3.micro"
-  subnet_id              = aws_subnet.public_a.id
-  vpc_security_group_ids = [aws_security_group.web.id]
+  ami                    = data.aws_ami.amazon_linux.id    # Use the AMI we found earlier
+  instance_type          = "t3.micro"                      # Small instance type (1 vCPU, 1 GB RAM)
+  subnet_id              = aws_subnet.public_a.id          # Place in our public subnet
+  vpc_security_group_ids = [aws_security_group.web.id]     # Apply our security group rules
+  
+  # User data script runs when instance first boots
   user_data = <<-EOF
               #!/bin/bash
-              yum install -y httpd
-              systemctl enable httpd
-              systemctl start httpd
-              echo "hello from terraform" > /var/www/html/index.html
+              yum install -y httpd                          # Install Apache web server
+              systemctl enable httpd                        # Start Apache on boot
+              systemctl start httpd                         # Start Apache now
+              echo "hello from terraform" > /var/www/html/index.html  # Create simple webpage
               EOF
-  tags = { Name = "web" }
+  
+  tags = { Name = "web" }                                  # Resource tagging
 }
 ```
 
-**s3.tf**
-
+**s3.tf** (object storage)
 ```bash
+# S3 bucket for storing static assets (images, CSS, JS files)
 resource "aws_s3_bucket" "assets" {
-  bucket = var.bucket_name
-  tags = { Name = "assets" }
+  bucket = var.bucket_name                                 # Bucket name from variable
+  tags = { Name = "assets" }                               # Resource tagging
 }
 
+# Enable versioning to keep multiple versions of objects
 resource "aws_s3_bucket_versioning" "assets" {
-  bucket = aws_s3_bucket.assets.id
+  bucket = aws_s3_bucket.assets.id                         # Reference to our bucket
   versioning_configuration {
-    status = "Enabled"
+    status = "Enabled"                                      # Turn on versioning
   }
 }
 ```
 
-**variables.tf**
-
+**variables.tf** (input parameters)
 ```bash
-variable "region"      { type = string, default = "us-west-2" }
-variable "bucket_name" { type = string }
+variable "region"      { type = string, default = "us-west-2" }  # AWS region with default
+variable "bucket_name" { type = string }                         # Required: S3 bucket name
 ```
 
-**outputs.tf**
-
+**outputs.tf** (return values)
 ```bash
-output "ec2_public_ip" { value = aws_instance.web.public_ip }
-output "s3_bucket"     { value = aws_s3_bucket.assets.bucket }
+output "ec2_public_ip" { value = aws_instance.web.public_ip }   # Public IP of web server
+output "s3_bucket"     { value = aws_s3_bucket.assets.bucket }  # Name of S3 bucket
 ```
 
-**CLI**
-
+**CLI Commands** (deployment workflow)
 ```bash
+# Initialize Terraform and configure backend
 terraform init -backend-config=backend.hcl
+
+# Preview changes before applying
 terraform plan -var="bucket_name=my-artifacts-bucket"
+
+# Apply changes and create infrastructure
 terraform apply -auto-approve -var="bucket_name=my-artifacts-bucket"
 ```
 
@@ -6402,33 +6714,33 @@ terraform apply -auto-approve -var="bucket_name=my-artifacts-bucket"
 
 #### Workspace-based Environment Management
 ```bash
-# Create and switch to dev workspace
+# Create and switch to dev workspace (isolates state for different environments)
 terraform workspace new dev
 terraform workspace select dev
 
 # Apply with environment-specific variables
 terraform apply -var-file="dev.tfvars"
 
-# Switch to prod workspace
+# Switch to prod workspace (different state, different environment)
 terraform workspace select prod
 terraform apply -var-file="prod.tfvars"
 ```
 
 #### Module-based Architecture
 ```hcl
-# modules/vpc/main.tf
+# modules/vpc/main.tf - Reusable VPC module
 module "vpc" {
-  source = "../../modules/vpc"
+  source = "../../modules/vpc"                              # Path to module source
   
-  environment = var.environment
-  vpc_cidr   = var.vpc_cidr
-  azs         = var.azs
+  environment = var.environment                             # Pass environment name
+  vpc_cidr   = var.vpc_cidr                                # Pass VPC CIDR block
+  azs         = var.azs                                     # Pass availability zones
 }
 
-# modules/vpc/variables.tf
+# modules/vpc/variables.tf - Module input variables
 variable "environment" {
-  description = "Environment name"
-  type        = string
+  description = "Environment name (dev, staging, prod)"     # Variable documentation
+  type        = string                                      # Variable type
 }
 
 variable "vpc_cidr" {
@@ -7277,34 +7589,77 @@ jobs:
 ## 10. Common Reliability Patterns
 
 ### Circuit Breaker
+The **Circuit Breaker** pattern is a reliability design pattern that prevents cascading failures by temporarily stopping requests to a failing service. It works like an electrical circuit breaker - when there are too many failures, it "trips" and stops allowing requests through.
+
+**How it works:**
+1. **CLOSED State**: Normal operation - requests pass through to the service
+2. **OPEN State**: Service is failing - requests are immediately rejected
+3. **HALF_OPEN State**: Testing if service has recovered - limited requests allowed
+
+**When to use:**
+- External API calls that might fail
+- Database connections that could timeout
+- Microservice communication
+- Any dependency that could cause cascading failures
+
 ```python
+import time
+
 class CircuitBreaker:
     def __init__(self, failure_threshold=5, recovery_timeout=60):
-        self.failure_threshold = failure_threshold
-        self.recovery_timeout = recovery_timeout
-        self.failure_count = 0
-        self.last_failure_time = 0
-        self.state = "CLOSED"  # CLOSED, OPEN, HALF_OPEN
+        self.failure_threshold = failure_threshold    # How many failures before opening circuit
+        self.recovery_timeout = recovery_timeout      # Seconds to wait before testing recovery
+        self.failure_count = 0                       # Current failure count
+        self.last_failure_time = 0                   # Timestamp of last failure
+        self.state = "CLOSED"                        # Current state: CLOSED, OPEN, HALF_OPEN
     
     def call(self, func, *args, **kwargs):
+        # Check if circuit is OPEN (service failing)
         if self.state == "OPEN":
+            # Check if enough time has passed to test recovery
             if time.time() - self.last_failure_time > self.recovery_timeout:
-                self.state = "HALF_OPEN"
+                self.state = "HALF_OPEN"             # Try to test if service recovered
             else:
-                raise Exception("Circuit breaker is OPEN")
+                raise Exception("Circuit breaker is OPEN - service is failing")
         
         try:
+            # Attempt to call the actual service
             result = func(*args, **kwargs)
+            
+            # If we're in HALF_OPEN and call succeeds, close the circuit
             if self.state == "HALF_OPEN":
-                self.state = "CLOSED"
-                self.failure_count = 0
+                self.state = "CLOSED"                 # Service has recovered
+                self.failure_count = 0                # Reset failure count
+            
             return result
         except Exception as e:
+            # Call failed - increment failure count
             self.failure_count += 1
             self.last_failure_time = time.time()
+            
+            # If we've hit the failure threshold, open the circuit
             if self.failure_count >= self.failure_threshold:
-                self.state = "OPEN"
-            raise e
+                self.state = "OPEN"                   # Stop allowing requests
+            
+            raise e                                  # Re-raise the original exception
+
+# Usage example
+def unreliable_api_call():
+    # Simulate an API call that sometimes fails
+    import random
+    if random.random() < 0.3:  # 30% chance of failure
+        raise Exception("API call failed")
+    return "Success!"
+
+# Create circuit breaker instance
+breaker = CircuitBreaker(failure_threshold=3, recovery_timeout=30)
+
+# Use it to protect API calls
+try:
+    result = breaker.call(unreliable_api_call)
+    print(f"API call succeeded: {result}")
+except Exception as e:
+    print(f"API call failed: {e}")
 ```
 
 ### Retry with Exponential Backoff
@@ -7403,7 +7758,580 @@ def health_check():
 
 ---
 
-# Security & Performance
+## 12. Production Operations & Incident Response
+
+### Incident Response Framework
+
+#### On-Call Procedures
+**Escalation Matrix**
+```
+Level 1 (PagerDuty): Primary on-call engineer
+- Response time: 5 minutes
+- Escalation: 15 minutes if no acknowledgment
+
+Level 2: Senior engineer or team lead
+- Response time: 15 minutes
+- Escalation: 30 minutes if no resolution
+
+Level 3: Engineering manager or architect
+- Response time: 30 minutes
+- Escalation: 1 hour if no resolution
+
+Level 4: CTO/VP Engineering
+- Response time: 1 hour
+- Escalation: 2 hours if no resolution
+```
+
+**Incident Severity Levels**
+```
+SEV-1 (Critical): Service completely down, data loss
+- Response: Immediate (within 5 minutes)
+- Communication: All stakeholders, status page updates
+- Resolution target: 1 hour
+
+SEV-2 (High): Major feature broken, significant performance degradation
+- Response: Within 15 minutes
+- Communication: Engineering team, product managers
+- Resolution target: 4 hours
+
+SEV-3 (Medium): Minor feature broken, slight performance impact
+- Response: Within 1 hour
+- Communication: Engineering team
+- Resolution target: 24 hours
+
+SEV-4 (Low): Cosmetic issues, minor bugs
+- Response: Within 4 hours
+- Communication: Engineering team
+- Resolution target: 1 week
+```
+
+#### Incident Response Process
+```python
+# Incident response workflow
+class IncidentResponse:
+    def __init__(self):
+        self.incident_id = None
+        self.severity = None
+        self.status = "open"
+        self.timeline = []
+        self.actions_taken = []
+    
+    def acknowledge(self, engineer, timestamp):
+        """Acknowledge incident and assign primary responder"""
+        self.primary_responder = engineer
+        self.timeline.append({
+            "timestamp": timestamp,
+            "action": "acknowledged",
+            "engineer": engineer
+        })
+    
+    def escalate(self, level, reason, timestamp):
+        """Escalate to next level if needed"""
+        self.current_level = level
+        self.timeline.append({
+            "timestamp": timestamp,
+            "action": "escalated",
+            "level": level,
+            "reason": reason
+        })
+    
+    def update_status(self, status, details, timestamp):
+        """Update incident status"""
+        self.status = status
+        self.timeline.append({
+            "timestamp": timestamp,
+            "action": "status_update",
+            "status": status,
+            "details": details
+        })
+    
+    def resolve(self, resolution, timestamp):
+        """Mark incident as resolved"""
+        self.status = "resolved"
+        self.resolution = resolution
+        self.timeline.append({
+            "timestamp": timestamp,
+            "action": "resolved",
+            "resolution": resolution
+        })
+```
+
+### Post-Incident Analysis
+
+#### Blameless Post-Mortem Template
+```markdown
+# Post-Mortem: [Incident Title]
+
+## Incident Summary
+- **Date/Time**: [When it started]
+- **Duration**: [How long it lasted]
+- **Severity**: [SEV-1/2/3/4]
+- **Impact**: [Users affected, business impact]
+
+## Timeline
+- **Detection**: [When/how was it detected]
+- **Response**: [Initial response actions]
+- **Escalation**: [When/why escalated]
+- **Resolution**: [How it was fixed]
+
+## Root Cause Analysis
+- **What happened**: [Technical explanation]
+- **Why it happened**: [Root cause]
+- **Contributing factors**: [Other factors that played a role]
+
+## Impact Assessment
+- **User impact**: [Number of users affected]
+- **Business impact**: [Revenue, reputation, etc.]
+- **Technical impact**: [System performance, data loss]
+
+## Actions Taken
+- **Immediate**: [What was done to fix it]
+- **Short-term**: [Actions in next 24-48 hours]
+- **Long-term**: [Preventive measures]
+
+## Lessons Learned
+- **What went well**: [Positive aspects of response]
+- **What could be improved**: [Areas for improvement]
+- **What surprised us**: [Unexpected findings]
+
+## Action Items
+- [ ] [Action item 1] - [Owner] - [Due date]
+- [ ] [Action item 2] - [Owner] - [Due date]
+- [ ] [Action item 3] - [Owner] - [Due date]
+```
+
+### Performance Debugging at Scale
+
+#### Distributed System Debugging
+```python
+# Distributed tracing for performance debugging
+import opentelemetry
+from opentelemetry import trace
+from opentelemetry.trace import Status, StatusCode
+
+class PerformanceDebugger:
+    def __init__(self):
+        self.tracer = trace.get_tracer(__name__)
+    
+    def trace_database_query(self, query, params):
+        """Trace database query performance"""
+        with self.tracer.start_as_current_span("database_query") as span:
+            span.set_attribute("db.query", query)
+            span.set_attribute("db.params", str(params))
+            
+            start_time = time.time()
+            try:
+                result = self.execute_query(query, params)
+                duration = time.time() - start_time
+                
+                span.set_attribute("db.duration", duration)
+                span.set_attribute("db.rows_returned", len(result))
+                span.set_status(Status(StatusCode.OK))
+                
+                return result
+            except Exception as e:
+                span.set_attribute("db.error", str(e))
+                span.set_status(Status(StatusCode.ERROR, str(e)))
+                raise
+    
+    def trace_api_call(self, endpoint, method):
+        """Trace API call performance"""
+        with self.tracer.start_as_current_span("api_call") as span:
+            span.set_attribute("http.url", endpoint)
+            span.set_attribute("http.method", method)
+            
+            start_time = time.time()
+            try:
+                response = self.make_api_call(endpoint, method)
+                duration = time.time() - start_time
+                
+                span.set_attribute("http.duration", duration)
+                span.set_attribute("http.status_code", response.status_code)
+                span.set_status(Status(StatusCode.OK))
+                
+                return response
+            except Exception as e:
+                span.set_attribute("http.error", str(e))
+                span.set_status(Status(StatusCode.ERROR, str(e)))
+                raise
+```
+
+#### Performance Metrics Collection
+```python
+# Performance metrics for debugging
+import time
+import psutil
+from dataclasses import dataclass
+from typing import Dict, List
+
+@dataclass
+class PerformanceMetrics:
+    timestamp: float
+    cpu_percent: float
+    memory_percent: float
+    disk_io: Dict[str, float]
+    network_io: Dict[str, float]
+    response_time: float
+    throughput: float
+
+class PerformanceMonitor:
+    def __init__(self):
+        self.metrics_history: List[PerformanceMetrics] = []
+    
+    def collect_metrics(self, response_time: float, throughput: float):
+        """Collect current system performance metrics"""
+        metrics = PerformanceMetrics(
+            timestamp=time.time(),
+            cpu_percent=psutil.cpu_percent(interval=1),
+            memory_percent=psutil.virtual_memory().percent,
+            disk_io=self._get_disk_io(),
+            network_io=self._get_network_io(),
+            response_time=response_time,
+            throughput=throughput
+        )
+        
+        self.metrics_history.append(metrics)
+        return metrics
+    
+    def _get_disk_io(self) -> Dict[str, float]:
+        """Get disk I/O statistics"""
+        disk_io = psutil.disk_io_counters()
+        return {
+            "read_bytes": disk_io.read_bytes,
+            "write_bytes": disk_io.write_bytes,
+            "read_count": disk_io.read_count,
+            "write_count": disk_io.write_count
+        }
+    
+    def _get_network_io(self) -> Dict[str, float]:
+        """Get network I/O statistics"""
+        net_io = psutil.net_io_counters()
+        return {
+            "bytes_sent": net_io.bytes_sent,
+            "bytes_recv": net_io.bytes_recv,
+            "packets_sent": net_io.packets_sent,
+            "packets_recv": net_io.packets_recv
+        }
+    
+    def analyze_performance(self) -> Dict[str, any]:
+        """Analyze performance trends"""
+        if len(self.metrics_history) < 10:
+            return {"error": "Insufficient data"}
+        
+        recent_metrics = self.metrics_history[-10:]
+        
+        avg_response_time = sum(m.response_time for m in recent_metrics) / len(recent_metrics)
+        avg_cpu = sum(m.cpu_percent for m in recent_metrics) / len(recent_metrics)
+        avg_memory = sum(m.memory_percent for m in recent_metrics) / len(recent_metrics)
+        
+        return {
+            "avg_response_time": avg_response_time,
+            "avg_cpu_usage": avg_cpu,
+            "avg_memory_usage": avg_memory,
+            "trend": self._calculate_trend(recent_metrics)
+        }
+    
+    def _calculate_trend(self, metrics: List[PerformanceMetrics]) -> str:
+        """Calculate performance trend"""
+        if len(metrics) < 2:
+            return "stable"
+        
+        first_half = metrics[:len(metrics)//2]
+        second_half = metrics[len(metrics)//2:]
+        
+        first_avg = sum(m.response_time for m in first_half) / len(first_half)
+        second_avg = sum(m.response_time for m in second_half) / len(second_half)
+        
+        if second_avg > first_avg * 1.1:
+            return "degrading"
+        elif second_avg < first_avg * 0.9:
+            return "improving"
+        else:
+            return "stable"
+```
+
+### SLO/SLI Management
+
+#### Service Level Objectives
+```python
+# SLO/SLI implementation
+from dataclasses import dataclass
+from typing import List, Dict
+import time
+
+@dataclass
+class SLO:
+    name: str
+    target: float  # Target percentage (e.g., 99.9)
+    measurement_window: int  # Window in seconds
+    error_budget: float  # Error budget percentage
+
+@dataclass
+class SLI:
+    name: str
+    good_events: int
+    total_events: int
+    timestamp: float
+
+class SLOManager:
+    def __init__(self):
+        self.slos: List[SLO] = []
+        self.sli_data: List[SLI] = []
+    
+    def add_slo(self, name: str, target: float, window: int):
+        """Add a new SLO"""
+        slo = SLO(
+            name=name,
+            target=target,
+            measurement_window=window,
+            error_budget=100 - target
+        )
+        self.slos.append(slo)
+    
+    def record_sli(self, name: str, success: bool):
+        """Record an SLI measurement"""
+        sli = SLI(
+            name=name,
+            good_events=1 if success else 0,
+            total_events=1,
+            timestamp=time.time()
+        )
+        self.sli_data.append(sli)
+    
+    def calculate_slo_health(self, slo_name: str) -> Dict[str, any]:
+        """Calculate current SLO health"""
+        slo = next((s for s in self.slos if s.name == slo_name), None)
+        if not slo:
+            return {"error": "SLO not found"}
+        
+        # Get data within measurement window
+        cutoff_time = time.time() - slo.measurement_window
+        relevant_data = [s for s in self.sli_data 
+                        if s.name == slo_name and s.timestamp > cutoff_time]
+        
+        if not relevant_data:
+            return {"error": "No data in measurement window"}
+        
+        total_good = sum(s.good_events for s in relevant_data)
+        total_events = sum(s.total_events for s in relevant_data)
+        
+        if total_events == 0:
+            return {"error": "No events recorded"}
+        
+        current_sli = (total_good / total_events) * 100
+        error_budget_remaining = current_sli - slo.target
+        
+        return {
+            "slo_name": slo_name,
+            "target": slo.target,
+            "current_sli": current_sli,
+            "error_budget_remaining": error_budget_remaining,
+            "status": "healthy" if current_sli >= slo.target else "unhealthy",
+            "measurement_window": slo.measurement_window
+        }
+    
+    def get_error_budget_burn_rate(self, slo_name: str) -> float:
+        """Calculate error budget burn rate"""
+        slo = next((s for s in self.slos if s.name == slo_name), None)
+        if not slo:
+            return 0.0
+        
+        # Calculate burn rate over last hour vs last 24 hours
+        one_hour_ago = time.time() - 3600
+        one_day_ago = time.time() - 86400
+        
+        hourly_data = [s for s in self.sli_data 
+                      if s.name == slo_name and s.timestamp > one_hour_ago]
+        daily_data = [s for s in self.sli_data 
+                     if s.name == slo_name and s.timestamp > one_day_ago]
+        
+        if not hourly_data or not daily_data:
+            return 0.0
+        
+        hourly_failure_rate = 1 - (sum(s.good_events for s in hourly_data) / 
+                                  sum(s.total_events for s in hourly_data))
+        daily_failure_rate = 1 - (sum(s.good_events for s in daily_data) / 
+                                 sum(s.total_events for s in daily_data))
+        
+        if daily_failure_rate == 0:
+            return 0.0
+        
+        return hourly_failure_rate / daily_failure_rate
+```
+
+#### SLO Configuration Examples
+```yaml
+# SLO configuration for different services
+slo_configs:
+  api_latency:
+    name: "API Response Time"
+    target: 99.9
+    measurement_window: 3600  # 1 hour
+    sli_type: "latency"
+    thresholds:
+      p50: 100ms
+      p95: 500ms
+      p99: 1000ms
+  
+  availability:
+    name: "Service Availability"
+    target: 99.95
+    measurement_window: 86400  # 24 hours
+    sli_type: "availability"
+    health_check_endpoint: "/health"
+  
+  throughput:
+    name: "Request Throughput"
+    target: 99.0
+    measurement_window: 300  # 5 minutes
+    sli_type: "throughput"
+    min_requests_per_second: 1000
+```
+
+### Capacity Planning & Cost Forecasting
+
+#### Capacity Planning Framework
+```python
+# Capacity planning and forecasting
+import numpy as np
+from typing import Dict, List, Tuple
+from dataclasses import dataclass
+
+@dataclass
+class CapacityRequirement:
+    cpu_cores: float
+    memory_gb: float
+    storage_gb: float
+    network_mbps: float
+    cost_per_hour: float
+
+class CapacityPlanner:
+    def __init__(self):
+        self.historical_usage: List[Dict] = []
+        self.growth_rates: Dict[str, float] = {}
+    
+    def add_usage_data(self, timestamp: float, usage: Dict[str, float]):
+        """Add historical usage data"""
+        self.historical_usage.append({
+            "timestamp": timestamp,
+            "usage": usage
+        })
+    
+    def calculate_growth_rate(self, metric: str, days: int = 30) -> float:
+        """Calculate growth rate for a specific metric"""
+        if len(self.historical_usage) < 2:
+            return 0.0
+        
+        # Get data from last N days
+        cutoff_time = time.time() - (days * 86400)
+        recent_data = [h for h in self.historical_usage 
+                      if h["timestamp"] > cutoff_time]
+        
+        if len(recent_data) < 2:
+            return 0.0
+        
+        # Sort by timestamp
+        recent_data.sort(key=lambda x: x["timestamp"])
+        
+        # Calculate growth rate
+        initial_value = recent_data[0]["usage"].get(metric, 0)
+        final_value = recent_data[-1]["usage"].get(metric, 0)
+        
+        if initial_value == 0:
+            return 0.0
+        
+        time_diff_days = (recent_data[-1]["timestamp"] - recent_data[0]["timestamp"]) / 86400
+        
+        # Annual growth rate
+        growth_rate = ((final_value / initial_value) ** (365 / time_diff_days)) - 1
+        return growth_rate
+    
+    def forecast_capacity(self, metric: str, months_ahead: int) -> float:
+        """Forecast capacity needs X months ahead"""
+        current_usage = self.historical_usage[-1]["usage"].get(metric, 0)
+        growth_rate = self.growth_rates.get(metric, self.calculate_growth_rate(metric))
+        
+        # Compound growth
+        months = months_ahead
+        forecasted_usage = current_usage * ((1 + growth_rate) ** (months / 12))
+        
+        return forecasted_usage
+    
+    def calculate_cost_forecast(self, months_ahead: int) -> Dict[str, float]:
+        """Calculate cost forecast for different resources"""
+        cpu_forecast = self.forecast_capacity("cpu_cores", months_ahead)
+        memory_forecast = self.forecast_capacity("memory_gb", months_ahead)
+        storage_forecast = self.forecast_capacity("storage_gb", months_ahead)
+        
+        # AWS pricing (example)
+        cpu_cost_per_hour = 0.0416  # t3.medium
+        memory_cost_per_hour = 0.0056  # per GB
+        storage_cost_per_month = 0.023  # per GB
+        
+        monthly_cpu_cost = cpu_forecast * cpu_cost_per_hour * 730  # hours per month
+        monthly_memory_cost = memory_forecast * memory_cost_per_hour * 730
+        monthly_storage_cost = storage_forecast * storage_cost_per_month
+        
+        total_monthly_cost = monthly_cpu_cost + monthly_memory_cost + monthly_storage_cost
+        
+        return {
+            "cpu_cost": monthly_cpu_cost,
+            "memory_cost": monthly_memory_cost,
+            "storage_cost": monthly_storage_cost,
+            "total_cost": total_monthly_cost,
+            "forecast_months": months_ahead
+        }
+    
+    def optimize_costs(self, target_cost: float) -> Dict[str, any]:
+        """Find cost optimization opportunities"""
+        current_monthly_cost = self.calculate_cost_forecast(0)["total_cost"]
+        
+        if current_monthly_cost <= target_cost:
+            return {"status": "within_budget", "current_cost": current_monthly_cost}
+        
+        # Find optimization opportunities
+        optimizations = []
+        
+        # Reserved instances (30% savings)
+        reserved_savings = current_monthly_cost * 0.3
+        optimizations.append({
+            "type": "reserved_instances",
+            "savings": reserved_savings,
+            "implementation": "Purchase 1-year reserved instances"
+        })
+        
+        # Spot instances for non-critical workloads (50% savings on 20% of instances)
+        spot_savings = current_monthly_cost * 0.2 * 0.5
+        optimizations.append({
+            "type": "spot_instances",
+            "savings": spot_savings,
+            "implementation": "Use spot instances for batch processing"
+        })
+        
+        # Storage optimization (20% savings)
+        storage_savings = self.calculate_cost_forecast(0)["storage_cost"] * 0.2
+        optimizations.append({
+            "type": "storage_optimization",
+            "savings": storage_savings,
+            "implementation": "Implement lifecycle policies and compression"
+        })
+        
+        total_potential_savings = sum(o["savings"] for o in optimizations)
+        optimized_cost = current_monthly_cost - total_potential_savings
+        
+        return {
+            "current_cost": current_monthly_cost,
+            "target_cost": target_cost,
+            "optimizations": optimizations,
+            "total_savings": total_potential_savings,
+            "optimized_cost": optimized_cost,
+            "within_budget": optimized_cost <= target_cost
+        }
+```
+
+---
+
+# Security & Compliance
 
 ## Security & Compliance
 
@@ -7876,6 +8804,125 @@ class RateLimiter:
 - [ ] Access controls implemented
 - [ ] Integrity controls in place
 
+### HIPAA Audit Preparation & Process
+**What HIPAA Auditors Look For:**
+
+1. **Administrative Safeguards**
+   - [ ] Security officer designated and trained
+   - [ ] Workforce security policies documented
+   - [ ] Information access management procedures
+   - [ ] Security incident procedures documented
+   - [ ] Contingency plan tested annually
+   - [ ] Business associate agreements (BAAs) in place
+
+2. **Physical Safeguards**
+   - [ ] Facility access controls implemented
+   - [ ] Workstation use policies documented
+   - [ ] Workstation security measures in place
+   - [ ] Device and media controls established
+   - [ ] Media disposal procedures documented
+
+3. **Technical Safeguards**
+   - [ ] Access control implementation verified
+   - [ ] Audit logs enabled and monitored
+   - [ ] Integrity controls implemented
+   - [ ] Person/entity authentication verified
+   - [ ] Transmission security measures in place
+
+**Common HIPAA Compliance Gaps:**
+- Missing or outdated BAAs with vendors
+- Inadequate audit logging and monitoring
+- Insufficient encryption key management
+- Lack of regular security assessments
+- Missing incident response documentation
+- Incomplete workforce training records
+
+**Audit Preparation Checklist:**
+- [ ] Review all policies and procedures
+- [ ] Verify BAA compliance with vendors
+- [ ] Test backup and recovery procedures
+- [ ] Review access control logs
+- [ ] Verify encryption implementation
+- [ ] Prepare workforce training records
+- [ ] Review incident response procedures
+- [ ] Test contingency plan procedures
+
+### Security Algorithm Deep Dive
+
+#### JWT Signing Algorithms Comparison
+
+**HS256 (HMAC with SHA-256)**
+- **Type**: Symmetric (same key for signing and verification)
+- **Security**: High when using strong secret keys
+- **Use Case**: Single-party applications, internal services
+- **Pros**: Fast, simple key management
+- **Cons**: Key must be shared securely, can't verify origin
+
+**RS256 (RSA with SHA-256)**
+- **Type**: Asymmetric (public/private key pair)
+- **Security**: Very high, industry standard
+- **Use Case**: Multi-party applications, public APIs
+- **Pros**: Can verify token origin, private key never shared
+- **Cons**: Slower than HS256, more complex key management
+
+**ES256 (ECDSA with SHA-256)**
+- **Type**: Asymmetric (elliptic curve)
+- **Security**: Very high, smaller key sizes
+- **Use Case**: Resource-constrained environments
+- **Pros**: Fast verification, small key sizes
+- **Cons**: More complex implementation, newer standard
+
+**Algorithm Selection Guide:**
+```python
+# For internal services (single organization)
+ALGORITHM = "HS256"  # Use strong secret key (32+ bytes)
+
+# For public APIs or multi-tenant systems
+ALGORITHM = "RS256"  # Use RSA key pair
+
+# For IoT or mobile applications
+ALGORITHM = "ES256"  # Use ECDSA for efficiency
+
+# Implementation example with algorithm selection
+def create_token_with_algorithm(data: dict, algorithm: str = "HS256"):
+    if algorithm == "HS256":
+        return jwt.encode(data, SECRET_KEY, algorithm=algorithm)
+    elif algorithm == "RS256":
+        return jwt.encode(data, PRIVATE_KEY, algorithm=algorithm)
+    elif algorithm == "ES256":
+        return jwt.encode(data, ECDSA_PRIVATE_KEY, algorithm=algorithm)
+    else:
+        raise ValueError(f"Unsupported algorithm: {algorithm}")
+```
+
+#### Encryption Key Management Best Practices
+
+**Key Rotation Strategy:**
+- **HS256**: Rotate secret keys every 90 days
+- **RS256/ES256**: Rotate private keys every 1-2 years
+- **Public keys**: Can be published and shared freely
+
+**Key Storage Security:**
+```python
+# Secure key storage examples
+import os
+from cryptography.fernet import Fernet
+
+# Environment variable (for development)
+SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
+
+# AWS KMS (for production)
+import boto3
+kms = boto3.client('kms')
+response = kms.decrypt(CiphertextBlob=encrypted_key)
+SECRET_KEY = response['Plaintext']
+
+# HashiCorp Vault (enterprise)
+import hvac
+client = hvac.Client(url='https://vault.example.com')
+SECRET_KEY = client.secrets.kv.v2.read_secret_version(path='jwt-secret')['data']['data']['key']
+```
+
 ### General Security Checklist
 - [ ] MFA enabled for all users
 - [ ] Regular security training conducted
@@ -7981,5 +9028,288 @@ class RateLimiter:
 - **Data Privacy**: GDPR, CCPA compliance
 - **Security Policies**: Company security procedures
 - **Reporting Procedures**: Security incident reporting
+
+---
+
+# Quick Reference & Cheat Sheets
+
+## Comprehensive Cheat Sheet
+
+## 1) Load Balancing
+
+### What to choose & why
+
+| Strategy           | How it works                         | Pros                            | Cons                          | When to use                      |
+| ------------------ | ------------------------------------ | ------------------------------- | ----------------------------- | -------------------------------- |
+| Round Robin        | Rotate across backends               | Simple                          | Ignores load differences      | Homogeneous stateless apps       |
+| Weighted RR        | Like RR but with weights             | Skews toward stronger nodes     | Manual tuning                 | Mixed instance sizes             |
+| Least Connections  | Pick server with fewest active conns | Adapts to variable request time | Needs connection tracking     | Long-lived/variable requests     |
+| IP Hash            | Hash(client IP) → server             | Sticky by client                | Poorly balances NAT’d clients | Session affinity without cookies |
+| Header/Cookie Hash | Hash on header/cookie                | Fine-grained stickiness         | Requires header/cookie        | Stateful session shards          |
+| Consistent Hash    | Hash(key) on ring                    | Minimal reshuffle on scale      | Requires key choice           | Caches, sharded stores           |
+| Anycast + LB       | Route to nearest POP                 | Low latency                     | Network expertise             | Global edges (CDN/API edge)      |
+
+### Health checks & routing
+
+- **Liveness** (process up) vs **readiness** (can serve traffic).
+- Graceful drain on deploys; slow-start newly added instances.
+
+---
+
+## 2) Caching Tiers (quick recap + design tips)
+
+- **Where:** client → CDN → edge/API gateway → app → Redis/memcached → DB.
+- **Patterns:** cache-aside (lazy), read-through, write-through, write-back.
+- **Invalidation:** TTLs, versioned keys (`user:123:v42`), pub/sub invalidations.
+- **Avoid stampedes:** single-flight locks, randomized TTLs, early refresh.
+
+---
+
+## 3) Consistent Hashing (for caches/shards)
+
+**Idea:** Place servers on a hash ring; `node = first_server_clockwise(hash(key))`.
+**Why:** Adding/removing a server only remaps a small slice of keys.
+**Tips:** Use **virtual nodes** (many tokens per server) for smoother balance.
+
+**Pseudocode**
+
+```
+# ring: sorted list of (token, server)
+# tokens: hash(server_id + vnode_index)
+
+function lookup(key):
+    # hash key onto ring
+    h = hash(key)
+    # find first token >= h (wrap if needed)
+    s = ring.lower_bound(h) or ring[0]
+    return s.server
+```
+
+---
+
+## 4) Queues & Pub/Sub
+
+### Concepts
+
+- **Queue (point-to-point):** workers pull; each message to one consumer.
+- **Pub/Sub (fan-out):** topics; multiple subscribers receive messages.
+- **Ordering:** per-partition FIFO (Kafka); SQS FIFO queues.
+- **Consumer groups:** scale horizontally; each partition to one consumer in the group.
+- **Backpressure:** control concurrency; rate limit producers; DLQ for poison pills.
+
+### Delivery semantics
+
+| Semantics      | What it means                | Typical systems             | Design requirement       |
+| -------------- | ---------------------------- | --------------------------- | ------------------------ |
+| At-most-once   | May drop messages, no dupes  | UDP-like, rare for business | Accept loss              |
+| At-least-once  | No loss, possible duplicates | SQS std, Kafka              | **Idempotent** consumers |
+| Exactly-once\* | No loss, no duplicates       | Kafka EOS (within scopes)   | Careful txn boundaries   |
+
+\*Exactly-once is contextual; end-to-end often reduces to **at-least-once + idempotency**.
+
+**Idempotency pattern**
+
+- Deterministic **idempotency key** (e.g., order_id).
+- Store processed keys; ignore repeats.
+
+**Retry/backoff (pseudocode)**
+
+```
+retries = 0
+delay = base
+while retries < max_retries:
+    ok = call()
+    if ok: return OK
+    sleep(delay)
+    delay = min(delay * 2, max_delay)  # exponential backoff + cap
+    retries += 1
+return FAIL
+```
+
+---
+
+## 5) Eventual Consistency
+
+- **Definition:** replicas converge if no new writes occur.
+- **Read models:** read-repair on access; async background anti-entropy.
+- **Client strategies:** **read-your-writes**, **monotonic reads**, **session consistency** where supported.
+- **Write conflicts:** timestamps + last-write-wins, vector clocks, or CRDTs.
+
+---
+
+## 6) SLI / SLO / SLA
+
+- **SLI** (indicator): measured metric (e.g., request success rate, p95 latency).
+- **SLO** (objective): target for SLI (e.g., **99.9%** success over 30 days).
+- **SLA** (agreement): external contract; includes penalties/credits.
+
+**Error budget**
+
+- Budget = 1 − SLO. Example: 99.9% monthly → \~43.2 minutes budget.
+- Spend budget on launches; pause risky changes when burning too fast.
+
+**Burn-rate alerts (example)**
+
+- Fast burn: 2% of budget in 1 hour → page now.
+- Slow burn: 5% of budget in 6 hours → ticket & investigate.
+
+**Useful SLIs**
+
+- Availability: `2xx+3xx / total`.
+- Latency: % of requests under threshold (p90/p95/p99).
+- Quality: error rate of critical transactions.
+- Saturation: CPU, memory, queue depth.
+
+---
+
+## 7) Reliability Guards
+
+**Circuit breaker (pseudocode)**
+
+```
+state = CLOSED
+failures = 0
+last_open = -inf
+
+function call():
+    if state == OPEN and now < last_open + cool_down:
+        return FAIL_FAST
+    if state == HALF_OPEN:
+        allow_only_small_probe_rate()
+
+    ok = downstream()
+    if ok:
+        if state == HALF_OPEN: state = CLOSED; failures = 0
+        else: failures = 0
+        return OK
+    else:
+        failures += 1
+        if failures >= threshold:
+            state = OPEN
+            last_open = now
+        return FAIL
+```
+
+**Bulkheads:** isolate pools; one noisy neighbor can’t drain all threads/connections.
+**Timeouts:** every remote call needs a timeout + retry policy.
+**Dead-letter queues:** capture poisoned messages.
+
+---
+
+# Final Cheat Sheet — 1 Page
+
+## A) Cross-Structure Operations (Python)
+
+| Operation       | list                                 | dict                                | set                          | deque                           | heapq                       |               |
+| --------------- | ------------------------------------ | ----------------------------------- | ---------------------------- | ------------------------------- | --------------------------- | ------------- |
+| `len(x)`        | ✓                                    | ✓                                   | ✓                            | ✓                               | ✓ (len of list)             |               |
+| Membership `in` | O(n)                                 | O(1) avg                            | O(1) avg                     | O(n)                            | —                           |               |
+| Add             | `.append(x)` / `.insert(i,x)`        | `d[k]=v`                            | `.add(x)`                    | `.append(x)` / `.appendleft(x)` | `heappush(h,x)`             |               |
+| Remove          | `.remove(x)` / `.pop()` / `del a[i]` | `del d[k]` / `.pop(k)`              | `.remove(x)` / `.discard(x)` | `.popleft()` / `.pop()`         | `heappop(h)`                |               |
+| Iterate         | `for v in a`                         | `for k,v in d.items()`              | `for v in s`                 | `for v in q`                    | `for v in h` (unsorted)     |               |
+| Sort            | `.sort()` / `sorted(a)`              | `sorted(d.items())`                 | `sorted(s)`                  | convert → list                  | heaps are partially ordered |               |
+| Special         | slicing, `.reverse()`                | `.keys() .values() .items() .get()` | set ops \`                   | & - ^\`                         | O(1) ends                   | min at `h[0]` |
+
+## B) Big-O Quick Table
+
+| Structure      | Access   | Search   | Insert   | Delete   |
+| -------------- | -------- | -------- | -------- | -------- |
+| Array/list     | O(1)     | O(n)     | O(n)     | O(n)     |
+| Dict           | —        | O(1) avg | O(1) avg | O(1) avg |
+| Set            | —        | O(1) avg | O(1) avg | O(1) avg |
+| Heap           | —        | O(n)     | O(log n) | O(log n) |
+| BST (balanced) | O(log n) | O(log n) | O(log n) | O(log n) |
+
+## C) Algorithm Skeletons (minimal)
+
+**Recursion template**
+
+```python
+def solve(x):
+    # base case(s)
+    # combine results from smaller subproblems
+    return result
+```
+
+**DFS (graph)**
+
+```python
+def dfs(u):
+    if u in seen: return
+    seen.add(u)
+    for v in G[u]:
+        dfs(v)
+```
+
+**BFS (graph)**
+
+```python
+from collections import deque
+def bfs(s):
+    q, seen = deque([s]), {s}
+    while q:
+        u = q.popleft()
+        for v in G[u]:
+            if v not in seen:
+                seen.add(v); q.append(v)
+```
+
+**Binary search (index or insert position)**
+
+```python
+def bsearch(a, t):
+    l, r = 0, len(a)-1
+    while l <= r:
+        m = (l+r)//2
+        if a[m]==t: return m
+        if a[m]<t: l = m+1
+        else: r = m-1
+    return l  # insert position
+```
+
+**Sliding window (no repeats)**
+
+```python
+def longest(s):
+    pos, L, best = {}, 0, 0
+    for R,ch in enumerate(s):
+        if ch in pos and pos[ch] >= L: L = pos[ch]+1
+        pos[ch] = R
+        best = max(best, R-L+1)
+    return best
+```
+
+**Dijkstra (min distances)**
+
+```python
+import heapq
+def dijkstra(G, s):
+    dist = {s:0}; pq = [(0,s)]
+    while pq:
+        d,u = heapq.heappop(pq)
+        if d != dist.get(u, float('inf')): continue
+        for v,w in G[u]:
+            nd = d + w
+            if nd < dist.get(v, float('inf')):
+                dist[v] = nd; heapq.heappush(pq, (nd,v))
+    return dist
+```
+
+**DP template**
+
+```python
+# define state dp[...] and base cases
+# fill in dependency order using transitions
+return answer_state
+```
+
+## D) Python Interview Reminders
+
+- **Strings are immutable**; use `''.join(parts)` for concatenation in loops.
+- **List slicing makes a copy**: `a[i:j]` is O(k).
+- Use **`deque`** for O(1) queue ops; avoid `pop(0)` on lists.
+- `heapq` is a **min-heap**; for max-heap push negatives.
+- Sorting is **Timsort** (stable, O(n log n)).
+- Don’t use **mutable defaults** in function params; use `None` then set.
 
 ---

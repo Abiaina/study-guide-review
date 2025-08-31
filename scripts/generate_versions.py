@@ -16,10 +16,10 @@ DOCUMENT_STRUCTURE = [
     {
         "title": "Core Fundamentals",
         "sections": [
+            ("Core_Data_Structures.md", "Data Structures Overview"),
             ("algo.md", "Algorithms & Data Structures"),
-            ("Core_Data_Structures.md", "Core Data Structures"),
-            ("graphs_linked_lists.md", "Complex Data Structures"),
-            ("search.md", "Searching & Sorting"),
+            ("graphs_linked_lists.md", "Complex Data Structures (Trees, Graphs)"),
+            ("search.md", "Searching & Sorting Algorithms"),
             ("sliding_window.md", "Sliding Window Algorithms"),
             ("frontend.md", "Frontend Development"),
             ("programming_languages.md", "Programming Languages & Tools"),
@@ -31,7 +31,6 @@ DOCUMENT_STRUCTURE = [
             ("system_design.md", "System Design Problems"),
             ("data_layer.md", "Data Layer & Databases"),
             ("design_patterns.md", "Design Patterns"),
-            ("cheat_sheet.md", "Cheat Sheet"),
         ]
     },
     {
@@ -42,9 +41,15 @@ DOCUMENT_STRUCTURE = [
         ]
     },
     {
-        "title": "Security & Performance",
+        "title": "Security & Compliance",
         "sections": [
             ("security_compliance.md", "Security & Compliance"),
+        ]
+    },
+    {
+        "title": "Quick Reference & Cheat Sheets",
+        "sections": [
+            ("cheat_sheet.md", "Comprehensive Cheat Sheet"),
         ]
     }
 ]

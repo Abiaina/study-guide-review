@@ -473,6 +473,125 @@ class RateLimiter:
 - [ ] Access controls implemented
 - [ ] Integrity controls in place
 
+### HIPAA Audit Preparation & Process
+**What HIPAA Auditors Look For:**
+
+1. **Administrative Safeguards**
+   - [ ] Security officer designated and trained
+   - [ ] Workforce security policies documented
+   - [ ] Information access management procedures
+   - [ ] Security incident procedures documented
+   - [ ] Contingency plan tested annually
+   - [ ] Business associate agreements (BAAs) in place
+
+2. **Physical Safeguards**
+   - [ ] Facility access controls implemented
+   - [ ] Workstation use policies documented
+   - [ ] Workstation security measures in place
+   - [ ] Device and media controls established
+   - [ ] Media disposal procedures documented
+
+3. **Technical Safeguards**
+   - [ ] Access control implementation verified
+   - [ ] Audit logs enabled and monitored
+   - [ ] Integrity controls implemented
+   - [ ] Person/entity authentication verified
+   - [ ] Transmission security measures in place
+
+**Common HIPAA Compliance Gaps:**
+- Missing or outdated BAAs with vendors
+- Inadequate audit logging and monitoring
+- Insufficient encryption key management
+- Lack of regular security assessments
+- Missing incident response documentation
+- Incomplete workforce training records
+
+**Audit Preparation Checklist:**
+- [ ] Review all policies and procedures
+- [ ] Verify BAA compliance with vendors
+- [ ] Test backup and recovery procedures
+- [ ] Review access control logs
+- [ ] Verify encryption implementation
+- [ ] Prepare workforce training records
+- [ ] Review incident response procedures
+- [ ] Test contingency plan procedures
+
+### Security Algorithm Deep Dive
+
+#### JWT Signing Algorithms Comparison
+
+**HS256 (HMAC with SHA-256)**
+- **Type**: Symmetric (same key for signing and verification)
+- **Security**: High when using strong secret keys
+- **Use Case**: Single-party applications, internal services
+- **Pros**: Fast, simple key management
+- **Cons**: Key must be shared securely, can't verify origin
+
+**RS256 (RSA with SHA-256)**
+- **Type**: Asymmetric (public/private key pair)
+- **Security**: Very high, industry standard
+- **Use Case**: Multi-party applications, public APIs
+- **Pros**: Can verify token origin, private key never shared
+- **Cons**: Slower than HS256, more complex key management
+
+**ES256 (ECDSA with SHA-256)**
+- **Type**: Asymmetric (elliptic curve)
+- **Security**: Very high, smaller key sizes
+- **Use Case**: Resource-constrained environments
+- **Pros**: Fast verification, small key sizes
+- **Cons**: More complex implementation, newer standard
+
+**Algorithm Selection Guide:**
+```python
+# For internal services (single organization)
+ALGORITHM = "HS256"  # Use strong secret key (32+ bytes)
+
+# For public APIs or multi-tenant systems
+ALGORITHM = "RS256"  # Use RSA key pair
+
+# For IoT or mobile applications
+ALGORITHM = "ES256"  # Use ECDSA for efficiency
+
+# Implementation example with algorithm selection
+def create_token_with_algorithm(data: dict, algorithm: str = "HS256"):
+    if algorithm == "HS256":
+        return jwt.encode(data, SECRET_KEY, algorithm=algorithm)
+    elif algorithm == "RS256":
+        return jwt.encode(data, PRIVATE_KEY, algorithm=algorithm)
+    elif algorithm == "ES256":
+        return jwt.encode(data, ECDSA_PRIVATE_KEY, algorithm=algorithm)
+    else:
+        raise ValueError(f"Unsupported algorithm: {algorithm}")
+```
+
+#### Encryption Key Management Best Practices
+
+**Key Rotation Strategy:**
+- **HS256**: Rotate secret keys every 90 days
+- **RS256/ES256**: Rotate private keys every 1-2 years
+- **Public keys**: Can be published and shared freely
+
+**Key Storage Security:**
+```python
+# Secure key storage examples
+import os
+from cryptography.fernet import Fernet
+
+# Environment variable (for development)
+SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
+
+# AWS KMS (for production)
+import boto3
+kms = boto3.client('kms')
+response = kms.decrypt(CiphertextBlob=encrypted_key)
+SECRET_KEY = response['Plaintext']
+
+# HashiCorp Vault (enterprise)
+import hvac
+client = hvac.Client(url='https://vault.example.com')
+SECRET_KEY = client.secrets.kv.v2.read_secret_version(path='jwt-secret')['data']['data']['key']
+```
+
 ### General Security Checklist
 - [ ] MFA enabled for all users
 - [ ] Regular security training conducted

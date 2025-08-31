@@ -442,3 +442,470 @@ return heap[0]
 ```
 
 ---
+
+## Algorithm Patterns & Techniques
+
+### Two Pointers Technique
+**When to use**: Array problems, linked lists, string manipulation
+**Pattern**: Use two pointers moving at different speeds or directions
+
+#### **Two Pointers - Same Direction (Fast/Slow)**
+```python
+# Find middle of linked list
+def find_middle(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next          # Move 1 step
+        fast = fast.next.next     # Move 2 steps
+    return slow
+
+# Detect cycle in linked list
+def has_cycle(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:          # Cycle detected
+            return True
+    return False
+```
+
+#### **Two Pointers - Opposite Directions**
+```python
+# Two Sum in sorted array
+def two_sum_sorted(nums, target):
+    left, right = 0, len(nums) - 1
+    while left < right:
+        current_sum = nums[left] + nums[right]
+        if current_sum == target:
+            return [left, right]
+        elif current_sum < target:
+            left += 1
+        else:
+            right -= 1
+    return []
+
+# Valid palindrome
+def is_palindrome(s):
+    left, right = 0, len(s) - 1
+    while left < right:
+        # Skip non-alphanumeric characters
+        while left < right and not s[left].isalnum():
+            left += 1
+        while left < right and not s[right].isalnum():
+            right -= 1
+        
+        if s[left].lower() != s[right].lower():
+            return False
+        left += 1
+        right -= 1
+    return True
+```
+
+### Sliding Window Technique
+**When to use**: Subarray/substring problems, fixed or variable size windows
+**Pattern**: Maintain a window that slides through the array
+
+#### **Fixed Size Window**
+```python
+# Maximum sum of subarray of size k
+def max_sum_subarray_k(nums, k):
+    if len(nums) < k:
+        return 0
+    
+    # Calculate sum of first window
+    window_sum = sum(nums[:k])
+    max_sum = window_sum
+    
+    # Slide window
+    for i in range(k, len(nums)):
+        window_sum = window_sum - nums[i-k] + nums[i]
+        max_sum = max(max_sum, window_sum)
+    
+    return max_sum
+```
+
+#### **Variable Size Window**
+```python
+# Longest substring without repeating characters
+def length_of_longest_substring(s):
+    char_map = {}
+    left = max_length = 0
+    
+    for right, char in enumerate(s):
+        # If character exists, move left pointer
+        if char in char_map and char_map[char] >= left:
+            left = char_map[char] + 1
+        
+        char_map[char] = right
+        max_length = max(max_length, right - left + 1)
+    
+    return max_length
+```
+
+### Binary Search Variations
+**When to use**: Sorted arrays, searching problems, optimization problems
+**Pattern**: Divide search space in half each iteration
+
+#### **Standard Binary Search**
+```python
+def binary_search(nums, target):
+    left, right = 0, len(nums) - 1
+    
+    while left <= right:
+        mid = left + (right - left) // 2
+        
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return -1
+```
+
+#### **Binary Search on Answer**
+```python
+# Find minimum capacity to ship packages within D days
+def ship_within_days(weights, days):
+    def can_ship(capacity):
+        current_weight = 0
+        days_needed = 1
+        
+        for weight in weights:
+            if current_weight + weight > capacity:
+                days_needed += 1
+                current_weight = weight
+            else:
+                current_weight += weight
+        
+        return days_needed <= days
+    
+    left, right = max(weights), sum(weights)
+    
+    while left < right:
+        mid = left + (right - left) // 2
+        
+        if can_ship(mid):
+            right = mid
+        else:
+            left = mid + 1
+    
+    return left
+```
+
+#### **Finding Insert Position**
+```python
+def search_insert(nums, target):
+    left, right = 0, len(nums)
+    
+    while left < right:
+        mid = left + (right - left) // 2
+        
+        if nums[mid] < target:
+            left = mid + 1
+        else:
+            right = mid
+    
+    return left
+```
+
+### Graph Algorithms
+
+#### **Depth-First Search (DFS)**
+```python
+# DFS with recursion
+def dfs_recursive(graph, node, visited):
+    if node in visited:
+        return
+    
+    visited.add(node)
+    print(f"Visiting: {node}")
+    
+    for neighbor in graph[node]:
+        dfs_recursive(graph, neighbor, visited)
+
+# DFS with stack (iterative)
+def dfs_iterative(graph, start):
+    visited = set()
+    stack = [start]
+    
+    while stack:
+        node = stack.pop()
+        
+        if node in visited:
+            continue
+        
+        visited.add(node)
+        print(f"Visiting: {node}")
+        
+        # Add unvisited neighbors to stack
+        for neighbor in reversed(graph[node]):
+            if neighbor not in visited:
+                stack.append(neighbor)
+```
+
+#### **Breadth-First Search (BFS)**
+```python
+from collections import deque
+
+def bfs(graph, start):
+    visited = set()
+    queue = deque([start])
+    visited.add(start)
+    
+    while queue:
+        node = queue.popleft()
+        print(f"Visiting: {node}")
+        
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+```
+
+#### **Topological Sort (Kahn's Algorithm)**
+```python
+def topological_sort(graph):
+    # Calculate in-degrees
+    in_degree = {node: 0 for node in graph}
+    for node in graph:
+        for neighbor in graph[node]:
+            in_degree[neighbor] += 1
+    
+    # Find nodes with 0 in-degree
+    queue = deque([node for node in in_degree if in_degree[node] == 0])
+    result = []
+    
+    while queue:
+        node = queue.popleft()
+        result.append(node)
+        
+        # Reduce in-degree of neighbors
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    
+    # Check if all nodes were processed
+    return result if len(result) == len(graph) else []
+```
+
+### Tree Traversal Patterns
+
+#### **Inorder Traversal (Left -> Root -> Right)**
+```python
+def inorder_traversal(root):
+    result = []
+    
+    def inorder(node):
+        if not node:
+            return
+        
+        inorder(node.left)        # Visit left subtree
+        result.append(node.val)    # Visit root
+        inorder(node.right)       # Visit right subtree
+    
+    inorder(root)
+    return result
+
+# Iterative version using stack
+def inorder_iterative(root):
+    result = []
+    stack = []
+    current = root
+    
+    while current or stack:
+        # Go to leftmost node
+        while current:
+            stack.append(current)
+            current = current.left
+        
+        # Process current node
+        current = stack.pop()
+        result.append(current.val)
+        
+        # Move to right subtree
+        current = current.right
+    
+    return result
+```
+
+#### **Level Order Traversal (BFS)**
+```python
+from collections import deque
+
+def level_order_traversal(root):
+    if not root:
+        return []
+    
+    result = []
+    queue = deque([root])
+    
+    while queue:
+        level_size = len(queue)
+        current_level = []
+        
+        for _ in range(level_size):
+            node = queue.popleft()
+            current_level.append(node.val)
+            
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        
+        result.append(current_level)
+    
+    return result
+```
+
+### String Algorithms
+
+#### **KMP Algorithm for Pattern Matching**
+```python
+def kmp_search(text, pattern):
+    def build_lps(pattern):
+        lps = [0] * len(pattern)
+        length = 0
+        i = 1
+        
+        while i < len(pattern):
+            if pattern[i] == pattern[length]:
+                length += 1
+                lps[i] = length
+                i += 1
+            else:
+                if length != 0:
+                    length = lps[length - 1]
+                else:
+                    lps[i] = 0
+                    i += 1
+        
+        return lps
+    
+    if not pattern:
+        return 0
+    
+    lps = build_lps(pattern)
+    i = j = 0
+    
+    while i < len(text):
+        if pattern[j] == text[i]:
+            i += 1
+            j += 1
+        
+        if j == len(pattern):
+            return i - j
+        elif i < len(text) and pattern[j] != text[i]:
+            if j != 0:
+                j = lps[j - 1]
+            else:
+                i += 1
+    
+    return -1
+```
+
+#### **Rabin-Karp Algorithm**
+```python
+def rabin_karp_search(text, pattern):
+    if len(pattern) > len(text):
+        return -1
+    
+    # Hash function parameters
+    d = 256  # Number of characters in input alphabet
+    q = 101  # Prime number
+    
+    # Calculate hash values
+    pattern_hash = 0
+    text_hash = 0
+    h = 1
+    
+    # Calculate h = d^(m-1) % q
+    for i in range(len(pattern) - 1):
+        h = (h * d) % q
+    
+    # Calculate hash for pattern and first window of text
+    for i in range(len(pattern)):
+        pattern_hash = (d * pattern_hash + ord(pattern[i])) % q
+        text_hash = (d * text_hash + ord(text[i])) % q
+    
+    # Slide the pattern over text one by one
+    for i in range(len(text) - len(pattern) + 1):
+        if pattern_hash == text_hash:
+            # Check if characters match
+            if text[i:i+len(pattern)] == pattern:
+                return i
+        
+        # Calculate hash for next window
+        if i < len(text) - len(pattern):
+            text_hash = (d * (text_hash - ord(text[i]) * h) + ord(text[i + len(pattern)])) % q
+            if text_hash < 0:
+                text_hash += q
+    
+    return -1
+```
+
+### Dynamic Programming Advanced Patterns
+
+#### **State Compression DP**
+```python
+# Traveling Salesman Problem with bitmask
+def tsp_dp(graph):
+    n = len(graph)
+    # dp[mask][pos] = minimum cost to visit all cities in mask ending at pos
+    dp = [[float('inf')] * n for _ in range(1 << n)]
+    
+    # Base case: starting from city 0
+    dp[1][0] = 0
+    
+    # Try all possible subsets
+    for mask in range(1 << n):
+        for pos in range(n):
+            if not (mask & (1 << pos)):
+                continue
+            
+            # Try to come from previous city
+            prev_mask = mask ^ (1 << pos)
+            for prev_pos in range(n):
+                if prev_mask & (1 << prev_pos):
+                    dp[mask][pos] = min(dp[mask][pos], 
+                                      dp[prev_mask][prev_pos] + graph[prev_pos][pos])
+    
+    # Return to starting city
+    result = float('inf')
+    for pos in range(1, n):
+        result = min(result, dp[(1 << n) - 1][pos] + graph[pos][0])
+    
+    return result
+```
+
+#### **Digit DP**
+```python
+# Count numbers with digit sum equal to target
+def count_numbers_with_digit_sum(n, target):
+    def digit_dp(pos, tight, sum_so_far, dp):
+        if pos == len(str_n):
+            return 1 if sum_so_far == target else 0
+        
+        if dp[pos][tight][sum_so_far] != -1:
+            return dp[pos][tight][sum_so_far]
+        
+        limit = int(str_n[pos]) if tight else 9
+        result = 0
+        
+        for digit in range(limit + 1):
+            new_tight = tight and (digit == limit)
+            new_sum = sum_so_far + digit
+            
+            if new_sum <= target:
+                result += digit_dp(pos + 1, new_tight, new_sum, dp)
+        
+        dp[pos][tight][sum_so_far] = result
+        return result
+    
+    str_n = str(n)
+    dp = [[[-1] * (target + 1) for _ in range(2)] for _ in range(len(str_n))]
+    return digit_dp(0, True, 0, dp)
+```
