@@ -1,11 +1,11 @@
-# 💰 Classic DP Pattern Flashcards
+#  Classic DP Pattern Flashcards
 
 Generated for interview preparation
 
 
 ## Card 1
 
-**Front:** Identify the algorithm pattern for: 💰 Classic DP Pattern
+**Front:** Identify the algorithm pattern for:  Classic DP Pattern
 
 **Back:** Key indicators:
 • "Maximum/minimum value"
@@ -17,7 +17,7 @@ Generated for interview preparation
 
 ## Card 2
 
-**Front:** Give examples of 💰 Classic DP Pattern problems
+**Front:** Give examples of  Classic DP Pattern problems
 
 **Back:** Common examples:
 
@@ -25,7 +25,7 @@ Generated for interview preparation
 
 ## Card 3
 
-**Front:** Implement coin_change using 💰 Classic DP Pattern
+**Front:** Implement coin_change using  Classic DP Pattern
 
 **Back:** ```python
 # Coin Change - Minimum coins needed
@@ -43,7 +43,7 @@ def coin_change(coins, amount):
 
 ## Card 4
 
-**Front:** What is the time/space complexity of 💰 Classic DP Pattern?
+**Front:** What is the time/space complexity of  Classic DP Pattern?
 
 **Back:** Varies by implementation
 

@@ -1,11 +1,11 @@
-# 🎒 Knapsack Pattern Flashcards
+#  Knapsack Pattern Flashcards
 
 Generated for interview preparation
 
 
 ## Card 1
 
-**Front:** Identify the algorithm pattern for: 🎒 Knapsack Pattern
+**Front:** Identify the algorithm pattern for:  Knapsack Pattern
 
 **Back:** Key indicators:
 • "Select items with weight/value constraints"
@@ -17,7 +17,7 @@ Generated for interview preparation
 
 ## Card 2
 
-**Front:** Give examples of 🎒 Knapsack Pattern problems
+**Front:** Give examples of  Knapsack Pattern problems
 
 **Back:** Common examples:
 
@@ -25,7 +25,7 @@ Generated for interview preparation
 
 ## Card 3
 
-**Front:** Implement can_partition using 🎒 Knapsack Pattern
+**Front:** Implement can_partition using  Knapsack Pattern
 
 **Back:** ```python
 # Partition Equal Subset Sum
@@ -48,7 +48,7 @@ def can_partition(nums):
 
 ## Card 4
 
-**Front:** What is the time/space complexity of 🎒 Knapsack Pattern?
+**Front:** What is the time/space complexity of  Knapsack Pattern?
 
 **Back:** Varies by implementation
 
