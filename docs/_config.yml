@@ -3,6 +3,11 @@ description: Comprehensive study guide for DevOps, Chaos Engineering, and Backen
 author: Study Guide Team
 url: "https://yourusername.github.io/study-guide-review"
 
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: /:title/
+
 # Navigation
 navigation:
   - title: Home
@@ -49,6 +54,32 @@ navigation:
     children:
       - title: Security & Compliance
         url: /security_compliance/
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:name/
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Exclude from processing
+exclude:
+  - README.md
+  - .gitignore
+  - .github
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "docs"
+    values:
+      layout: "page"
+      author: "Study Guide Team"
 
 # GitHub Pages settings
 github:
