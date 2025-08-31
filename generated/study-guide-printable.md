@@ -1296,6 +1296,387 @@ def count_numbers_with_digit_sum(n, target):
 
 ---
 
+## Algorithm Problem Identification Guide
+
+*Use this guide to quickly identify which algorithm pattern to apply to common problem types. Perfect for interview preparation and flashcard study.*
+
+---
+
+### **Array & String Problems**
+
+#### **🔍 Two Pointers Pattern**
+**When to use**: Array problems with ordered data or string manipulation
+**Key indicators**:
+- "Find two numbers that sum to target"
+- "Remove duplicates from sorted array"
+- "Check if string is palindrome"
+- "Merge two sorted arrays"
+- "Container with most water"
+
+**Examples**:
+```python
+# Two Sum in sorted array
+def two_sum_sorted(nums, target):
+    left, right = 0, len(nums) - 1
+    while left < right:
+        current_sum = nums[left] + nums[right]
+        if current_sum == target:
+            return [left, right]
+        elif current_sum < target:
+            left += 1
+        else:
+            right -= 1
+    return []
+```
+
+#### **🪟 Sliding Window Pattern**
+**When to use**: Subarray/substring problems with fixed or variable size
+**Key indicators**:
+- "Find longest substring without repeating characters"
+- "Maximum sum subarray of size k"
+- "Minimum window substring"
+- "Longest substring with at most k distinct characters"
+- "Find all anagrams in a string"
+
+**Examples**:
+```python
+# Longest substring without repeating characters
+def length_of_longest_substring(s):
+    char_map = {}
+    left = max_length = 0
+    
+    for right, char in enumerate(s):
+        if char in char_map and char_map[char] >= left:
+            left = char_map[char] + 1
+        char_map[char] = right
+        max_length = max(max_length, right - left + 1)
+    
+    return max_length
+```
+
+#### **🔢 Binary Search Pattern**
+**When to use**: Sorted arrays, searching problems, optimization
+**Key indicators**:
+- "Find element in sorted array"
+- "Find first/last occurrence"
+- "Find minimum/maximum capacity"
+- "Search in rotated sorted array"
+- "Find peak element"
+
+**Examples**:
+```python
+# Find minimum capacity to ship packages
+def ship_within_days(weights, days):
+    def can_ship(capacity):
+        current_weight = 0
+        days_needed = 1
+        for weight in weights:
+            if current_weight + weight > capacity:
+                days_needed += 1
+                current_weight = weight
+            else:
+                current_weight += weight
+        return days_needed <= days
+    
+    left, right = max(weights), sum(weights)
+    while left < right:
+        mid = left + (right - left) // 2
+        if can_ship(mid):
+            right = mid
+        else:
+            left = mid + 1
+    return left
+```
+
+---
+
+### **Tree & Graph Problems**
+
+#### **🌳 Tree Traversal Pattern**
+**When to use**: Tree problems requiring visiting all nodes
+**Key indicators**:
+- "Inorder/preorder/postorder traversal"
+- "Level order traversal"
+- "Validate binary search tree"
+- "Serialize/deserialize tree"
+- "Find lowest common ancestor"
+
+**Examples**:
+```python
+# Validate Binary Search Tree
+def is_valid_bst(root):
+    def validate(node, low, high):
+        if not node:
+            return True
+        if node.val <= low or node.val >= high:
+            return False
+        return (validate(node.left, low, node.val) and 
+                validate(node.right, node.val, high))
+    
+    return validate(root, float('-inf'), float('inf'))
+```
+
+#### **🕸️ Graph Traversal Pattern**
+**When to use**: Graph problems requiring visiting nodes/edges
+**Key indicators**:
+- "Find shortest path"
+- "Detect cycle in graph"
+- "Topological sort"
+- "Number of islands"
+- "Clone graph"
+
+**Examples**:
+```python
+# Detect cycle in directed graph
+def has_cycle(graph):
+    visited = set()
+    rec_stack = set()
+    
+    def dfs(node):
+        visited.add(node)
+        rec_stack.add(node)
+        
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                if dfs(neighbor):
+                    return True
+            elif neighbor in rec_stack:
+                return True
+        
+        rec_stack.remove(node)
+        return False
+    
+    for node in graph:
+        if node not in visited:
+            if dfs(node):
+                return True
+    return False
+```
+
+---
+
+### **Dynamic Programming Problems**
+
+#### **💰 Classic DP Pattern**
+**When to use**: Problems with overlapping subproblems
+**Key indicators**:
+- "Maximum/minimum value"
+- "Count ways to do something"
+- "Longest increasing subsequence"
+- "Coin change"
+- "Climbing stairs"
+
+**Examples**:
+```python
+# Coin Change - Minimum coins needed
+def coin_change(coins, amount):
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+    
+    for coin in coins:
+        for i in range(coin, amount + 1):
+            dp[i] = min(dp[i], dp[i - coin] + 1)
+    
+    return dp[amount] if dp[amount] != float('inf') else -1
+```
+
+#### **🎒 Knapsack Pattern**
+**When to use**: Problems with choices and constraints
+**Key indicators**:
+- "Select items with weight/value constraints"
+- "Partition equal subset sum"
+- "Target sum"
+- "0/1 knapsack"
+- "Unbounded knapsack"
+
+**Examples**:
+```python
+# Partition Equal Subset Sum
+def can_partition(nums):
+    total = sum(nums)
+    if total % 2 != 0:
+        return False
+    
+    target = total // 2
+    dp = [False] * (target + 1)
+    dp[0] = True
+    
+    for num in nums:
+        for i in range(target, num - 1, -1):
+            dp[i] = dp[i] or dp[i - num]
+    
+    return dp[target]
+```
+
+---
+
+### **Heap & Priority Queue Problems**
+
+#### **📊 Heap Pattern**
+**When to use**: Problems requiring k-th element or top-k items
+**Key indicators**:
+- "Find k-th largest/smallest element"
+- "Merge k sorted lists"
+- "Top k frequent elements"
+- "Median of data stream"
+- "Sliding window median"
+
+**Examples**:
+```python
+# Find K-th Largest Element
+def find_kth_largest(nums, k):
+    import heapq
+    heap = []
+    
+    for num in nums:
+        heapq.heappush(heap, num)
+        if len(heap) > k:
+            heapq.heappop(heap)
+    
+    return heap[0]
+```
+
+---
+
+### **Backtracking Problems**
+
+#### **🔄 Backtracking Pattern**
+**When to use**: Problems requiring all possible combinations/permutations
+**Key indicators**:
+- "Generate all combinations"
+- "Find all permutations"
+- "N-queens problem"
+- "Sudoku solver"
+- "Word search"
+
+**Examples**:
+```python
+# Generate All Permutations
+def permute(nums):
+    def backtrack(start):
+        if start == len(nums):
+            result.append(nums[:])
+            return
+        
+        for i in range(start, len(nums)):
+            nums[start], nums[i] = nums[i], nums[start]
+            backtrack(start + 1)
+            nums[start], nums[i] = nums[i], nums[start]
+    
+    result = []
+    backtrack(0)
+    return result
+```
+
+---
+
+### **Quick Decision Tree**
+
+#### **🎯 Problem Type → Algorithm Pattern**
+
+**Array/String Problems:**
+- **Sum/Pair problems** → Two Pointers
+- **Subarray/Substring** → Sliding Window
+- **Search in sorted data** → Binary Search
+- **Find duplicates** → Hash Set/Map
+
+**Tree Problems:**
+- **Traversal** → DFS/BFS
+- **Validation** → DFS with constraints
+- **Path problems** → DFS with backtracking
+- **Level problems** → BFS
+
+**Graph Problems:**
+- **Shortest path** → BFS (unweighted) / Dijkstra (weighted)
+- **Cycle detection** → DFS with visited tracking
+- **Topological sort** → Kahn's algorithm
+- **Connected components** → DFS/BFS
+
+**Optimization Problems:**
+- **Maximum/Minimum** → Dynamic Programming
+- **All combinations** → Backtracking
+- **K-th element** → Heap
+- **Greedy choice** → Greedy algorithm
+
+---
+
+### **Flashcard Format**
+
+#### **Front Side (Problem Type)**
+```
+Problem: "Find longest substring without repeating characters"
+Input: "abcabcbb"
+Expected: 3 (substring "abc")
+```
+
+#### **Back Side (Solution Pattern)**
+```
+Algorithm: Sliding Window
+Key Insight: Maintain window with unique characters
+Time Complexity: O(n)
+Space Complexity: O(min(m, n)) where m is charset size
+```
+
+#### **Quick Reference Cards**
+
+**Card 1: Two Pointers**
+- **When**: Ordered arrays, palindrome checks
+- **Pattern**: Two indices moving in same/opposite directions
+- **Complexity**: O(n) time, O(1) space
+
+**Card 2: Sliding Window**
+- **When**: Subarray/substring problems
+- **Pattern**: Expand window, contract when condition violated
+- **Complexity**: O(n) time, O(k) space
+
+**Card 3: Binary Search**
+- **When**: Sorted data, optimization problems
+- **Pattern**: Divide search space in half
+- **Complexity**: O(log n) time, O(1) space
+
+**Card 4: Dynamic Programming**
+- **When**: Overlapping subproblems, optimization
+- **Pattern**: Build solution from smaller subproblems
+- **Complexity**: Varies by problem
+
+**Card 5: Tree Traversal**
+- **When**: Tree problems, visiting all nodes
+- **Pattern**: DFS (recursive/stack) or BFS (queue)
+- **Complexity**: O(n) time, O(h) space
+
+**Card 6: Graph Traversal**
+- **When**: Graph problems, path finding
+- **Pattern**: DFS/BFS with visited tracking
+- **Complexity**: O(V + E) time, O(V) space
+
+---
+
+### **Interview Quick Reference**
+
+#### **🚀 30-Second Problem Analysis**
+
+1. **Read the problem** - Identify input/output
+2. **Look for keywords** - "longest", "shortest", "k-th", "all"
+3. **Check data structure** - Array, String, Tree, Graph
+4. **Identify constraints** - Time/space requirements
+5. **Choose pattern** - Use decision tree above
+6. **Implement** - Apply the chosen algorithm
+
+#### **⚡ Common Interview Patterns**
+
+| Problem Type | Algorithm | Time | Space |
+|-------------|-----------|------|-------|
+| Two Sum | Hash Map | O(n) | O(n) |
+| Longest Substring | Sliding Window | O(n) | O(k) |
+| Binary Search | Binary Search | O(log n) | O(1) |
+| Tree Traversal | DFS/BFS | O(n) | O(h) |
+| Shortest Path | BFS | O(V+E) | O(V) |
+| Dynamic Programming | DP | Varies | Varies |
+
+*Use this guide to quickly identify algorithm patterns and ace your technical interviews!*
+
+---
+
 ## Complex Data Structures (Trees, Graphs)
 
 ### Key Properties
