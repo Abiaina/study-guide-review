@@ -2,7 +2,7 @@
 title: Data Layer
 ---
 
-# 📘 Data Layer & Databases
+# Data Layer & Databases
 
 ---
 

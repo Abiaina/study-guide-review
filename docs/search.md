@@ -138,7 +138,7 @@ def binary_search(arr, target):
 
 ---
 
-## 🔍 Linear Search
+## Linear Search
 
 - Works on unsorted arrays.
 - Scans each element one by one until it finds the target or reaches the end.
@@ -161,7 +161,7 @@ return -1
 
 ---
 
-## 🔍 Binary Search
+## Binary Search
 
 - Works only on **sorted arrays**.
 - Repeatedly halves the search range until the target is found or the search space is empty.
@@ -197,7 +197,7 @@ return -1
 
 ---
 
-## 🔍 First Occurrence (Binary Search Variant)
+## First Occurrence (Binary Search Variant)
 
 - Returns the **first position** of target in a sorted array with duplicates.
 
@@ -233,7 +233,7 @@ return result
 
 ---
 
-## 🔍 Last Occurrence (Binary Search Variant)
+## Last Occurrence (Binary Search Variant)
 
 - Returns the **last position** of target in a sorted array with duplicates.
 
@@ -269,7 +269,7 @@ return result
 
 ---
 
-## 🔍 Search Insert Position
+## Search Insert Position
 
 - **What it does:**
 
@@ -307,7 +307,7 @@ return left
 
 ---
 
-## 🔍 Search in Rotated Sorted Array
+## Search in Rotated Sorted Array
 
 - **What it does:**
 

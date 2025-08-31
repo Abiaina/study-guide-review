@@ -1,0 +1,55 @@
+name: Generate Algorithm Flashcards
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/algo.md'
+  workflow_dispatch:
+
+jobs:
+  generate-flashcards:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Generate Algorithm Flashcards
+      run: |
+        python3 scripts/generate_flashcards.py
+        
+    - name: Upload Flashcards as Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: algorithm-flashcards
+        path: |
+          generated/flashcards/
+        retention-days: 30
+        
+    - name: Create Flashcard Summary
+      run: |
+        echo "# Algorithm Flashcards Summary" > generated/flashcard-summary.md
+        echo "" >> generated/flashcard-summary.md
+        echo "Generated on: $(date)" >> generated/flashcard-summary.md
+        echo "" >> generated/flashcard-summary.md
+        echo "## Available Flashcard Sets:" >> generated/flashcard-summary.md
+        echo "" >> generated/flashcard-summary.md
+        echo "1. **Two Pointers Pattern** - Array/String problems" >> generated/flashcard-summary.md
+        echo "2. **Sliding Window Pattern** - Subarray/Substring problems" >> generated/flashcard-summary.md
+        echo "3. **Binary Search Pattern** - Sorted data problems" >> generated/flashcard-summary.md
+        echo "4. **Tree Traversal Pattern** - Tree problems" >> generated/flashcard-summary.md
+        echo "5. **Graph Traversal Pattern** - Graph problems" >> generated/flashcard-summary.md
+        echo "6. **Dynamic Programming Pattern** - Optimization problems" >> generated/flashcard-summary.md
+        echo "7. **Heap Pattern** - K-th element problems" >> generated/flashcard-summary.md
+        echo "8. **Backtracking Pattern** - Combination/Permutation problems" >> generated/flashcard-summary.md
+        echo "" >> generated/flashcard-summary.md
+        echo "## Usage:" >> generated/flashcard-summary.md
+        echo "- Download the artifacts to get individual flashcard files" >> generated/flashcard-summary.md
+        echo "- Use with any flashcard app (Anki, Quizlet, etc.)" >> generated/flashcard-summary.md
+        echo "- Perfect for interview preparation!" >> generated/flashcard-summary.md
