@@ -10,12 +10,29 @@ title: Study Guide Index
 **Days:** Monday-Friday (5 days) | **Hours/day:** ~6-7 hrs (3.5 study + 2.5 project)
 **Weekend:** Rest, review, catch up on missed days
 
-- [ ] **Arrays/Strings/Hash Maps practice** — 10–12 problems (2 hrs) (Date: ___ )
-  - Must master: two-pointer, hash map counting, substring search, anagram grouping.
-- [ ] **DFS/BFS basics** — 3 problems (1 hr) (Date: ___ )
-  - Must know: recursive DFS, iterative BFS with queue, visited set usage.
+- [ ] **Arrays/Strings/Hash Maps practice** — 10 problems (2 hrs) (Date: ___ )
+  - **Must master:** two-pointer, hash map counting, substring search, anagram grouping.
+  - [ ] [Two Sum](https://leetcode.com/problems/two-sum/)
+  - [ ] [Valid Anagram](https://leetcode.com/problems/valid-anagram/)
+  - [ ] [Group Anagrams](https://leetcode.com/problems/group-anagrams/)
+  - [ ] [Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements/)
+  - [ ] [Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/)
+  - [ ] [Valid Palindrome](https://leetcode.com/problems/valid-palindrome/)
+  - [ ] [Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/)
+  - [ ] [Isomorphic Strings](https://leetcode.com/problems/isomorphic-strings/)
+  - [ ] [Ransom Note](https://leetcode.com/problems/ransom-note/)
+  - [ ] [Encode and Decode Strings (271)](https://leetcode.com/problems/encode-and-decode-strings/)
+- [ ] **DFS/BFS basics** — 4 problems (1 hr) (Date: ___ )
+  - **Must know:** recursive DFS, iterative BFS with queue, visited set usage.
+  - [ ] [Flood Fill](https://leetcode.com/problems/flood-fill/)
+  - [ ] [Number of Islands](https://leetcode.com/problems/number-of-islands/)
+  - [ ] [Rotting Oranges](https://leetcode.com/problems/rotting-oranges/)
+  - [ ] [Binary Tree Level Order Traversal](https://leetcode.com/problems/binary-tree-level-order-traversal/)
 - [ ] **Sliding Window drills** — 3 problems (1 hr) (Date: ___ )
-  - Must master: fixed window sum, min/max substring, variable window for "longest substring without repeat."
+  - **Must master:** fixed window sum, min/max substring, variable window for "longest substring without repeat."
+  - [ ] [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
+  - [ ] [Longest Repeating Character Replacement](https://leetcode.com/problems/longest-repeating-character-replacement/)
+  - [ ] [Max Consecutive Ones III](https://leetcode.com/problems/max-consecutive-ones-iii/)
 - [ ] **Conceptual Review** — Internet layers, TCP/UDP, DNS, React basics (30 min).
 - [ ] **System Design sketch:** Queue/Logging service (1 hr).
 - [ ] **Efficover:** draft cost model (1 hr).
@@ -26,10 +43,21 @@ title: Study Guide Index
 **Days:** Monday-Saturday (6 days) | **Hours/day:** ~6-7 hrs (4 study + 2-3 project)
 **Sunday:** Rest and review
 
-- [ ] **Graphs:** cycle detection, shortest path, topo sort — 5–6 problems (2 hrs) (Date: ___ )
-  - Must master: detect cycle in directed graph, BFS shortest path, Kahn's algorithm for topo sort.
+- [ ] **Graphs:** cycle detection, shortest path, topo sort — 6 problems (2 hrs) (Date: ___ )
+  - **Must master:** detect cycle in directed graph, BFS shortest path, Kahn's algorithm for topo sort.
+  - [ ] [Clone Graph](https://leetcode.com/problems/clone-graph/)
+  - [ ] [Course Schedule](https://leetcode.com/problems/course-schedule/)
+  - [ ] [Course Schedule II](https://leetcode.com/problems/course-schedule-ii/)
+  - [ ] [Pacific Atlantic Water Flow](https://leetcode.com/problems/pacific-atlantic-water-flow/)
+  - [ ] [Number of Connected Components in an Undirected Graph (323)](https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/)
+  - [ ] [Cheapest Flights Within K Stops](https://leetcode.com/problems/cheapest-flights-within-k-stops/)
 - [ ] **Binary Search variations** — 5 problems (1 hr) (Date: ___ )
-  - Must know: lower/upper bound, rotated sorted array, binary search on answer space.
+  - **Must know:** lower/upper bound, rotated sorted array, binary search on answer space.
+  - [ ] [Binary Search](https://leetcode.com/problems/binary-search/)
+  - [ ] [Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/)
+  - [ ] [Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/)
+  - [ ] [First Bad Version](https://leetcode.com/problems/first-bad-version/)
+  - [ ] [Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/)
 - [ ] **Timed practice sets** — 2 sessions (1 hr each).
 - [ ] **Conceptual Review:** REST vs gRPC vs GraphQL, AuthN vs AuthZ (30 min).
 - [ ] **System Design mini-sketch:** compare API styles for PMS integration (30 min).
@@ -41,8 +69,16 @@ title: Study Guide Index
 **Days:** Monday-Friday (5 days) | **Hours/day:** ~7-8 hrs (4.5 study + 2.5-3.5 project)
 **Weekend:** Rest, review, catch up on missed days
 
-- [ ] **Dynamic Programming:** subsets, LIS, knapsack — 8–10 problems (3 hrs) (Date: ___ )
-  - Must master: bottom-up vs top-down, memoization, tabulation, space optimization.
+- [ ] **Stacks/Queues + Trees/BSTs** — 9 problems (2 hrs) (Date: ___ )
+  - **Must master:** stack/queue operations, tree traversal patterns, BST property validation.
+  - **Stack/Queue:** [Valid Parentheses](https://leetcode.com/problems/valid-parentheses/), [Min Stack](https://leetcode.com/problems/min-stack/), [Daily Temperatures](https://leetcode.com/problems/daily-temperatures/), [Evaluate Reverse Polish Notation](https://leetcode.com/problems/evaluate-reverse-polish-notation/)
+  - **Trees/BST:** [Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree/), [Diameter of Binary Tree](https://leetcode.com/problems/diameter-of-binary-tree/), [Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree/), [Binary Tree Right Side View](https://leetcode.com/problems/binary-tree-right-side-view/), [Kth Smallest Element in a BST](https://leetcode.com/problems/kth-smallest-element-in-a-bst/)
+- [ ] **Intervals/Heaps** — 4 problems (1 hr) (Date: ___ )
+  - **Must master:** interval merging logic, heap-based scheduling, greedy interval selection.
+  - [ ] [Merge Intervals](https://leetcode.com/problems/merge-intervals/)
+  - [ ] [Insert Interval](https://leetcode.com/problems/insert-interval/)
+  - [ ] [Non-overlapping Intervals](https://leetcode.com/problems/non-overlapping-intervals/)
+  - [ ] [Task Scheduler](https://leetcode.com/problems/task-scheduler/)
 - [ ] **Mixed timed sets** — 2 sessions (90 min each).
 - [ ] **System Design sketch:** caching + observability (1 hr).
   - Must cover: LRU cache, CDN, cache invalidation, metrics/log tracing basics.
@@ -55,6 +91,11 @@ title: Study Guide Index
 **Days:** Monday-Saturday (6 days) | **Hours/day:** ~7-8 hrs (4.5 study + 2.5-3.5 project)
 **Sunday:** Rest and final review
 
+- [ ] **Linked Lists + DP Core** — 13 problems (3 hrs) (Date: ___ )
+  - **Must master:** linked list manipulation, bottom-up vs top-down DP, memoization, tabulation, space optimization.
+  - **Linked Lists:** [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/), [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/), [Reorder List](https://leetcode.com/problems/reorder-list/), [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/)
+  - **DP 1D:** [Climbing Stairs](https://leetcode.com/problems/climbing-stairs/), [House Robber](https://leetcode.com/problems/house-robber/), [Coin Change](https://leetcode.com/problems/coin-change/), [Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence/), [Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/)
+  - **DP 2D/Strings:** [Unique Paths](https://leetcode.com/problems/unique-paths/), [Longest Common Subsequence](https://leetcode.com/problems/longest-common-subsequence/), [Decode Ways](https://leetcode.com/problems/decode-ways/), [Edit Distance](https://leetcode.com/problems/edit-distance/)
 - [ ] **Full mock interviews** — 4–5 total (1–2 hrs each) (Date: ___ )
   - Mix: 2 DS&A + 1 System Design + 1 Behavioral.
 - [ ] **Review weakest topics** — 2 hrs (Date: ___ ).
