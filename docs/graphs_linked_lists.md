@@ -12,6 +12,7 @@ title: Complex Data Structures
 - **Common Operations**: traversal, insertion, search, min/max, depth/height.
 
 ### Common Tree Problems
+
 - **Tree Construction**: Build tree from array, string, or other data
 - **Tree Validation**: Check if tree is BST, balanced, or symmetric
 - **Tree Traversal**: Pre-order, in-order, post-order, level-order
@@ -78,6 +79,312 @@ def level_order(root):
 
 ---
 
+# Grid BFS/DFS “Radiating Waves” — Study Guide (with `DIRS`)
+
+> Copy this whole file into your notes. Every code sample is self-contained and uses the same `DIRS` convention.
+
+---
+
+## Reusable neighbor offsets
+
+### DIRS
+
+In these grid problems, **`DIRS`** is just the set of neighbor **offsets** (row/col deltas) you iterate over to visit adjacent cells.
+
+```python
+# 4-directional neighbors (Manhattan adjacency: up, down, left, right)
+DIRS_4 = ((1, 0), (-1, 0), (0, 1), (0, -1))
+# use like: for dr, dc in DIRS_4: nr, nc = r + dr, c + dc
+
+# 8-directional neighbors (includes diagonals)
+DIRS_8 = DIRS_4 + ((1, 1), (1, -1), (-1, 1), (-1, -1))
+```
+
+Quick notes:
+
+- We treat a cell as `(r, c)` = `(row, col)`. **Rows increase downward**, cols increase to the right.
+
+  - `(+1, 0)` → move down; `(-1, 0)` → up; `(0, +1)` → right; `(0, -1)` → left.
+
+- Pick `DIRS_4` for problems that say “4-directionally,” “Manhattan,” or exclude diagonals.
+- Pick `DIRS_8` for problems that allow diagonals.
+
+If you prefer `(x, y)` (column, row) semantics, just swap the names and add accordingly:
+
+```python
+DIRS_4_XY = ((1, 0), (-1, 0), (0, 1), (0, -1))  # (dx, dy)
+# then nx, ny = x + dx, y + dy
+```
+
+---
+
+## 1) Mental model: grid → graph
+
+- **Nodes**: cells `(r, c)`
+- **Edges**: neighbors (usually 4-dir with `DIRS_4`)
+- **BFS “level”**: **distance in moves** from source(s), **not** row-by-row  
+  Think ripples from a drop: each ring = one BFS wave/minute.
+
+---
+
+## 2) Recognition cues — BFS vs DFS
+
+Use **BFS** when you see:
+
+- “**minimum** steps / time / minutes / rounds”
+- “spread / propagation / contagion **simultaneously**”
+- “shortest path” in an **unweighted** grid/graph
+- “how many rounds until everything becomes X?”
+
+Use **DFS** when you see:
+
+- “count connected components / regions”
+- “fill this region (flood fill)”
+- “explore / mark all reachable cells”
+- “return the size of a component”
+
+---
+
+## 3) Multi-source BFS = “waves/minutes” (core recipe)
+
+**Invariant:** One outer loop = **one minute**. The queue holds **exactly** the frontier that can spread **this minute**. Newly affected cells go to the **next minute**.
+
+```python
+from collections import deque
+
+def multi_source_bfs_minutes(grid: list[list[int]],
+                             is_source, is_target, convert) -> int:
+    """
+    - is_source(v): returns True if cell value v is an initial source
+    - is_target(v): returns True if cell value v is a target that must be converted
+    - convert(grid, r, c): mutates the cell to the 'converted' state
+    Returns minutes needed to convert all targets or -1 if impossible.
+    """
+    rows, cols = len(grid), len(grid[0])
+    q = deque()
+    targets = 0
+
+    # 1) Seed queue with all sources; count targets
+    for r in range(rows):
+        for c in range(cols):
+            if is_source(grid[r][c]):
+                q.append((r, c))
+            elif is_target(grid[r][c]):
+                targets += 1
+
+    if targets == 0:
+        return 0
+
+    minutes = 0
+
+    # 2) Process by levels (each level = one minute)
+    while q and targets > 0:
+        for _ in range(len(q)):            # process current frontier
+            r, c = q.popleft()
+            for dr, dc in DIRS_4:
+                nr, nc = r + dr, c + dc
+                if 0 <= nr < rows and 0 <= nc < cols and is_target(grid[nr][nc]):
+                    convert(grid, nr, nc)  # convert & mark visited immediately
+                    targets -= 1
+                    q.append((nr, nc))     # joins next minute's frontier
+        minutes += 1
+
+    return minutes if targets == 0 else -1
+```
+
+---
+
+## 4) Rotting Oranges (LC 994) — BFS (level-size)
+
+```python
+from collections import deque
+
+# DIRS_4 reused from the top of the file
+
+class Solution:
+    def orangesRotting(self, grid: list[list[int]]) -> int:
+        rows, cols = len(grid), len(grid[0])
+        q = deque()
+        fresh = 0
+
+        # Seed: all rotten at t=0; count fresh
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == 2:
+                    q.append((r, c))
+                elif grid[r][c] == 1:
+                    fresh += 1
+
+        if fresh == 0:
+            return 0
+
+        minutes = 0
+
+        # Each outer loop = one minute (one “wave”)
+        while q and fresh > 0:
+            for _ in range(len(q)):             # process current frontier only
+                r, c = q.popleft()
+                for dr, dc in DIRS_4:
+                    nr, nc = r + dr, c + dc
+                    if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == 1:
+                        grid[nr][nc] = 2        # becomes rotten next minute
+                        fresh -= 1
+                        q.append((nr, nc))      # enqueued for next wave
+            minutes += 1
+
+        return minutes if fresh == 0 else -1
+```
+
+### (Conceptual) Two-phase “scan each minute” — equivalent but slower
+
+```python
+def orangesRotting_scan(grid: list[list[int]]) -> int:
+    rows, cols = len(grid), len(grid[0])
+
+    def neighbors(r, c):
+        for dr, dc in DIRS_4:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < rows and 0 <= nc < cols:
+                yield nr, nc
+
+    minutes = 0
+    while True:
+        to_rot = []
+        fresh_exists = False
+
+        # Phase 1: collect who will rot at end of this minute
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == 1:
+                    fresh_exists = True
+                    if any(grid[nr][nc] == 2 for nr, nc in neighbors(r, c)):
+                        to_rot.append((r, c))
+
+        if not fresh_exists:
+            return minutes           # all fresh have rotted
+        if not to_rot:
+            return -1                # isolated fresh → impossible
+
+        # Phase 2: apply changes (no chain reaction within the minute)
+        for r, c in to_rot:
+            grid[r][c] = 2
+        minutes += 1
+```
+
+---
+
+## 5) Number of Islands (LC 200) — DFS for components
+
+```python
+# DIRS_4 reused from the top of the file
+
+class Solution:
+    def numIslands(self, grid: list[list[str]]) -> int:
+        if not grid or not grid[0]:
+            return 0
+
+        rows, cols = len(grid), len(grid[0])
+
+        def dfs(r: int, c: int) -> None:
+            # bounds + must be land
+            if not (0 <= r < rows and 0 <= c < cols) or grid[r][c] != "1":
+                return
+            grid[r][c] = "0"           # mark visited by sinking land
+            for dr, dc in DIRS_4:      # explore 4-neighbors
+                dfs(r + dr, c + dc)
+
+        count = 0
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == "1":
+                    count += 1
+                    dfs(r, c)
+        return count
+```
+
+---
+
+## 6) Flood Fill (LC 733) — DFS for region fill
+
+```python
+# DIRS_4 reused from the top of the file
+
+class Solution:
+    def floodFill(self, image: list[list[int]], sr: int, sc: int, color: int) -> list[list[int]]:
+        rows, cols = len(image), len(image[0])
+        orig = image[sr][sc]
+        if orig == color:
+            return image
+
+        def dfs(r: int, c: int) -> None:
+            if not (0 <= r < rows and 0 <= c < cols) or image[r][c] != orig:
+                return
+            image[r][c] = color
+            for dr, dc in DIRS_4:
+                dfs(r + dr, c + dc)
+
+        dfs(sr, sc)
+        return image
+```
+
+---
+
+## 7) Single-source shortest path in a grid — BFS template
+
+```python
+from collections import deque
+
+# DIRS_4 reused from the top of the file
+
+def bfs_shortest_path(grid: list[list[int]], sr: int, sc: int,
+                      passable, is_goal) -> int:
+    """
+    - passable(v): True if cell value v can be traversed
+    - is_goal(r, c): True if (r, c) is the destination
+    Returns shortest steps or -1 if unreachable.
+    """
+    rows, cols = len(grid), len(grid[0])
+    seen = [[False]*cols for _ in range(rows)]
+    q = deque([(sr, sc, 0)])  # (row, col, distance)
+    seen[sr][sc] = True
+
+    while q:
+        r, c, d = q.popleft()
+        if is_goal(r, c):
+            return d
+        for dr, dc in DIRS_4:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < rows and 0 <= nc < cols and not seen[nr][nc] and passable(grid[nr][nc]):
+                seen[nr][nc] = True
+                q.append((nr, nc, d + 1))
+    return -1
+```
+
+---
+
+## 8) Common pitfalls (and fixes)
+
+- **“Level order” ≠ row order** → It’s **distance** from source(s).
+- **Chain reaction in same minute** → Use BFS levels (enqueue now, process next) or two-phase mark/apply.
+- **Forgetting multi-source** → Seed queue with **all** starting sources at minute 0.
+- **Double visits** → Mark visited/converted **when enqueuing**.
+- **Using DFS for min-time problems** → Prefer BFS for shortest steps/time.
+
+---
+
+## 9) Mini-drills (active recall)
+
+- Identify **nodes** and **edges** for a grid prompt.
+- Underline keywords: “**minimum**”, “**simultaneously**”, “**rounds**”.
+- Write the **queue seed** (who are the sources?).
+- State the invariant: “After one BFS level, the queue contains nodes at **distance d+1**.”
+
+---
+
+## 10) Interview talk track (10–15s)
+
+> “I model the grid as a graph: cells are nodes; 4-neighbors are edges (`DIRS_4`). Because we need **minimum time with simultaneous spread**, I use **multi-source BFS**: enqueue all sources, process the queue **level by level** so each level equals one minute/wave, and mark neighbors when enqueuing to avoid revisits. If targets remain unreachable, return −1; otherwise return the number of levels. Time/space are `O(R·C)`.”
+
 ## Common Tree Problems & Solutions
 
 ### Validate Binary Search Tree
@@ -87,24 +394,25 @@ def level_order(root):
 **Approach**: Use in-order traversal - BST should produce sorted values.
 
 **Python Implementation**:
+
 ```python
 def is_valid_bst(root):
     def inorder(node, prev):
         if not node:
             return True
-        
+
         # Check left subtree
         if not inorder(node.left, prev):
             return False
-        
+
         # Check current node (should be > previous)
         if prev[0] is not None and node.val <= prev[0]:
             return False
         prev[0] = node.val
-        
+
         # Check right subtree
         return inorder(node.right, prev)
-    
+
     prev = [None]  # Use list to store previous value
     return inorder(root, prev)
 ```
@@ -116,6 +424,7 @@ def is_valid_bst(root):
 **Approach**: Use pre-order traversal with null markers.
 
 **Python Implementation**:
+
 ```python
 def serialize(root):
     if not root:
@@ -127,12 +436,12 @@ def deserialize(data):
         if not values or values[0] == "null":
             values.pop(0)
             return None
-        
+
         root = TreeNode(int(values.pop(0)))
         root.left = build_tree(values)
         root.right = build_tree(values)
         return root
-    
+
     values = data.split(",")
     return build_tree(values)
 ```
@@ -144,14 +453,15 @@ def deserialize(data):
 **Approach**: Use recursive search - LCA is where paths diverge.
 
 **Python Implementation**:
+
 ```python
 def lowest_common_ancestor(root, p, q):
     if not root or root == p or root == q:
         return root
-    
+
     left = lowest_common_ancestor(root.left, p, q)
     right = lowest_common_ancestor(root.right, p, q)
-    
+
     if left and right:
         return root  # Found LCA
     return left or right  # Return the one that's not None
@@ -164,15 +474,16 @@ def lowest_common_ancestor(root, p, q):
 **Approach**: Use DFS with sum tracking.
 
 **Python Implementation**:
+
 ```python
 def has_path_sum(root, target_sum):
     if not root:
         return False
-    
+
     # Check if we're at a leaf
     if not root.left and not root.right:
         return root.val == target_sum
-    
+
     # Recursively check left and right subtrees
     remaining = target_sum - root.val
     return has_path_sum(root.left, remaining) or has_path_sum(root.right, remaining)
@@ -185,26 +496,27 @@ def has_path_sum(root, target_sum):
 **Approach**: For each node, find the longest path through it.
 
 **Python Implementation**:
+
 ```python
 def diameter_of_binary_tree(root):
     def height_and_diameter(node):
         if not node:
             return 0, 0
-        
+
         left_height, left_diameter = height_and_diameter(node.left)
         right_height, right_diameter = height_and_diameter(node.right)
-        
+
         # Current height
         current_height = max(left_height, right_height) + 1
-        
+
         # Current diameter (through current node)
         current_diameter = left_height + right_height
-        
+
         # Max diameter (either through current node or in subtrees)
         max_diameter = max(current_diameter, left_diameter, right_diameter)
-        
+
         return current_height, max_diameter
-    
+
     _, diameter = height_and_diameter(root)
     return diameter
 ```
