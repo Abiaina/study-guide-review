@@ -14,14 +14,13 @@ def post_process_generated_file(file_path: Path) -> None:
     content = file_path.read_text(encoding='utf-8')
     original_content = content
     
-    # Fix 1: Remove language markers from closing fences
-    # Pattern: ```language at end of line (closing fence)
-    # We need to be careful - only fix closing fences, not opening ones
+    # Fix: Remove language markers from ALL closing fences
+    # Process line by line, tracking code block state
     lines = content.split('\n')
     fixed_lines = []
     in_code_block = False
     
-    for i, line in enumerate(lines):
+    for line in lines:
         stripped = line.strip()
         
         if stripped.startswith('```'):
@@ -30,34 +29,99 @@ def post_process_generated_file(file_path: Path) -> None:
                 in_code_block = True
                 fixed_lines.append(line)
             else:
-                # Closing fence - strip any language markers
+                # Closing fence - ALWAYS strip any language markers
+                # Check if it has more than just ```
+                if len(stripped) > 3:
+                    # Has language marker - strip it
+                    fixed_lines.append('```')
+                else:
+                    # Already clean
+                    fixed_lines.append('```')
                 in_code_block = False
-                # Always output just ```
-                fixed_lines.append('```')
         else:
             fixed_lines.append(line)
     
     content = '\n'.join(fixed_lines)
     
-    # Fix 2: Fix any broken code blocks (like "for x in nums:\n```python")
-    # This shouldn't happen, but just in case
+    # Additional safety: Use regex to catch any remaining closing fences with language
+    # This handles edge cases where state tracking might have been off
+    # Replace any standalone ```language that should be just ```
+    # We need to be careful - only replace closing fences, not opening ones
+    
+    # More aggressive approach: track state again and fix
+    lines_final = content.split('\n')
+    fixed_final = []
+    in_code_final = False
+    
+    for i, line in enumerate(lines_final):
+        stripped = line.strip()
+        
+        if stripped.startswith('```'):
+            if not in_code_final:
+                # Opening fence
+                in_code_final = True
+                fixed_final.append(line)
+            else:
+                # Closing fence - strip ALL language markers
+                in_code_final = False
+                # If stripped has more than 3 characters, it has a language marker
+                if len(stripped) > 3:
+                    fixed_final.append('```')
+                else:
+                    fixed_final.append('```')
+        else:
+            fixed_final.append(line)
+    
+    content = '\n'.join(fixed_final)
+    
+    # Fix broken code blocks (shouldn't happen, but safety net)
     content = re.sub(r'(for x in nums:\n)```python', r'\1    print(x)', content)
     
-    # Fix 3: Ensure code fence balance
-    # Count opening and closing fences
-    opening_count = len(re.findall(r'^```[a-z]+\s*$', content, re.MULTILINE))
-    closing_count = len(re.findall(r'^```\s*$', content, re.MULTILINE))
-    
-    # If we have more opening than closing, we might have an issue
-    # But this is just a check, not a fix (fixing would be complex)
-    
+    # Verify and report
     if content != original_content:
         file_path.write_text(content, encoding='utf-8')
+        
+        # Count for reporting
+        in_code = False
+        opening = 0
+        closing = 0
+        closing_with_lang = 0
+        for line in content.split('\n'):
+            stripped = line.strip()
+            if stripped.startswith('```'):
+                if not in_code:
+                    opening += 1
+                    in_code = True
+                else:
+                    closing += 1
+                    if len(stripped) > 3:
+                        closing_with_lang += 1
+                    in_code = False
+        
         print(f"  ✅ Fixed {file_path.name}")
-        print(f"     Opening fences: {opening_count}, Closing fences: {closing_count}")
+        print(f"     Opening fences: {opening}, Closing fences: {closing}")
+        print(f"     Closing fences with language: {closing_with_lang}")
     else:
-        print(f"  ✅ {file_path.name} already clean")
-        print(f"     Opening fences: {opening_count}, Closing fences: {closing_count}")
+        # Count for reporting even if no changes
+        in_code = False
+        opening = 0
+        closing = 0
+        closing_with_lang = 0
+        for line in content.split('\n'):
+            stripped = line.strip()
+            if stripped.startswith('```'):
+                if not in_code:
+                    opening += 1
+                    in_code = True
+                else:
+                    closing += 1
+                    if len(stripped) > 3:
+                        closing_with_lang += 1
+                    in_code = False
+        
+        print(f"  ✅ {file_path.name} processed")
+        print(f"     Opening fences: {opening}, Closing fences: {closing}")
+        print(f"     Closing fences with language: {closing_with_lang}")
 
 def main():
     """Main function to post-process generated files."""
@@ -80,4 +144,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

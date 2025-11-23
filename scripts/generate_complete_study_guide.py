@@ -206,10 +206,13 @@ def clean_markdown_content(content: str, is_printable: bool = True) -> str:
                 i += 1
                 continue
                 
-            # Only process indented lines when we're OUTSIDE code fences
-            # Additional safety check: look backwards to ensure we're not inside a code fence
-            # This handles cases where state might have been corrupted
-            if line.startswith('    ') and len(line.strip()) > 0:
+            # Process both indented code AND non-indented code that starts with # comments
+            # # comments followed by code need to be in code blocks to prevent markdown interpretation
+            is_indented_code = line.startswith('    ') and len(line.strip()) > 0
+            is_code_comment = (not line.startswith('    ') and line.strip().startswith('# ') and 
+                              len(line.strip()) > 2 and not line.strip().startswith('##'))
+            
+            if is_indented_code or is_code_comment:
                 # Safety check: look backwards for the most recent code fence
                 # If we find an opening fence without a closing one, we're inside a code block
                 recent_fence_state = False
@@ -235,34 +238,57 @@ def clean_markdown_content(content: str, is_printable: bool = True) -> str:
                     i += 1
                     continue
                 
-                stripped = line[4:]
+                # Handle both indented code and non-indented # comments
+                if is_indented_code:
+                    stripped = line[4:]  # Remove 4-space indent
+                else:
+                    # Non-indented # comment - check if it's followed by code
+                    stripped = line.strip()
+                    # Look ahead to see if next line is code
+                    if i + 1 < len(lines):
+                        next_line = lines[i + 1].strip()
+                        # If next line is code (def, class, import, etc.), this comment is part of code
+                        if not any(x in next_line for x in ['def ', 'class ', 'import ', 'from ', 'if ', 'for ', 'while ', 'return ', 'print(']):
+                            # Not followed by code - might be markdown, skip
+                            fixed_lines.append(line)
+                            i += 1
+                            continue
                 
                 # Check if it looks like code
-                # Be more conservative - only wrap if it's clearly code
-                # Don't treat # comments as primary code indicators - they can be confused with markdown headers
+                # IMPORTANT: # comments and """ docstrings MUST be in code blocks to avoid markdown interpretation
                 code_indicators = ['def ', 'class ', 'import ', 'from ', 'return ', 'if ', 'for ', 'while ', 
                                  'print(', '->', 'async def', 'with ', 'try:', 'except', 'finally:', '"""', "'''",
                                  '=', '(', ')', '[', ']', '{', '}', ':', ';']
                 looks_like_code = any(indicator in stripped for indicator in code_indicators)
                 
-                # Only treat standalone # comments as code if they're clearly in a code context
-                # (i.e., surrounded by other code indicators)
+                # CRITICAL: # comments MUST be wrapped in code blocks to prevent markdown header interpretation
+                # If we see a # comment, it's likely code (unless it's clearly markdown like ##)
                 if stripped.strip().startswith('#') and not stripped.strip().startswith('##'):
-                    # Check if previous or next line has strong code indicators
+                    # This is likely a code comment - treat it as code
+                    # Check if it's part of a code block by looking at context
                     has_nearby_code = False
-                    for check_idx in [i-1, i+1]:
-                        if 0 <= check_idx < len(lines):
+                    # Look at previous lines for code context (check up to 5 lines back)
+                    for check_idx in range(max(0, i-5), i):
+                        if check_idx < len(lines):
                             check_line = lines[check_idx]
-                            # Strong code indicators (not just #)
-                            if any(ind in check_line for ind in ['def ', 'class ', 'import ', 'return ', '=', '(', ')', '[', ']']):
+                            # Check if previous line has code indicators or is also a comment
+                            if (any(ind in check_line for ind in ['def ', 'class ', 'import ', 'from ', 'return ', '=', '(', ')', '[', ']', '    #', 'if ', 'for ', 'while ']) or
+                                (check_line.strip().startswith('#') and not check_line.strip().startswith('##') and len(check_line.strip()) > 2)):
                                 has_nearby_code = True
                                 break
-                    # Only treat as code if surrounded by actual code
-                    if has_nearby_code:
+                    # Also check next few lines
+                    if not has_nearby_code:
+                        for check_idx in range(i+1, min(len(lines), i+4)):
+                            check_line = lines[check_idx]
+                            if any(ind in check_line for ind in ['def ', 'class ', 'import ', 'from ', 'return ', '=', '(', ')', '[', ']', '    #', 'if ', 'for ', 'while ']):
+                                has_nearby_code = True
+                                break
+                    
+                    # If it's a # comment, treat it as code (needs to be in code block)
+                    # This prevents markdown from interpreting # as a header
+                    # Be more aggressive - if it looks like a code comment (has text after #), wrap it
+                    if has_nearby_code or (stripped.strip().startswith('# ') and len(stripped.strip()) > 2):
                         looks_like_code = True
-                    else:
-                        # Standalone # comment without code context - don't treat as code
-                        looks_like_code = False
                 
                 # Don't treat Terraform/HCL as Python code - it has different syntax
                 # Terraform uses resource blocks, variables, etc. which shouldn't be wrapped in ```python
@@ -272,6 +298,7 @@ def clean_markdown_content(content: str, is_printable: bool = True) -> str:
                 
                 if looks_like_code and not is_terraform:
                     # Collect consecutive indented code lines
+                    # IMPORTANT: Include # comments and """ docstrings - they need to be in code blocks
                     code_lines = [stripped]
                     j = i + 1
                     
@@ -287,14 +314,21 @@ def clean_markdown_content(content: str, is_printable: bool = True) -> str:
                             else:
                                 break
                         elif lines[j].startswith('    '):
+                            # More indented code - include it
                             next_stripped = lines[j][4:]
-                            # Check if next line is also code (not Terraform)
+                            # Check if it's also code (not Terraform)
                             next_is_terraform = any(keyword in next_stripped for keyword in ['resource "', 'variable "', 'output "'])
                             if next_is_terraform:
                                 break
                             code_lines.append(next_stripped)
                             j += 1
+                        elif lines[j].strip().startswith('#') and not lines[j].strip().startswith('##'):
+                            # # comment that's not indented but is part of code block
+                            # Include it in the code block
+                            code_lines.append(lines[j].strip())
+                            j += 1
                         else:
+                            # Not code - stop collecting
                             break
                     
                     # Wrap in code fence if we have code
