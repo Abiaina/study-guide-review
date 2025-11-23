@@ -30,7 +30,7 @@ title: Complex Data Structures
 
 **Recursive Traversal Pseudocode**
 
-```
+```text
 inorder(node):
     if node is None: return
     inorder(node.left)
@@ -91,7 +91,7 @@ def level_order(root):
 
 In these grid problems, **`DIRS`** is just the set of neighbor **offsets** (row/col deltas) you iterate over to visit adjacent cells.
 
-```python
+```markdown
 # 4-directional neighbors (Manhattan adjacency: up, down, left, right)
 DIRS_4 = ((1, 0), (-1, 0), (0, 1), (0, -1))
 # use like: for dr, dc in DIRS_4: nr, nc = r + dr, c + dc
@@ -111,7 +111,7 @@ Quick notes:
 
 If you prefer `(x, y)` (column, row) semantics, just swap the names and add accordingly:
 
-```python
+```text
 DIRS_4_XY = ((1, 0), (-1, 0), (0, 1), (0, -1))  # (dx, dy)
 # then nx, ny = x + dx, y + dy
 ```
@@ -164,7 +164,7 @@ def multi_source_bfs_minutes(grid: list[list[int]],
     q = deque()
     targets = 0
 
-    # 1) Seed queue with all sources; count targets
+    """ 1) Seed queue with all sources; count targets """
     for r in range(rows):
         for c in range(cols):
             if is_source(grid[r][c]):
@@ -177,7 +177,7 @@ def multi_source_bfs_minutes(grid: list[list[int]],
 
     minutes = 0
 
-    # 2) Process by levels (each level = one minute)
+    """ 2) Process by levels (each level = one minute) """
     while q and targets > 0:
         for _ in range(len(q)):            # process current frontier
             r, c = q.popleft()
@@ -207,7 +207,7 @@ class Solution:
         q = deque()
         fresh = 0
 
-        # Seed: all rotten at t=0; count fresh
+        """ Seed: all rotten at t=0; count fresh """
         for r in range(rows):
             for c in range(cols):
                 if grid[r][c] == 2:
@@ -220,7 +220,7 @@ class Solution:
 
         minutes = 0
 
-        # Each outer loop = one minute (one “wave”)
+        """ Each outer loop = one minute (one “wave”) """
         while q and fresh > 0:
             for _ in range(len(q)):             # process current frontier only
                 r, c = q.popleft()
@@ -252,7 +252,7 @@ def orangesRotting_scan(grid: list[list[int]]) -> int:
         to_rot = []
         fresh_exists = False
 
-        # Phase 1: collect who will rot at end of this minute
+        """ Phase 1: collect who will rot at end of this minute """
         for r in range(rows):
             for c in range(cols):
                 if grid[r][c] == 1:
@@ -265,7 +265,7 @@ def orangesRotting_scan(grid: list[list[int]]) -> int:
         if not to_rot:
             return -1                # isolated fresh → impossible
 
-        # Phase 2: apply changes (no chain reaction within the minute)
+        """ Phase 2: apply changes (no chain reaction within the minute) """
         for r, c in to_rot:
             grid[r][c] = 2
         minutes += 1
@@ -286,7 +286,7 @@ class Solution:
         rows, cols = len(grid), len(grid[0])
 
         def dfs(r: int, c: int) -> None:
-            # bounds + must be land
+            """ bounds + must be land """
             if not (0 <= r < rows and 0 <= c < cols) or grid[r][c] != "1":
                 return
             grid[r][c] = "0"           # mark visited by sinking land
@@ -401,16 +401,16 @@ def is_valid_bst(root):
         if not node:
             return True
 
-        # Check left subtree
+        """ Check left subtree """
         if not inorder(node.left, prev):
             return False
 
-        # Check current node (should be > previous)
+        """ Check current node (should be > previous) """
         if prev[0] is not None and node.val <= prev[0]:
             return False
         prev[0] = node.val
 
-        # Check right subtree
+        """ Check right subtree """
         return inorder(node.right, prev)
 
     prev = [None]  # Use list to store previous value
@@ -480,11 +480,11 @@ def has_path_sum(root, target_sum):
     if not root:
         return False
 
-    # Check if we're at a leaf
+    """ Check if we're at a leaf """
     if not root.left and not root.right:
         return root.val == target_sum
 
-    # Recursively check left and right subtrees
+    """ Recursively check left and right subtrees """
     remaining = target_sum - root.val
     return has_path_sum(root.left, remaining) or has_path_sum(root.right, remaining)
 ```
@@ -506,13 +506,13 @@ def diameter_of_binary_tree(root):
         left_height, left_diameter = height_and_diameter(node.left)
         right_height, right_diameter = height_and_diameter(node.right)
 
-        # Current height
+        """ Current height """
         current_height = max(left_height, right_height) + 1
 
-        # Current diameter (through current node)
+        """ Current diameter (through current node) """
         current_diameter = left_height + right_height
 
-        # Max diameter (either through current node or in subtrees)
+        """ Max diameter (either through current node or in subtrees) """
         max_diameter = max(current_diameter, left_diameter, right_diameter)
 
         return current_height, max_diameter
@@ -536,7 +536,7 @@ def diameter_of_binary_tree(root):
 
 **Pseudocode**
 
-```
+```text
 dfs(node):
     if node in visited: return
     mark node visited
@@ -561,7 +561,7 @@ def dfs(graph, node, visited=None):
 
 **Pseudocode**
 
-```
+```text
 bfs(start):
     queue ← [start]
     visited ← {start}
@@ -622,7 +622,7 @@ Great call—here are the **approved-style** sections you asked for, rebuilt wit
 
 ## Add / Remove / Traverse / “Sort”
 
-```python
+```markdown
 # --- create empty dict
 d = {}
 
@@ -642,17 +642,17 @@ removed = d.pop("missing", None)
 
 # --- traverse keys
 for k in d.keys():
-    # use k
+    """ use k """
     pass
 
 # --- traverse values
 for v in d.values():
-    # use v
+    """ use v """
     pass
 
 # --- traverse key/value pairs
 for k, v in d.items():
-    # use k, v
+    """ use k, v """
     pass
 
 # --- "sort by key" → list of (k,v)
@@ -672,7 +672,7 @@ filtered = {k: v for k, v in d.items() if v > 5}
 from collections import defaultdict
 groups = defaultdict(list)
 for key, value in [("x", 1), ("x", 2), ("y", 9)]:
-    # append to auto-created list
+    """ append to auto-created list """
     groups[key].append(value)
 
 # --- Counter for frequency
@@ -709,7 +709,7 @@ freq = Counter("abracadabra")
 
 ## Add / Remove / Traverse / “Sort”
 
-```python
+```yaml
 # --- create
 s = set()
 
@@ -727,7 +727,7 @@ s.discard(100)
 
 # --- traverse (order arbitrary)
 for x in s:
-    # use x
+    """ use x """
     pass
 
 # --- "sort" (returns a list)
@@ -743,7 +743,7 @@ x = s ^ t      # symmetric difference
 
 ## `frozenset` (hashable set)
 
-```python
+```yaml
 # --- frozenset can be a dict key or set element
 fs = frozenset([1,2,3])
 d = {fs: "value"}
@@ -776,16 +776,16 @@ class TreeNode:
 ```python
 # --- insert a value into BST
 def bst_insert(root, x):
-    # empty spot → create node
+    """ empty spot → create node """
     if root is None:
         return TreeNode(x)
-    # go left if smaller
+    """ go left if smaller """
     if x < root.val:
         root.left = bst_insert(root.left, x)
-    # go right if larger
+    """ go right if larger """
     elif x > root.val:
         root.right = bst_insert(root.right, x)
-    # equal: often ignore or store count; here we ignore
+    """ equal: often ignore or store count; here we ignore """
     return root
 ```
 
@@ -794,32 +794,36 @@ def bst_insert(root, x):
 ```python
 # --- delete value x from BST
 def bst_delete(root, x):
-    # base: not found
+    """ base: not found """
     if root is None:
         return None
-    # search left
+    """ search left """
     if x < root.val:
         root.left = bst_delete(root.left, x)
         return root
-    # search right
+    """ search right """
     if x > root.val:
         root.right = bst_delete(root.right, x)
         return root
-    # found node to delete:
-    # case 1: no left → return right
+    """
+    found node to delete:
+    case 1: no left → return right
+    """
     if root.left is None:
         return root.right
-    # case 2: no right → return left
+    """ case 2: no right → return left """
     if root.right is None:
         return root.left
-    # case 3: two children → replace with inorder successor
-    # find min in right subtree
+    """
+    case 3: two children → replace with inorder successor
+    find min in right subtree
+    """
     succ = root.right
     while succ.left:
         succ = succ.left
-    # copy successor value
+    """ copy successor value """
     root.val = succ.val
-    # delete successor node from right subtree
+    """ delete successor node from right subtree """
     root.right = bst_delete(root.right, succ.val)
     return root
 ```
@@ -829,14 +833,14 @@ def bst_delete(root, x):
 ```python
 # --- pre-order: N L R
 def preorder(root, visit):
-    # stop at empty
+    """ stop at empty """
     if not root:
         return
-    # visit node
+    """ visit node """
     visit(root)
-    # traverse left
+    """ traverse left """
     preorder(root.left, visit)
-    # traverse right
+    """ traverse right """
     preorder(root.right, visit)
 
 # --- in-order: L N R (sorted order for BST)
@@ -862,7 +866,7 @@ def postorder(root, visit):
 # --- return ascending values of BST
 def bst_to_sorted_list(root):
     res = []
-    # helper to collect nodes in-order
+    """ helper to collect nodes in-order """
     def visit(node):
         res.append(node.val)
     inorder(root, visit)
@@ -876,27 +880,27 @@ def bst_to_sorted_list(root):
 from collections import deque
 
 def level_order(root):
-    # result collector
+    """ result collector """
     res = []
-    # empty tree
+    """ empty tree """
     if not root:
         return res
-    # init queue with root
+    """ init queue with root """
     q = deque([root])
-    # process queue until empty
+    """ process queue until empty """
     while q:
-        # get current level size
+        """ get current level size """
         n = len(q)
-        # start new level list
+        """ start new level list """
         level = []
-        # process each node in level
+        """ process each node in level """
         for _ in range(n):
             node = q.popleft()
             level.append(node.val)
-            # push children if present
+            """ push children if present """
             if node.left:  q.append(node.left)
             if node.right: q.append(node.right)
-        # add level to result
+        """ add level to result """
         res.append(level)
     return res
 ```
@@ -906,15 +910,15 @@ def level_order(root):
 ```python
 # --- search value in BST
 def bst_search(root, x):
-    # walk down until hit None or value
+    """ walk down until hit None or value """
     while root and root.val != x:
-        # go right if current < x
+        """ go right if current < x """
         if root.val < x:
             root = root.right
-        # otherwise go left
+        """ otherwise go left """
         else:
             root = root.left
-    # either node or None
+    """ either node or None """
     return root
 ```
 
@@ -923,33 +927,33 @@ def bst_search(root, x):
 ```python
 # --- max depth
 def maxDepth(root):
-    # empty tree depth is 0
+    """ empty tree depth is 0 """
     if root is None:
         return 0
-    # depth of left subtree
+    """ depth of left subtree """
     left = maxDepth(root.left)
-    # depth of right subtree
+    """ depth of right subtree """
     right = maxDepth(root.right)
-    # include current node (+1)
+    """ include current node (+1) """
     return 1 + max(left, right)
 
 # --- height-balanced check
 def isBalanced(root):
     def dfs(node):
-        # height 0 for empty
+        """ height 0 for empty """
         if not node:
             return 0
-        # compute left/right heights
+        """ compute left/right heights """
         L = dfs(node.left)
         R = dfs(node.right)
-        # early stop if unbalanced below
+        """ early stop if unbalanced below """
         if L == -1 or R == -1:
             return -1
-        # check local balance
+        """ check local balance """
         if abs(L - R) > 1:
             return -1
-        # return height
+        """ return height """
         return 1 + max(L, R)
-    # balanced if not -1
+    """ balanced if not -1 """
     return dfs(root) != -1
 ```

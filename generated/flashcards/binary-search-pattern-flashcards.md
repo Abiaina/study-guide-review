@@ -1,11 +1,11 @@
-#  Binary Search Pattern Flashcards
+# Binary Search Pattern Flashcards
 
 Generated for interview preparation
 
 
 ## Card 1
 
-**Front:** Identify the algorithm pattern for:  Binary Search Pattern
+**Front:** Identify the algorithm pattern for: Binary Search Pattern
 
 **Back:** Key indicators:
 • "Find element in sorted array"
@@ -17,7 +17,7 @@ Generated for interview preparation
 
 ## Card 2
 
-**Front:** Give examples of  Binary Search Pattern problems
+**Front:** Give examples of Binary Search Pattern problems
 
 **Back:** Common examples:
 
@@ -25,7 +25,7 @@ Generated for interview preparation
 
 ## Card 3
 
-**Front:** Implement ship_within_days using  Binary Search Pattern
+**Front:** Implement ship_within_days using Binary Search Pattern
 
 **Back:** ```python
 # Find minimum capacity to ship packages
@@ -54,7 +54,7 @@ def ship_within_days(weights, days):
 
 ## Card 4
 
-**Front:** What is the time/space complexity of  Binary Search Pattern?
+**Front:** What is the time/space complexity of Binary Search Pattern?
 
 **Back:** Varies by implementation
 

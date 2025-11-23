@@ -1,13 +1,13 @@
 front,back
-"Identify the algorithm pattern for: 🔍 Two Pointers Pattern","Key indicators:
+"Identify the algorithm pattern for: Two Pointers Pattern","Key indicators:
 • "Find two numbers that sum to target"
 • "Remove duplicates from sorted array"
 • "Check if string is palindrome"
 • "Merge two sorted arrays"
 • "Container with most water""
-"Give examples of 🔍 Two Pointers Pattern problems","Common examples:
+"Give examples of Two Pointers Pattern problems","Common examples:
 "
-"Implement two_sum_sorted using 🔍 Two Pointers Pattern","```python
+"Implement two_sum_sorted using Two Pointers Pattern","```python
 # Two Sum in sorted array
 def two_sum_sorted(nums, target):
     left, right = 0, len(nums) - 1
@@ -21,16 +21,16 @@ def two_sum_sorted(nums, target):
             right -= 1
     return []
 ```"
-"What is the time/space complexity of 🔍 Two Pointers Pattern?","Varies by implementation"
-"Identify the algorithm pattern for: 🪟 Sliding Window Pattern","Key indicators:
+"What is the time/space complexity of Two Pointers Pattern?","Varies by implementation"
+"Identify the algorithm pattern for: Sliding Window Pattern","Key indicators:
 • "Find longest substring without repeating characters"
 • "Maximum sum subarray of size k"
 • "Minimum window substring"
 • "Longest substring with at most k distinct characters"
 • "Find all anagrams in a string""
-"Give examples of 🪟 Sliding Window Pattern problems","Common examples:
+"Give examples of Sliding Window Pattern problems","Common examples:
 "
-"Implement length_of_longest_substring using 🪟 Sliding Window Pattern","```python
+"Implement length_of_longest_substring using Sliding Window Pattern","```python
 # Longest substring without repeating characters
 def length_of_longest_substring(s):
     char_map = {}
@@ -44,16 +44,16 @@ def length_of_longest_substring(s):
     
     return max_length
 ```"
-"What is the time/space complexity of 🪟 Sliding Window Pattern?","Varies by implementation"
-"Identify the algorithm pattern for: 🔢 Binary Search Pattern","Key indicators:
+"What is the time/space complexity of Sliding Window Pattern?","Varies by implementation"
+"Identify the algorithm pattern for: Binary Search Pattern","Key indicators:
 • "Find element in sorted array"
 • "Find first/last occurrence"
 • "Find minimum/maximum capacity"
 • "Search in rotated sorted array"
 • "Find peak element""
-"Give examples of 🔢 Binary Search Pattern problems","Common examples:
+"Give examples of Binary Search Pattern problems","Common examples:
 "
-"Implement ship_within_days using 🔢 Binary Search Pattern","```python
+"Implement ship_within_days using Binary Search Pattern","```python
 # Find minimum capacity to ship packages
 def ship_within_days(weights, days):
     def can_ship(capacity):
@@ -76,16 +76,16 @@ def ship_within_days(weights, days):
             left = mid + 1
     return left
 ```"
-"What is the time/space complexity of 🔢 Binary Search Pattern?","Varies by implementation"
-"Identify the algorithm pattern for: 🌳 Tree Traversal Pattern","Key indicators:
+"What is the time/space complexity of Binary Search Pattern?","Varies by implementation"
+"Identify the algorithm pattern for: Tree Traversal Pattern","Key indicators:
 • "Inorder/preorder/postorder traversal"
 • "Level order traversal"
 • "Validate binary search tree"
 • "Serialize/deserialize tree"
 • "Find lowest common ancestor""
-"Give examples of 🌳 Tree Traversal Pattern problems","Common examples:
+"Give examples of Tree Traversal Pattern problems","Common examples:
 "
-"Implement is_valid_bst using 🌳 Tree Traversal Pattern","```python
+"Implement is_valid_bst using Tree Traversal Pattern","```python
 # Validate Binary Search Tree
 def is_valid_bst(root):
     def validate(node, low, high):
@@ -98,16 +98,16 @@ def is_valid_bst(root):
     
     return validate(root, float('-inf'), float('inf'))
 ```"
-"What is the time/space complexity of 🌳 Tree Traversal Pattern?","Varies by implementation"
-"Identify the algorithm pattern for: 🕸️ Graph Traversal Pattern","Key indicators:
+"What is the time/space complexity of Tree Traversal Pattern?","Varies by implementation"
+"Identify the algorithm pattern for: Graph Traversal Pattern","Key indicators:
 • "Find shortest path"
 • "Detect cycle in graph"
 • "Topological sort"
 • "Number of islands"
 • "Clone graph""
-"Give examples of 🕸️ Graph Traversal Pattern problems","Common examples:
+"Give examples of Graph Traversal Pattern problems","Common examples:
 "
-"Implement has_cycle using 🕸️ Graph Traversal Pattern","```python
+"Implement has_cycle using Graph Traversal Pattern","```python
 # Detect cycle in directed graph
 def has_cycle(graph):
     visited = set()
@@ -133,16 +133,16 @@ def has_cycle(graph):
                 return True
     return False
 ```"
-"What is the time/space complexity of 🕸️ Graph Traversal Pattern?","Varies by implementation"
-"Identify the algorithm pattern for: 💰 Classic DP Pattern","Key indicators:
+"What is the time/space complexity of Graph Traversal Pattern?","Varies by implementation"
+"Identify the algorithm pattern for: Classic DP Pattern","Key indicators:
 • "Maximum/minimum value"
 • "Count ways to do something"
 • "Longest increasing subsequence"
 • "Coin change"
 • "Climbing stairs""
-"Give examples of 💰 Classic DP Pattern problems","Common examples:
+"Give examples of Classic DP Pattern problems","Common examples:
 "
-"Implement coin_change using 💰 Classic DP Pattern","```python
+"Implement coin_change using Classic DP Pattern","```python
 # Coin Change - Minimum coins needed
 def coin_change(coins, amount):
     dp = [float('inf')] * (amount + 1)
@@ -154,16 +154,16 @@ def coin_change(coins, amount):
     
     return dp[amount] if dp[amount] != float('inf') else -1
 ```"
-"What is the time/space complexity of 💰 Classic DP Pattern?","Varies by implementation"
-"Identify the algorithm pattern for: 🎒 Knapsack Pattern","Key indicators:
+"What is the time/space complexity of Classic DP Pattern?","Varies by implementation"
+"Identify the algorithm pattern for: Knapsack Pattern","Key indicators:
 • "Select items with weight/value constraints"
 • "Partition equal subset sum"
 • "Target sum"
 • "0/1 knapsack"
 • "Unbounded knapsack""
-"Give examples of 🎒 Knapsack Pattern problems","Common examples:
+"Give examples of Knapsack Pattern problems","Common examples:
 "
-"Implement can_partition using 🎒 Knapsack Pattern","```python
+"Implement can_partition using Knapsack Pattern","```python
 # Partition Equal Subset Sum
 def can_partition(nums):
     total = sum(nums)
@@ -180,17 +180,17 @@ def can_partition(nums):
     
     return dp[target]
 ```"
-"What is the time/space complexity of 🎒 Knapsack Pattern?","Varies by implementation"
-"Identify the algorithm pattern for: 📊 Heap Pattern","Key indicators:
+"What is the time/space complexity of Knapsack Pattern?","Varies by implementation"
+"Identify the algorithm pattern for: Heap Pattern","Key indicators:
 • "Find k
 • th largest/smallest element"
 • "Merge k sorted lists"
 • "Top k frequent elements"
 • "Median of data stream"
 • "Sliding window median""
-"Give examples of 📊 Heap Pattern problems","Common examples:
+"Give examples of Heap Pattern problems","Common examples:
 "
-"Implement find_kth_largest using 📊 Heap Pattern","```python
+"Implement find_kth_largest using Heap Pattern","```python
 # Find K-th Largest Element
 def find_kth_largest(nums, k):
     import heapq
@@ -203,17 +203,17 @@ def find_kth_largest(nums, k):
     
     return heap[0]
 ```"
-"What is the time/space complexity of 📊 Heap Pattern?","Varies by implementation"
-"Identify the algorithm pattern for: 🔄 Backtracking Pattern","Key indicators:
+"What is the time/space complexity of Heap Pattern?","Varies by implementation"
+"Identify the algorithm pattern for: Backtracking Pattern","Key indicators:
 • "Generate all combinations"
 • "Find all permutations"
 • "N
 • queens problem"
 • "Sudoku solver"
 • "Word search""
-"Give examples of 🔄 Backtracking Pattern problems","Common examples:
+"Give examples of Backtracking Pattern problems","Common examples:
 "
-"Implement permute using 🔄 Backtracking Pattern","```python
+"Implement permute using Backtracking Pattern","```python
 # Generate All Permutations
 def permute(nums):
     def backtrack(start):
@@ -230,7 +230,7 @@ def permute(nums):
     backtrack(0)
     return result
 ```"
-"What is the time/space complexity of 🔄 Backtracking Pattern?","Varies by implementation"
-"What is the time/space complexity of 🎯 Problem Type → Algorithm Pattern?","Varies by implementation"
+"What is the time/space complexity of Backtracking Pattern?","Varies by implementation"
+"What is the time/space complexity of Problem Type → Algorithm Pattern?","Varies by implementation"
 "What is the time/space complexity of Back Side (Solution Pattern)?","Varies by implementation"
-"What is the time/space complexity of ⚡ Common Interview Patterns?","Varies by implementation"
+"What is the time/space complexity of Common Interview Patterns?","Varies by implementation"

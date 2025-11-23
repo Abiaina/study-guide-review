@@ -46,7 +46,7 @@ class Singleton:
         return cls._instance
     
     def __init__(self):
-        # Prevent multiple initializations
+        """ Prevent multiple initializations """
         if not self._initialized:
             self._initialized = True
             self._data = {}
@@ -80,7 +80,7 @@ class DatabaseConnection:
     
     def get_connection(self):
         if not self.connection_pool:
-            # Create new connection
+            """ Create new connection """
             self.active_connections += 1
             return f"Connection_{self.active_connections}"
         return self.connection_pool.pop()
@@ -105,7 +105,7 @@ class ThreadSafeSingleton:
     def __new__(cls) -> 'ThreadSafeSingleton':
         if cls._instance is None:
             with cls._lock:
-                # Double-checked locking pattern
+                """ Double-checked locking pattern """
                 if cls._instance is None:
                     cls._instance = super().__new__(cls)
         return cls._instance
@@ -209,7 +209,7 @@ class TestableSingleton:
 
 # In tests
 def test_singleton():
-    # Reset before each test
+    """ Reset before each test """
     TestableSingleton.reset()
     instance1 = TestableSingleton()
     instance2 = TestableSingleton()
@@ -240,7 +240,7 @@ class DatabasePool:
         self.connections.append(connection)
     
     def _create_connection(self):
-        # Create new database connection
+        """ Create new database connection """
         return f"DB_Connection_{self.active_connections}"
 ```
 
@@ -253,7 +253,7 @@ class ConfigManager:
         self._load_config()
     
     def _load_config(self):
-        # Load from file, environment, etc.
+        """ Load from file, environment, etc. """
         self._config = {
             'database_url': 'postgresql://localhost:5432/mydb',
             'redis_url': 'redis://localhost:6379',
@@ -266,7 +266,7 @@ class ConfigManager:
     
     def set(self, key, value):
         self._config[key] = value
-        # Could also persist to file/database
+        """ Could also persist to file/database """
     
     def reload(self):
         self._load_config()
@@ -613,7 +613,7 @@ class HomeTheaterFacade:
     
     def end_movie(self):
         print("=== Ending Movie Mode ===")
-        # Turn off systems...
+        """ Turn off systems... """
 
 # Usage
 theater = HomeTheaterFacade()

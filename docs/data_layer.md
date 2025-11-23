@@ -213,7 +213,7 @@ In distributed database systems, you can only guarantee **2 out of 3** propertie
 
 **Example (Bank Transfer):**
 
-```
+```bash
 begin transaction
     debit Alice $100
     credit Bob $100
@@ -318,7 +318,7 @@ A secondary data structure that lets the database find rows **without scanning t
 
 ### SQL Snippets (PostgreSQL-flavored)
 
-```sql
+```text
 -- B-Tree (default)
 CREATE INDEX idx_users_email ON users(email);
 
@@ -439,7 +439,7 @@ Reduce latency and database load by serving hot data from memory.
 
 ### Redis Patterns
 
-```python
+```markdown
 # Cache-aside (pseudo/Python)
 value = redis.get(key)
 if value is None:

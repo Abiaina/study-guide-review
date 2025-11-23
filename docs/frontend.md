@@ -98,7 +98,7 @@ requestAnimationFrame(animate);
 ### Core Concepts
 
 #### JSX
-```jsx
+```javascript
 {% raw %}
 // JSX is syntactic sugar for React.createElement
 const element = <h1>Hello, World!</h1>;
@@ -121,7 +121,7 @@ const element = (
 ```
 
 #### Components
-```jsx
+```javascript
 {% raw %}
 // Function Component
 function Welcome(props) {
@@ -147,7 +147,7 @@ class Welcome extends React.Component {
 
 #### useState
 {% endraw %}
-```jsx
+```python
 {% raw %}
 import React, { useState } from 'react';
 
@@ -174,7 +174,7 @@ function Counter() {
 **Advanced useState Patterns and Best Practices**:
 
 **1. Functional Updates** (When new state depends on previous state):
-```jsx
+```javascript
 {% raw %}
 function Counter() {
     const [count, setCount] = useState(0);
@@ -204,7 +204,7 @@ function Counter() {
 ```
 
 **2. Object State Management** (Managing multiple related values):
-```jsx
+```javascript
 {% raw %}
 function UserForm() {
     const [user, setUser] = useState({
@@ -251,7 +251,7 @@ function UserForm() {
 ```
 
 **3. Lazy Initialization** (Expensive initial state):
-```jsx
+```javascript
 {% raw %}
 function ExpensiveComponent() {
     // ❌ Bad: Expensive computation runs on every render
@@ -278,7 +278,7 @@ function ExpensiveComponent() {
 **Common useState Mistakes and Solutions**:
 
 **Mistake 1: Stale Closures in Event Handlers**
-```jsx
+```javascript
 {% raw %}
 function StaleClosureExample() {
     const [count, setCount] = useState(0);
@@ -311,7 +311,7 @@ function StaleClosureExample() {
 ```
 
 **Mistake 2: Mutating State Objects**
-```jsx
+```javascript
 {% raw %}
 function MutatingStateExample() {
     const [items, setItems] = useState([1, 2, 3]);
@@ -344,7 +344,7 @@ function MutatingStateExample() {
 **Real-world useState Examples**:
 
 **1. Form Management**:
-```jsx
+```javascript
 {% raw %}
 function ContactForm() {
     const [formData, setFormData] = useState({
@@ -448,7 +448,7 @@ function ContactForm() {
 ```
 
 **2. Shopping Cart State**:
-```jsx
+```javascript
 {% raw %}
 function ShoppingCart() {
     const [cart, setCart] = useState([]);
@@ -535,7 +535,7 @@ function ShoppingCart() {
 - **Timing**: Runs after the browser has painted the DOM
 
 **Basic Usage**:
-```jsx
+```python
 {% raw %}
 import React, { useState, useEffect } from 'react';
 
@@ -587,7 +587,7 @@ function UserProfile({ userId }) {
 **useEffect Dependency Array Patterns**:
 
 **1. No Dependencies** (Runs after every render):
-```jsx
+```javascript
 {% raw %}
 function LoggingComponent() {
     const [count, setCount] = useState(0);
@@ -614,7 +614,7 @@ function LoggingComponent() {
 ```
 
 **2. Empty Dependencies** (Runs only once on mount):
-```jsx
+```javascript
 {% raw %}
 function SubscriptionComponent() {
     const [data, setData] = useState(null);
@@ -637,7 +637,7 @@ function SubscriptionComponent() {
 ```
 
 **3. Specific Dependencies** (Runs when dependencies change):
-```jsx
+```javascript
 {% raw %}
 function SearchComponent({ query, filters }) {
     const [results, setResults] = useState([]);
@@ -667,7 +667,7 @@ function SearchComponent({ query, filters }) {
 ```
 
 **4. Function Dependencies** (Handling function references):
-```jsx
+```javascript
 {% raw %}
 function ParentComponent() {
     const [count, setCount] = useState(0);
@@ -697,7 +697,7 @@ function ChildComponent({ onIncrement }) {
 **Advanced useEffect Patterns**:
 
 **1. Multiple Effects for Different Concerns**:
-```jsx
+```javascript
 {% raw %}
 function ComplexComponent({ userId, theme }) {
     const [user, setUser] = useState(null);
@@ -746,7 +746,7 @@ function ComplexComponent({ userId, theme }) {
 ```
 
 **2. Cleanup Functions and AbortController**:
-```jsx
+```javascript
 {% raw %}
 function DataFetchingComponent({ url }) {
     const [data, setData] = useState(null);
@@ -789,7 +789,7 @@ function DataFetchingComponent({ url }) {
 ```
 
 **3. Custom Hook with useEffect**:
-```jsx
+```python
 {% raw %}
 function useLocalStorage(key, initialValue) {
     const [storedValue, setStoredValue] = useState(() => {
@@ -842,7 +842,7 @@ function UserPreferences() {
 **Common useEffect Mistakes and Solutions**:
 
 **Mistake 1: Missing Dependencies**:
-```jsx
+```javascript
 {% raw %}
 function BuggyComponent({ userId }) {
     const [user, setUser] = useState(null);
@@ -863,7 +863,7 @@ function BuggyComponent({ userId }) {
 ```
 
 **Mistake 2: Infinite Loops**:
-```jsx
+```javascript
 {% raw %}
 function InfiniteLoopComponent() {
     const [count, setCount] = useState(0);
@@ -895,7 +895,7 @@ function InfiniteLoopComponent() {
 ```
 
 **Mistake 3: Forgetting Cleanup**:
-```jsx
+```javascript
 {% raw %}
 function SubscriptionComponent() {
     const [data, setData] = useState(null);
@@ -920,7 +920,7 @@ function SubscriptionComponent() {
 **Real-world useEffect Examples**:
 
 **1. API Data Fetching with Loading States**:
-```jsx
+```javascript
 {% raw %}
 function UserDashboard({ userId }) {
     const [user, setUser] = useState(null);
@@ -1006,7 +1006,7 @@ function UserDashboard({ userId }) {
 ```
 
 **2. Real-time Updates with WebSocket**:
-```jsx
+```javascript
 {% raw %}
 function ChatRoom({ roomId, userId }) {
     const [messages, setMessages] = useState([]);
@@ -1105,7 +1105,7 @@ function ChatRoom({ roomId, userId }) {
 ```
 
 #### useRef
-```jsx
+```python
 {% raw %}
 import React, { useRef, useEffect } from 'react';
 
@@ -1130,7 +1130,7 @@ function FocusInput() {
 ```
 
 #### Custom Hooks
-```jsx
+```javascript
 {% raw %}
 // Custom hook for API calls
 function useApi(url) {
@@ -1183,7 +1183,7 @@ function UserList() {
 ### Component Design
 
 #### Single Responsibility Principle
-```jsx
+```javascript
 {% raw %}
 // ❌ Bad: Component doing too many things
 function UserDashboard() {
@@ -1219,7 +1219,7 @@ function UserList() {
 ```
 
 #### Props Design
-```jsx
+```javascript
 {% raw %}
 // ❌ Bad: Too many props
 function UserCard({ id, name, email, avatar, bio, location, website, twitter, github, linkedin, skills, experience, education, projects, followers, following, createdAt, updatedAt, status, role, permissions, settings, preferences, notifications, theme, language, timezone, currency, units, privacy, security, verification, badges, achievements, level, points, rank, tier, subscription, plan, billing, payment, history, logs, analytics, reports, exports, imports, backups, restores, migrations, updates, patches, hotfixes, releases, versions, builds, deployments, environments, configs, secrets, keys, tokens, sessions, cookies, cache, storage, database, api, endpoints, routes, middleware, validation, sanitization, encryption, hashing, compression, optimization, minification, bundling, transpilation, polyfills, shims, fallbacks, polyfills, shims, fallbacks }) {
@@ -1245,7 +1245,7 @@ function UserCard({ user, actions, theme }) {
 ```
 
 #### Conditional Rendering
-```jsx
+```javascript
 {% raw %}
 // ❌ Bad: Complex nested ternaries
 function UserStatus({ user }) {
@@ -1299,7 +1299,7 @@ function UserStatus({ user }) {
 ### Performance Optimization
 
 #### React.memo
-```jsx
+```python
 {% raw %}
 import React, { memo } from 'react';
 
@@ -1327,7 +1327,7 @@ const ExpensiveComponent = memo(function ExpensiveComponent({ data, onAction }) 
 ```
 
 #### useMemo and useCallback
-```jsx
+```python
 {% raw %}
 import React, { useState, useMemo, useCallback } from 'react';
 
@@ -1380,7 +1380,7 @@ function UserDashboard({ users, filters }) {
 ```
 
 #### Code Splitting
-```jsx
+```python
 {% raw %}
 import React, { Suspense, lazy } from 'react';
 
@@ -1410,7 +1410,7 @@ function App() {
 ## Component Creation Examples
 
 ### Reusable Button Component
-```jsx
+```python
 {% raw %}
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -1485,7 +1485,7 @@ export default Button;
 ```
 
 ### Form Component with Validation
-```jsx
+```python
 {% raw %}
 import React, { useState, useCallback } from 'react';
 
@@ -1636,7 +1636,7 @@ function ReactUpdate() {
 ```
 
 #### 2. Explain React's Component Lifecycle
-```jsx
+```python
 {% raw %}
 class ClassComponent extends React.Component {
     // Mounting Phase
@@ -1703,7 +1703,7 @@ function FunctionalComponent({ id }) {
 ```
 
 #### 3. State Management Patterns
-```jsx
+```javascript
 {% raw %}
 // Local State
 function LocalStateExample() {
@@ -1757,7 +1757,7 @@ function useCounter(initialValue = 0) {
 ```
 
 #### 4. Performance Optimization Techniques
-```jsx
+```javascript
 {% raw %}
 // 1. React.memo for expensive components
 const ExpensiveComponent = React.memo(({ data }) => {
@@ -1802,7 +1802,7 @@ function App() {
 ```
 
 #### 5. Error Boundaries
-```jsx
+```python
 {% raw %}
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -1843,7 +1843,7 @@ class ErrorBoundary extends React.Component {
 ```
 
 ### CSS-in-JS and Styling
-```jsx
+```python
 {% raw %}
 // Styled Components
 import styled from 'styled-components';

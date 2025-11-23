@@ -50,14 +50,14 @@ A sliding window is a technique for solving array/string problems where you main
 3. Keep track of maximum sum
 
 **Pseudocode**:
-```
+```python
 # Calculate sum of first window
 window_sum = sum of first k elements
 max_sum = window_sum
 
 # Slide window
 for i from k to n-1:
-    # Remove first element, add new element
+    """ Remove first element, add new element """
     window_sum = window_sum - arr[i-k] + arr[i]
     max_sum = max(max_sum, window_sum)
 
@@ -70,13 +70,13 @@ def max_sum_subarray_k(arr, k):
     if len(arr) < k:
         return 0
     
-    # Calculate sum of first window
+    """ Calculate sum of first window """
     window_sum = sum(arr[:k])
     max_sum = window_sum
     
-    # Slide window
+    """ Slide window """
     for i in range(k, len(arr)):
-        # Remove first element, add new element
+        """ Remove first element, add new element """
         window_sum = window_sum - arr[i-k] + arr[i]
         max_sum = max(max_sum, window_sum)
     
@@ -110,28 +110,28 @@ def first_negative_in_window(arr, k):
     result = []
     neg_queue = deque()
     
-    # Process first window
+    """ Process first window """
     for i in range(k):
         if arr[i] < 0:
             neg_queue.append(i)
     
-    # First window result
+    """ First window result """
     if neg_queue:
         result.append(arr[neg_queue[0]])
     else:
         result.append(0)
     
-    # Slide window
+    """ Slide window """
     for i in range(k, len(arr)):
-        # Remove elements outside current window
+        """ Remove elements outside current window """
         while neg_queue and neg_queue[0] <= i - k:
             neg_queue.popleft()
         
-        # Add new negative number
+        """ Add new negative number """
         if arr[i] < 0:
             neg_queue.append(i)
         
-        # Result for current window
+        """ Result for current window """
         if neg_queue:
             result.append(arr[neg_queue[0]])
         else:
@@ -160,7 +160,7 @@ print(first_negative_in_window(arr, k))  # Output: [-1, -1, -7, -15, -15, 0]
 4. Track maximum window size
 
 **Pseudocode**:
-```
+```text
 left = 0, right = 0
 max_length = 0
 char_set = empty set
@@ -188,12 +188,12 @@ def longest_substring_no_repeat(s):
     max_length = 0
     
     for right in range(len(s)):
-        # If we find a duplicate, contract window from left
+        """ If we find a duplicate, contract window from left """
         while s[right] in char_set:
             char_set.remove(s[left])
             left += 1
         
-        # Add current character and expand window
+        """ Add current character and expand window """
         char_set.add(s[right])
         max_length = max(max_length, right - left + 1)
     
@@ -228,7 +228,7 @@ def min_window_substring(s, t):
     if not s or not t:
         return ""
     
-    # Count characters needed from t
+    """ Count characters needed from t """
     need = Counter(t)
     missing = len(t)
     
@@ -236,14 +236,14 @@ def min_window_substring(s, t):
     min_start = 0
     min_len = float('inf')
     
-    # Expand window with right pointer
+    """ Expand window with right pointer """
     for right in range(len(s)):
         if s[right] in need:
             need[s[right]] -= 1
             if need[s[right]] >= 0:
                 missing -= 1
         
-        # Contract window from left when all characters found
+        """ Contract window from left when all characters found """
         while missing == 0:
             if right - left + 1 < min_len:
                 min_len = right - left + 1
@@ -286,11 +286,11 @@ def subarray_sum_equals_k(nums, k):
     for num in nums:
         current_sum += num
         
-        # If current_sum - k exists in prefix_sum, we found a subarray
+        """ If current_sum - k exists in prefix_sum, we found a subarray """
         if current_sum - k in prefix_sum:
             count += prefix_sum[current_sum - k]
         
-        # Update prefix_sum count
+        """ Update prefix_sum count """
         prefix_sum[current_sum] = prefix_sum.get(current_sum, 0) + 1
     
     return count
@@ -319,18 +319,18 @@ def max_sliding_window(nums, k):
     dq = deque()  # Store indices
     
     for i in range(len(nums)):
-        # Remove indices outside current window
+        """ Remove indices outside current window """
         while dq and dq[0] <= i - k:
             dq.popleft()
         
-        # Remove smaller elements from back
+        """ Remove smaller elements from back """
         while dq and nums[dq[-1]] < nums[i]:
             dq.pop()
         
-        # Add current index
+        """ Add current index """
         dq.append(i)
         
-        # Add maximum for current window
+        """ Add maximum for current window """
         if i >= k - 1:
             result.append(nums[dq[0]])
     
@@ -374,15 +374,17 @@ def sliding_window_template(arr):
     result = 0  # or appropriate initial value
     
     for right in range(len(arr)):
-        # Expand window (add right element)
-        # Update state based on right element
+        """
+        Expand window (add right element)
+        Update state based on right element
+        """
         
-        # Contract window (remove left elements) until condition met
+        """ Contract window (remove left elements) until condition met """
         while condition_not_met:
-            # Update state based on left element
+            """ Update state based on left element """
             left += 1
         
-        # Update result
+        """ Update result """
         result = max(result, right - left + 1)  # or appropriate update
     
     return result
@@ -394,11 +396,11 @@ def fixed_window_template(arr, k):
     if len(arr) < k:
         return 0
     
-    # Calculate first window
+    """ Calculate first window """
     window_sum = sum(arr[:k])
     result = window_sum
     
-    # Slide window
+    """ Slide window """
     for i in range(k, len(arr)):
         window_sum = window_sum - arr[i-k] + arr[i]
         result = max(result, window_sum)  # or appropriate operation

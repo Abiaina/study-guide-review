@@ -111,7 +111,6 @@ print(freq.most_common())      # [('l', 2), ('h', 1), ('e', 1), 'o': 1)] - freq 
 ```
 
 # Use cases: anagram detection, frequency analysis, top-K elements
-```
 
 #### **Counter Behavior & Ordering**
 
@@ -187,7 +186,7 @@ def isAnagram(s: str, t: str) -> bool:
 
 #### **Complete Counter Cycle Example**
 
-```python
+```
 from collections import Counter
 
 # String → Counter → String cycle
@@ -210,11 +209,9 @@ s1, s2 = "hello", "olleh"
 print(normalize_string(s1))  # "ehllo"
 print(normalize_string(s2))  # "ehllo"
 print(normalize_string(s1) == normalize_string(s2))  # True
-```
-```
-
+```markdown
 #### **collections.defaultdict** - Dictionaries with default values
-```python
+```
 from collections import defaultdict
 
 # Group by key
@@ -234,10 +231,9 @@ nested = defaultdict(lambda: defaultdict(list))
 nested['group1']['subgroup'].append('item')
 
 # Use cases: grouping, counting, nested data structures
-```
-
+```markdown
 #### **heapq** - Priority queue operations
-```python
+```
 import heapq
 
 # Create min-heap
@@ -256,10 +252,9 @@ def top_k(nums, k):
     return heapq.nlargest(k, nums)  # O(n log k)
 
 # Use cases: Dijkstra's algorithm, top-K problems, scheduling
-```
-
+```markdown
 #### **bisect** - Binary search on sorted arrays
-```python
+```
 import bisect
 
 arr = [1, 3, 5, 7, 9]
@@ -273,8 +268,7 @@ bisect.insort_left(arr, 4)         # [1, 3, 4, 5, 7, 9]
 bisect.insort_right(arr, 5)         # [1, 3, 4, 5, 5, 7, 9]
 
 # Use cases: maintaining sorted lists, range queries, binary search
-```
-
+```yaml
 ---
 
 ## **2. Strings & Arrays**
@@ -416,24 +410,22 @@ Compare Core Data Structures
 
 #### Iterating
 
-```python
+```
 nums = [1, 2, 3, 4]
 for x in nums:
     print(x)
-```
-
+```markdown
 #### Adding & Removing
 
-```python
+```
 nums.append(5)       # [1,2,3,4,5]
 nums.insert(2, 10)   # [1,2,10,3,4,5]
 nums.remove(3)       # removes first '3'
 popped = nums.pop()  # removes last element, returns it
-```
-
+```markdown
 #### Sorting & Reversing
 
-```python
+```
 # In-place sorting (modifies original list)
 nums.sort()                    # ascending: [1,2,3,4,5]
 nums.sort(reverse=True)        # descending: [5,4,3,2,1]
@@ -454,11 +446,10 @@ reversed_copy = list(reversed(nums))  # another copy method
 # sorted(): O(n log n) time, O(n) space (creates copy)
 # reverse(): O(n) time, O(1) space (in-place)
 # [::-1]: O(n) time, O(n) space (creates copy)
-```
-
+```markdown
 #### Helper Functions & Collections
 
-```python
+```
 from collections import deque, Counter, defaultdict
 
 # Queue operations (O(1) at both ends)
@@ -508,8 +499,7 @@ s.rfind("l")           # 9 - last index of substring
 s.index("world")       # 6 - first index (raises ValueError if not found)
 s.count("l")           # 3 - count occurrences
 "world" in s           # True - substring membership
-```
-
+```markdown
 ---
 
 ## **Essential Built-in Functions for Problem Solving**
@@ -526,7 +516,7 @@ s.count("l")           # 3 - count occurrences
 
 ### **Range & Iteration Helpers**
 
-```python
+```
 # Range variations
 range(5)                    # [0, 1, 2, 3, 4] - 0 to n-1
 range(1, 6)                 # [1, 2, 3, 4, 5] - start to end-1
@@ -543,11 +533,10 @@ names = ['Alice', 'Bob', 'Charlie']
 ages = [25, 30, 35]
 for name, age in zip(names, ages):
     print(f"{name} is {age}")  # Alice is 25, Bob is 30, etc.
-```
-
+```markdown
 ### **Search & Count Operations**
 
-```python
+```
 # List operations
 nums = [1, 2, 3, 2, 4, 2]
 nums.index(2)               # 1 - first occurrence
@@ -570,11 +559,10 @@ except ValueError:
 
 # Or use find for strings (returns -1)
 idx = s.find("xyz")         # -1 if not found
-```
-
+```markdown
 ### **Common Problem-Solving Patterns**
 
-```python
+```
 # Two pointers with enumerate
 def two_sum(nums, target):
     for i, num in enumerate(nums):
@@ -605,11 +593,10 @@ def group_anagrams(strs):
             groups[key] = []
         groups[key].append(i)  # Store indices instead of strings
     return list(groups.values())
-```
-
+```markdown
 ### **Additional Useful Built-ins**
 
-```python
+```
 # String manipulation
 s = "Hello World"
 s.upper()               # "HELLO WORLD" - convert to uppercase
@@ -648,8 +635,7 @@ bool(0)                 # False - falsy values
 bool(1)                 # True - truthy values
 bool("")                # False - empty string is falsy
 bool("hello")           # True - non-empty string is truthy
-```
-
+```yaml
 ---
 
 # Dictionaries (Python `dict`)
@@ -720,7 +706,7 @@ bool("hello")           # True - non-empty string is truthy
 
 #### Iteration & Access
 
-```python
+```
 d = {"a": 1, "b": 2, "c": 3}
 
 # Safe access patterns
@@ -740,11 +726,10 @@ for k, v in d.items():     # key-value pairs
 # Dictionary comprehension
 squares = {x: x**2 for x in range(5)}  # {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
 filtered = {k: v for k, v in d.items() if v > 1}  # Filter by value
-```
-
+```markdown
 #### Adding & Removing
 
-```python
+```
 # Single operations
 d["d"] = 4            # add/update
 d.update({"e": 5, "f": 6})    # bulk add/update
@@ -754,11 +739,10 @@ d.pop("b", None)      # delete with default
 # Advanced operations
 d.setdefault("g", 7)  # set if missing, return value
 d.copy()              # shallow copy
-```
-
+```markdown
 #### Sorting & Merging
 
-```python
+```
 # Sort by key (returns list of tuples)
 sorted_by_key = sorted(d.items())    # [('c', 3), ('d', 4), ('e', 5)]
 
@@ -773,11 +757,10 @@ d1 = {"a": 1, "b": 2}
 d2 = {"b": 3, "c": 4}
 d1.update(d2)         # d1 = {"a": 1, "b": 3, "c": 4} (b overwritten)
 merged = {**d1, **d2}  # Python 3.5+ unpacking
-```
-
+```markdown
 #### Helper Functions & Collections
 
-```python
+```
 from collections import defaultdict, Counter
 
 # defaultdict - automatic default values
@@ -802,8 +785,7 @@ d = {"a": 1, "b": 2, "c": 3}
 len(d)                  # 3 - number of key-value pairs
 all(v > 0 for v in d.values())  # True - all values positive
 any(v > 2 for v in d.values())  # True - any value > 2
-```
-
+```text
 ---
 
 # Sets (`set` in Python)
@@ -838,14 +820,13 @@ any(v > 2 for v in d.values())  # True - any value > 2
 
 ### Examples
 
-```python
+```
 s = {1, 2, 3}
 s.add(4)             # {1,2,3,4}
 s.remove(2)          # {1,3,4}
 print(3 in s)        # True
 print(s.union({5}))  # {1,3,4,5}
-```
-
+```text
 ---
 
 # Stacks (LIFO)
@@ -866,13 +847,12 @@ print(s.union({5}))  # {1,3,4,5}
 
 ### Example
 
-```python
+```
 stack = []
 stack.append(1)
 stack.append(2)
 top = stack.pop()  # 2
-```
-
+```text
 ---
 
 # Queues (FIFO)
@@ -893,13 +873,12 @@ top = stack.pop()  # 2
 
 ### Example
 
-```python
+```
 from collections import deque
 q = deque([1, 2])
 q.append(3)        # [1,2,3]
 front = q.popleft() # 1
-```
-
+```text
 ---
 
 # Heaps / Priority Queues (`heapq`)
@@ -922,7 +901,7 @@ front = q.popleft() # 1
 
 ### Example
 
-```python
+```
 import heapq
 heap = [3, 1, 4]
 heapq.heapify(heap)

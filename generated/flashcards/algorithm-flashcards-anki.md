@@ -3,12 +3,12 @@
 Generated for interview preparation
 
 
-# Algorithm Flashcards -  Two Pointers Pattern
+# Algorithm Flashcards - Two Pointers Pattern
 
-## Card 1: Identify the algorithm pattern for:  Two Pointers...
+## Card 1: Identify the algorithm pattern for: Two Pointers P...
 
 **Front:**
-Identify the algorithm pattern for:  Two Pointers Pattern
+Identify the algorithm pattern for: Two Pointers Pattern
 
 **Back:**
 Key indicators:
@@ -21,12 +21,12 @@ Key indicators:
 ---
 
 
-# Algorithm Flashcards -  Two Pointers Pattern
+# Algorithm Flashcards - Two Pointers Pattern
 
-## Card 2: Give examples of  Two Pointers Pattern problems...
+## Card 2: Give examples of Two Pointers Pattern problems...
 
 **Front:**
-Give examples of  Two Pointers Pattern problems
+Give examples of Two Pointers Pattern problems
 
 **Back:**
 Common examples:
@@ -35,12 +35,12 @@ Common examples:
 ---
 
 
-# Algorithm Flashcards -  Two Pointers Pattern
+# Algorithm Flashcards - Two Pointers Pattern
 
-## Card 3: Implement two_sum_sorted using  Two Pointers Patt...
+## Card 3: Implement two_sum_sorted using Two Pointers Patter...
 
 **Front:**
-Implement two_sum_sorted using  Two Pointers Pattern
+Implement two_sum_sorted using Two Pointers Pattern
 
 **Back:**
 ```python
@@ -61,12 +61,12 @@ def two_sum_sorted(nums, target):
 ---
 
 
-# Algorithm Flashcards -  Two Pointers Pattern
+# Algorithm Flashcards - Two Pointers Pattern
 
-## Card 4: What is the time/space complexity of  Two Pointer...
+## Card 4: What is the time/space complexity of Two Pointers ...
 
 **Front:**
-What is the time/space complexity of  Two Pointers Pattern?
+What is the time/space complexity of Two Pointers Pattern?
 
 **Back:**
 Varies by implementation
@@ -74,12 +74,12 @@ Varies by implementation
 ---
 
 
-# Algorithm Flashcards -  Sliding Window Pattern
+# Algorithm Flashcards - Sliding Window Pattern
 
-## Card 5: Identify the algorithm pattern for:  Sliding Wind...
+## Card 5: Identify the algorithm pattern for: Sliding Window...
 
 **Front:**
-Identify the algorithm pattern for:  Sliding Window Pattern
+Identify the algorithm pattern for: Sliding Window Pattern
 
 **Back:**
 Key indicators:
@@ -92,12 +92,12 @@ Key indicators:
 ---
 
 
-# Algorithm Flashcards -  Sliding Window Pattern
+# Algorithm Flashcards - Sliding Window Pattern
 
-## Card 6: Give examples of  Sliding Window Pattern problems...
+## Card 6: Give examples of Sliding Window Pattern problems...
 
 **Front:**
-Give examples of  Sliding Window Pattern problems
+Give examples of Sliding Window Pattern problems
 
 **Back:**
 Common examples:
@@ -106,12 +106,12 @@ Common examples:
 ---
 
 
-# Algorithm Flashcards -  Sliding Window Pattern
+# Algorithm Flashcards - Sliding Window Pattern
 
-## Card 7: Implement length_of_longest_substring using  Slid...
+## Card 7: Implement length_of_longest_substring using Slidin...
 
 **Front:**
-Implement length_of_longest_substring using  Sliding Window Pattern
+Implement length_of_longest_substring using Sliding Window Pattern
 
 **Back:**
 ```python
@@ -132,12 +132,12 @@ def length_of_longest_substring(s):
 ---
 
 
-# Algorithm Flashcards -  Sliding Window Pattern
+# Algorithm Flashcards - Sliding Window Pattern
 
-## Card 8: What is the time/space complexity of  Sliding Win...
+## Card 8: What is the time/space complexity of Sliding Windo...
 
 **Front:**
-What is the time/space complexity of  Sliding Window Pattern?
+What is the time/space complexity of Sliding Window Pattern?
 
 **Back:**
 Varies by implementation
@@ -145,12 +145,12 @@ Varies by implementation
 ---
 
 
-# Algorithm Flashcards -  Binary Search Pattern
+# Algorithm Flashcards - Binary Search Pattern
 
-## Card 9: Identify the algorithm pattern for:  Binary Searc...
+## Card 9: Identify the algorithm pattern for: Binary Search ...
 
 **Front:**
-Identify the algorithm pattern for:  Binary Search Pattern
+Identify the algorithm pattern for: Binary Search Pattern
 
 **Back:**
 Key indicators:
@@ -163,12 +163,12 @@ Key indicators:
 ---
 
 
-# Algorithm Flashcards -  Binary Search Pattern
+# Algorithm Flashcards - Binary Search Pattern
 
-## Card 10: Give examples of  Binary Search Pattern problems...
+## Card 10: Give examples of Binary Search Pattern problems...
 
 **Front:**
-Give examples of  Binary Search Pattern problems
+Give examples of Binary Search Pattern problems
 
 **Back:**
 Common examples:
@@ -177,12 +177,12 @@ Common examples:
 ---
 
 
-# Algorithm Flashcards -  Binary Search Pattern
+# Algorithm Flashcards - Binary Search Pattern
 
-## Card 11: Implement ship_within_days using  Binary Search P...
+## Card 11: Implement ship_within_days using Binary Search Pat...
 
 **Front:**
-Implement ship_within_days using  Binary Search Pattern
+Implement ship_within_days using Binary Search Pattern
 
 **Back:**
 ```python
@@ -212,12 +212,12 @@ def ship_within_days(weights, days):
 ---
 
 
-# Algorithm Flashcards -  Binary Search Pattern
+# Algorithm Flashcards - Binary Search Pattern
 
-## Card 12: What is the time/space complexity of  Binary Sear...
+## Card 12: What is the time/space complexity of Binary Search...
 
 **Front:**
-What is the time/space complexity of  Binary Search Pattern?
+What is the time/space complexity of Binary Search Pattern?
 
 **Back:**
 Varies by implementation
@@ -225,12 +225,12 @@ Varies by implementation
 ---
 
 
-# Algorithm Flashcards -  Tree Traversal Pattern
+# Algorithm Flashcards - Tree Traversal Pattern
 
-## Card 13: Identify the algorithm pattern for:  Tree Travers...
+## Card 13: Identify the algorithm pattern for: Tree Traversal...
 
 **Front:**
-Identify the algorithm pattern for:  Tree Traversal Pattern
+Identify the algorithm pattern for: Tree Traversal Pattern
 
 **Back:**
 Key indicators:
@@ -243,12 +243,12 @@ Key indicators:
 ---
 
 
-# Algorithm Flashcards -  Tree Traversal Pattern
+# Algorithm Flashcards - Tree Traversal Pattern
 
-## Card 14: Give examples of  Tree Traversal Pattern problems...
+## Card 14: Give examples of Tree Traversal Pattern problems...
 
 **Front:**
-Give examples of  Tree Traversal Pattern problems
+Give examples of Tree Traversal Pattern problems
 
 **Back:**
 Common examples:
@@ -257,12 +257,12 @@ Common examples:
 ---
 
 
-# Algorithm Flashcards -  Tree Traversal Pattern
+# Algorithm Flashcards - Tree Traversal Pattern
 
-## Card 15: Implement is_valid_bst using  Tree Traversal Patt...
+## Card 15: Implement is_valid_bst using Tree Traversal Patter...
 
 **Front:**
-Implement is_valid_bst using  Tree Traversal Pattern
+Implement is_valid_bst using Tree Traversal Pattern
 
 **Back:**
 ```python
@@ -282,12 +282,12 @@ def is_valid_bst(root):
 ---
 
 
-# Algorithm Flashcards -  Tree Traversal Pattern
+# Algorithm Flashcards - Tree Traversal Pattern
 
-## Card 16: What is the time/space complexity of  Tree Traver...
+## Card 16: What is the time/space complexity of Tree Traversa...
 
 **Front:**
-What is the time/space complexity of  Tree Traversal Pattern?
+What is the time/space complexity of Tree Traversal Pattern?
 
 **Back:**
 Varies by implementation
@@ -295,12 +295,12 @@ Varies by implementation
 ---
 
 
-# Algorithm Flashcards -  Graph Traversal Pattern
+# Algorithm Flashcards - Graph Traversal Pattern
 
-## Card 17: Identify the algorithm pattern for:  Graph Trave...
+## Card 17: Identify the algorithm pattern for: Graph Traversa...
 
 **Front:**
-Identify the algorithm pattern for:  Graph Traversal Pattern
+Identify the algorithm pattern for: Graph Traversal Pattern
 
 **Back:**
 Key indicators:
@@ -313,12 +313,12 @@ Key indicators:
 ---
 
 
-# Algorithm Flashcards -  Graph Traversal Pattern
+# Algorithm Flashcards - Graph Traversal Pattern
 
-## Card 18: Give examples of  Graph Traversal Pattern proble...
+## Card 18: Give examples of Graph Traversal Pattern problems...
 
 **Front:**
-Give examples of  Graph Traversal Pattern problems
+Give examples of Graph Traversal Pattern problems
 
 **Back:**
 Common examples:
@@ -327,12 +327,12 @@ Common examples:
 ---
 
 
-# Algorithm Flashcards -  Graph Traversal Pattern
+# Algorithm Flashcards - Graph Traversal Pattern
 
-## Card 19: Implement has_cycle using  Graph Traversal Patte...
+## Card 19: Implement has_cycle using Graph Traversal Pattern...
 
 **Front:**
-Implement has_cycle using  Graph Traversal Pattern
+Implement has_cycle using Graph Traversal Pattern
 
 **Back:**
 ```python
@@ -365,12 +365,12 @@ def has_cycle(graph):
 ---
 
 
-# Algorithm Flashcards -  Graph Traversal Pattern
+# Algorithm Flashcards - Graph Traversal Pattern
 
-## Card 20: What is the time/space complexity of  Graph Trav...
+## Card 20: What is the time/space complexity of Graph Travers...
 
 **Front:**
-What is the time/space complexity of  Graph Traversal Pattern?
+What is the time/space complexity of Graph Traversal Pattern?
 
 **Back:**
 Varies by implementation
@@ -378,12 +378,12 @@ Varies by implementation
 ---
 
 
-# Algorithm Flashcards -  Classic DP Pattern
+# Algorithm Flashcards - Classic DP Pattern
 
-## Card 21: Identify the algorithm pattern for:  Classic DP P...
+## Card 21: Identify the algorithm pattern for: Classic DP Pat...
 
 **Front:**
-Identify the algorithm pattern for:  Classic DP Pattern
+Identify the algorithm pattern for: Classic DP Pattern
 
 **Back:**
 Key indicators:
@@ -396,12 +396,12 @@ Key indicators:
 ---
 
 
-# Algorithm Flashcards -  Classic DP Pattern
+# Algorithm Flashcards - Classic DP Pattern
 
-## Card 22: Give examples of  Classic DP Pattern problems...
+## Card 22: Give examples of Classic DP Pattern problems...
 
 **Front:**
-Give examples of  Classic DP Pattern problems
+Give examples of Classic DP Pattern problems
 
 **Back:**
 Common examples:
@@ -410,12 +410,12 @@ Common examples:
 ---
 
 
-# Algorithm Flashcards -  Classic DP Pattern
+# Algorithm Flashcards - Classic DP Pattern
 
-## Card 23: Implement coin_change using  Classic DP Pattern...
+## Card 23: Implement coin_change using Classic DP Pattern...
 
 **Front:**
-Implement coin_change using  Classic DP Pattern
+Implement coin_change using Classic DP Pattern
 
 **Back:**
 ```python
@@ -434,12 +434,12 @@ def coin_change(coins, amount):
 ---
 
 
-# Algorithm Flashcards -  Classic DP Pattern
+# Algorithm Flashcards - Classic DP Pattern
 
-## Card 24: What is the time/space complexity of  Classic DP ...
+## Card 24: What is the time/space complexity of Classic DP Pa...
 
 **Front:**
-What is the time/space complexity of  Classic DP Pattern?
+What is the time/space complexity of Classic DP Pattern?
 
 **Back:**
 Varies by implementation
@@ -447,12 +447,12 @@ Varies by implementation
 ---
 
 
-# Algorithm Flashcards -  Knapsack Pattern
+# Algorithm Flashcards - Knapsack Pattern
 
-## Card 25: Identify the algorithm pattern for:  Knapsack Pat...
+## Card 25: Identify the algorithm pattern for: Knapsack Patte...
 
 **Front:**
-Identify the algorithm pattern for:  Knapsack Pattern
+Identify the algorithm pattern for: Knapsack Pattern
 
 **Back:**
 Key indicators:
@@ -465,12 +465,12 @@ Key indicators:
 ---
 
 
-# Algorithm Flashcards -  Knapsack Pattern
+# Algorithm Flashcards - Knapsack Pattern
 
-## Card 26: Give examples of  Knapsack Pattern problems...
+## Card 26: Give examples of Knapsack Pattern problems...
 
 **Front:**
-Give examples of  Knapsack Pattern problems
+Give examples of Knapsack Pattern problems
 
 **Back:**
 Common examples:
@@ -479,12 +479,12 @@ Common examples:
 ---
 
 
-# Algorithm Flashcards -  Knapsack Pattern
+# Algorithm Flashcards - Knapsack Pattern
 
-## Card 27: Implement can_partition using  Knapsack Pattern...
+## Card 27: Implement can_partition using Knapsack Pattern...
 
 **Front:**
-Implement can_partition using  Knapsack Pattern
+Implement can_partition using Knapsack Pattern
 
 **Back:**
 ```python
@@ -508,12 +508,12 @@ def can_partition(nums):
 ---
 
 
-# Algorithm Flashcards -  Knapsack Pattern
+# Algorithm Flashcards - Knapsack Pattern
 
-## Card 28: What is the time/space complexity of  Knapsack Pa...
+## Card 28: What is the time/space complexity of Knapsack Patt...
 
 **Front:**
-What is the time/space complexity of  Knapsack Pattern?
+What is the time/space complexity of Knapsack Pattern?
 
 **Back:**
 Varies by implementation
@@ -521,12 +521,12 @@ Varies by implementation
 ---
 
 
-# Algorithm Flashcards -  Heap Pattern
+# Algorithm Flashcards - Heap Pattern
 
-## Card 29: Identify the algorithm pattern for:  Heap Pattern...
+## Card 29: Identify the algorithm pattern for: Heap Pattern...
 
 **Front:**
-Identify the algorithm pattern for:  Heap Pattern
+Identify the algorithm pattern for: Heap Pattern
 
 **Back:**
 Key indicators:
@@ -540,12 +540,12 @@ Key indicators:
 ---
 
 
-# Algorithm Flashcards -  Heap Pattern
+# Algorithm Flashcards - Heap Pattern
 
-## Card 30: Give examples of  Heap Pattern problems...
+## Card 30: Give examples of Heap Pattern problems...
 
 **Front:**
-Give examples of  Heap Pattern problems
+Give examples of Heap Pattern problems
 
 **Back:**
 Common examples:
@@ -554,12 +554,12 @@ Common examples:
 ---
 
 
-# Algorithm Flashcards -  Heap Pattern
+# Algorithm Flashcards - Heap Pattern
 
-## Card 31: Implement find_kth_largest using  Heap Pattern...
+## Card 31: Implement find_kth_largest using Heap Pattern...
 
 **Front:**
-Implement find_kth_largest using  Heap Pattern
+Implement find_kth_largest using Heap Pattern
 
 **Back:**
 ```python
@@ -579,12 +579,12 @@ def find_kth_largest(nums, k):
 ---
 
 
-# Algorithm Flashcards -  Heap Pattern
+# Algorithm Flashcards - Heap Pattern
 
-## Card 32: What is the time/space complexity of  Heap Patter...
+## Card 32: What is the time/space complexity of Heap Pattern?...
 
 **Front:**
-What is the time/space complexity of  Heap Pattern?
+What is the time/space complexity of Heap Pattern?
 
 **Back:**
 Varies by implementation
@@ -592,12 +592,12 @@ Varies by implementation
 ---
 
 
-# Algorithm Flashcards -  Backtracking Pattern
+# Algorithm Flashcards - Backtracking Pattern
 
-## Card 33: Identify the algorithm pattern for:  Backtracking...
+## Card 33: Identify the algorithm pattern for: Backtracking P...
 
 **Front:**
-Identify the algorithm pattern for:  Backtracking Pattern
+Identify the algorithm pattern for: Backtracking Pattern
 
 **Back:**
 Key indicators:
@@ -611,12 +611,12 @@ Key indicators:
 ---
 
 
-# Algorithm Flashcards -  Backtracking Pattern
+# Algorithm Flashcards - Backtracking Pattern
 
-## Card 34: Give examples of  Backtracking Pattern problems...
+## Card 34: Give examples of Backtracking Pattern problems...
 
 **Front:**
-Give examples of  Backtracking Pattern problems
+Give examples of Backtracking Pattern problems
 
 **Back:**
 Common examples:
@@ -625,12 +625,12 @@ Common examples:
 ---
 
 
-# Algorithm Flashcards -  Backtracking Pattern
+# Algorithm Flashcards - Backtracking Pattern
 
-## Card 35: Implement permute using  Backtracking Pattern...
+## Card 35: Implement permute using Backtracking Pattern...
 
 **Front:**
-Implement permute using  Backtracking Pattern
+Implement permute using Backtracking Pattern
 
 **Back:**
 ```python
@@ -654,12 +654,12 @@ def permute(nums):
 ---
 
 
-# Algorithm Flashcards -  Backtracking Pattern
+# Algorithm Flashcards - Backtracking Pattern
 
-## Card 36: What is the time/space complexity of  Backtrackin...
+## Card 36: What is the time/space complexity of Backtracking ...
 
 **Front:**
-What is the time/space complexity of  Backtracking Pattern?
+What is the time/space complexity of Backtracking Pattern?
 
 **Back:**
 Varies by implementation
@@ -667,12 +667,12 @@ Varies by implementation
 ---
 
 
-# Algorithm Flashcards -  Problem Type → Algorithm Pattern
+# Algorithm Flashcards - Problem Type → Algorithm Pattern
 
-## Card 37: What is the time/space complexity of  Problem Typ...
+## Card 37: What is the time/space complexity of Problem Type ...
 
 **Front:**
-What is the time/space complexity of  Problem Type → Algorithm Pattern?
+What is the time/space complexity of Problem Type → Algorithm Pattern?
 
 **Back:**
 Varies by implementation
@@ -693,12 +693,12 @@ Varies by implementation
 ---
 
 
-# Algorithm Flashcards -  Common Interview Patterns
+# Algorithm Flashcards - Common Interview Patterns
 
-## Card 39: What is the time/space complexity of  Common Inte...
+## Card 39: What is the time/space complexity of Common Interv...
 
 **Front:**
-What is the time/space complexity of  Common Interview Patterns?
+What is the time/space complexity of Common Interview Patterns?
 
 **Back:**
 Varies by implementation

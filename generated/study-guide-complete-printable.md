@@ -2,60 +2,45 @@
 
 *A comprehensive study guide covering DevOps, Chaos Engineering, and Backend Development fundamentals*
 
+*Complete edition including all documentation and algorithm flashcards*
+
 *Generated for printing and offline study*
 
 ---
 
 ## Table of Contents
 
-### Core Fundamentals
+### 1. Core Fundamentals
+   1.1 Data Structures Overview
+   1.2 Algorithms & Data Structures
+   1.3 Complex Data Structures (Trees, Graphs)
+   1.4 Searching & Sorting Algorithms
+   1.5 Sliding Window Algorithms
+   1.6 Frontend Development
+   1.7 Programming Languages & Tools
 
-- Data Structures Overview
+### 2. System Design & Architecture
+   2.1 System Design Problems
+   2.2 Data Layer & Databases
+   2.3 Design Patterns
 
-- Algorithms & Data Structures
+### 3. DevOps & Cloud
+   3.1 CI/CD & Infrastructure
+   3.2 Reliability Engineering (Internet Fundamentals, Observability, Chaos Engineering, Load Testing)
 
-- Complex Data Structures (Trees, Graphs)
+### 4. Security & Compliance
+   4.1 Security & Compliance
 
-- Searching & Sorting Algorithms
+### 5. Quick Reference & Cheat Sheets
+   5.1 Comprehensive Cheat Sheet
 
-- Sliding Window Algorithms
-
-- Frontend Development
-
-- Programming Languages & Tools
-
-
-### System Design & Architecture
-
-- System Design Problems
-
-- Data Layer & Databases
-
-- Design Patterns
-
-
-### DevOps & Cloud
-
-- CI/CD & Infrastructure
-
-- Reliability Engineering (Internet Fundamentals, Observability, Chaos Engineering, Load Testing)
-
-
-### Security & Compliance
-
-- Security & Compliance
-
-
-### Quick Reference & Cheat Sheets
-
-- Comprehensive Cheat Sheet
-
+### 6. Algorithm Flashcards & Pattern Recognition
 
 ---
 
-# Core Fundamentals
+# 1. Core Fundamentals
 
-## Data Structures Overview
+## 1.1 Data Structures Overview
 
 ## **1. Big-O Complexity Cheat Sheet**
 
@@ -221,7 +206,7 @@ print(list(c1) == list(c2))      # False - different insertion order
 
 # WHY THIS MATTERS FOR ANAGRAMS
 def isAnagram(s: str, t: str) -> bool:
-    return Counter(s) == Counter(t)  # ✅ Works perfectly!
+    return Counter(s) == Counter(t)  #  Works perfectly!
 
 # The equality operator compares the mathematical content (frequencies),
 # not the presentation order (insertion order)
@@ -230,7 +215,7 @@ def isAnagram(s: str, t: str) -> bool:
 
 | Operation | Behavior | Example | Use Case |
 |-----------|----------|---------|----------|
-| **`Counter(s) == Counter(t)`** | Compares frequencies, ignores order | `Counter("hello") == Counter("olleh")` → `True` | Anagram problems ✅ |
+| **`Counter(s) == Counter(t)`** | Compares frequencies, ignores order | `Counter("hello") == Counter("olleh")` → `True` | Anagram problems  |
 | **`list(Counter(s))`** | Returns keys in insertion order | `list(Counter("hello"))` → `['h', 'e', 'l', 'o']` | Iteration order |
 | **`Counter(s).most_common()`** | Returns frequency-sorted list | `Counter("hello").most_common()` → `[('l', 2), ('h', 1), ...]` | Top-K elements |
 | **`dict(Counter(s))`** | Returns underlying dictionary | `dict(Counter("hello"))` → `{'h': 1, 'e': 1, 'l': 2, 'o': 1}` | Dictionary operations |
@@ -241,7 +226,7 @@ def isAnagram(s: str, t: str) -> bool:
 
 #### **Complete Counter Cycle Example**
 
-```python
+```
 from collections import Counter
 
 # String → Counter → String cycle
@@ -264,11 +249,9 @@ s1, s2 = "hello", "olleh"
 print(normalize_string(s1))  # "ehllo"
 print(normalize_string(s2))  # "ehllo"
 print(normalize_string(s1) == normalize_string(s2))  # True
-```
-```
-
+```markdown
 #### **collections.defaultdict** - Dictionaries with default values
-```python
+```
 from collections import defaultdict
 
 # Group by key
@@ -288,10 +271,9 @@ nested = defaultdict(lambda: defaultdict(list))
 nested['group1']['subgroup'].append('item')
 
 # Use cases: grouping, counting, nested data structures
-```
-
+```markdown
 #### **heapq** - Priority queue operations
-```python
+```
 import heapq
 
 # Create min-heap
@@ -310,10 +292,9 @@ def top_k(nums, k):
     return heapq.nlargest(k, nums)  # O(n log k)
 
 # Use cases: Dijkstra's algorithm, top-K problems, scheduling
-```
-
+```markdown
 #### **bisect** - Binary search on sorted arrays
-```python
+```
 import bisect
 
 arr = [1, 3, 5, 7, 9]
@@ -327,8 +308,7 @@ bisect.insort_left(arr, 4)         # [1, 3, 4, 5, 7, 9]
 bisect.insort_right(arr, 5)         # [1, 3, 4, 5, 5, 7, 9]
 
 # Use cases: maintaining sorted lists, range queries, binary search
-```
-
+```yaml
 ---
 
 ## **2. Strings & Arrays**
@@ -414,11 +394,11 @@ Compare Core Data Structures
 
 | Operation | List | Dict | Set | Queue/Deque |
 |-----------|------|------|-----|--------------|
-| `len()` | ✅ | ✅ | ✅ | ✅ |
+| `len()` |  |  |  |  |
 | `in` (membership) | O(n) | O(1) | O(1) | O(n) |
 | `pop()` | End only (O(1)) | By key (O(1) avg) | Arbitrary O(1) | Left/right O(1) |
-| `clear()` | ✅ | ✅ | ✅ | ✅ |
-| `sorted()` | ✅ | On `.items()` (O(n log n)) | ✅ | Convert to list first |
+| `clear()` |  |  |  |  |
+| `sorted()` |  | On `.items()` (O(n log n)) |  | Convert to list first |
 | Iteration | `for x in list` | `for k,v in dict.items()` | `for x in set` | `for x in deque` |
 
 ---
@@ -470,24 +450,22 @@ Compare Core Data Structures
 
 #### Iterating
 
-```python
+```
 nums = [1, 2, 3, 4]
 for x in nums:
     print(x)
-```
-
+```markdown
 #### Adding & Removing
 
-```python
+```
 nums.append(5)       # [1,2,3,4,5]
 nums.insert(2, 10)   # [1,2,10,3,4,5]
 nums.remove(3)       # removes first '3'
 popped = nums.pop()  # removes last element, returns it
-```
-
+```markdown
 #### Sorting & Reversing
 
-```python
+```
 # In-place sorting (modifies original list)
 nums.sort()                    # ascending: [1,2,3,4,5]
 nums.sort(reverse=True)        # descending: [5,4,3,2,1]
@@ -508,11 +486,10 @@ reversed_copy = list(reversed(nums))  # another copy method
 # sorted(): O(n log n) time, O(n) space (creates copy)
 # reverse(): O(n) time, O(1) space (in-place)
 # [::-1]: O(n) time, O(n) space (creates copy)
-```
-
+```markdown
 #### Helper Functions & Collections
 
-```python
+```
 from collections import deque, Counter, defaultdict
 
 # Queue operations (O(1) at both ends)
@@ -562,8 +539,7 @@ s.rfind("l")           # 9 - last index of substring
 s.index("world")       # 6 - first index (raises ValueError if not found)
 s.count("l")           # 3 - count occurrences
 "world" in s           # True - substring membership
-```
-
+```markdown
 ---
 
 ## **Essential Built-in Functions for Problem Solving**
@@ -580,7 +556,7 @@ s.count("l")           # 3 - count occurrences
 
 ### **Range & Iteration Helpers**
 
-```python
+```
 # Range variations
 range(5)                    # [0, 1, 2, 3, 4] - 0 to n-1
 range(1, 6)                 # [1, 2, 3, 4, 5] - start to end-1
@@ -597,11 +573,10 @@ names = ['Alice', 'Bob', 'Charlie']
 ages = [25, 30, 35]
 for name, age in zip(names, ages):
     print(f"{name} is {age}")  # Alice is 25, Bob is 30, etc.
-```
-
+```markdown
 ### **Search & Count Operations**
 
-```python
+```
 # List operations
 nums = [1, 2, 3, 2, 4, 2]
 nums.index(2)               # 1 - first occurrence
@@ -624,11 +599,10 @@ except ValueError:
 
 # Or use find for strings (returns -1)
 idx = s.find("xyz")         # -1 if not found
-```
-
+```markdown
 ### **Common Problem-Solving Patterns**
 
-```python
+```
 # Two pointers with enumerate
 def two_sum(nums, target):
     for i, num in enumerate(nums):
@@ -659,11 +633,10 @@ def group_anagrams(strs):
             groups[key] = []
         groups[key].append(i)  # Store indices instead of strings
     return list(groups.values())
-```
-
+```markdown
 ### **Additional Useful Built-ins**
 
-```python
+```
 # String manipulation
 s = "Hello World"
 s.upper()               # "HELLO WORLD" - convert to uppercase
@@ -702,8 +675,7 @@ bool(0)                 # False - falsy values
 bool(1)                 # True - truthy values
 bool("")                # False - empty string is falsy
 bool("hello")           # True - non-empty string is truthy
-```
-
+```yaml
 ---
 
 # Dictionaries (Python `dict`)
@@ -774,7 +746,7 @@ bool("hello")           # True - non-empty string is truthy
 
 #### Iteration & Access
 
-```python
+```
 d = {"a": 1, "b": 2, "c": 3}
 
 # Safe access patterns
@@ -794,11 +766,10 @@ for k, v in d.items():     # key-value pairs
 # Dictionary comprehension
 squares = {x: x**2 for x in range(5)}  # {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
 filtered = {k: v for k, v in d.items() if v > 1}  # Filter by value
-```
-
+```markdown
 #### Adding & Removing
 
-```python
+```
 # Single operations
 d["d"] = 4            # add/update
 d.update({"e": 5, "f": 6})    # bulk add/update
@@ -808,11 +779,10 @@ d.pop("b", None)      # delete with default
 # Advanced operations
 d.setdefault("g", 7)  # set if missing, return value
 d.copy()              # shallow copy
-```
-
+```markdown
 #### Sorting & Merging
 
-```python
+```
 # Sort by key (returns list of tuples)
 sorted_by_key = sorted(d.items())    # [('c', 3), ('d', 4), ('e', 5)]
 
@@ -827,11 +797,10 @@ d1 = {"a": 1, "b": 2}
 d2 = {"b": 3, "c": 4}
 d1.update(d2)         # d1 = {"a": 1, "b": 3, "c": 4} (b overwritten)
 merged = {**d1, **d2}  # Python 3.5+ unpacking
-```
-
+```markdown
 #### Helper Functions & Collections
 
-```python
+```
 from collections import defaultdict, Counter
 
 # defaultdict - automatic default values
@@ -856,8 +825,7 @@ d = {"a": 1, "b": 2, "c": 3}
 len(d)                  # 3 - number of key-value pairs
 all(v > 0 for v in d.values())  # True - all values positive
 any(v > 2 for v in d.values())  # True - any value > 2
-```
-
+```text
 ---
 
 # Sets (`set` in Python)
@@ -892,14 +860,13 @@ any(v > 2 for v in d.values())  # True - any value > 2
 
 ### Examples
 
-```python
+```
 s = {1, 2, 3}
 s.add(4)             # {1,2,3,4}
 s.remove(2)          # {1,3,4}
 print(3 in s)        # True
 print(s.union({5}))  # {1,3,4,5}
-```
-
+```text
 ---
 
 # Stacks (LIFO)
@@ -920,13 +887,12 @@ print(s.union({5}))  # {1,3,4,5}
 
 ### Example
 
-```python
+```
 stack = []
 stack.append(1)
 stack.append(2)
 top = stack.pop()  # 2
-```
-
+```text
 ---
 
 # Queues (FIFO)
@@ -947,13 +913,12 @@ top = stack.pop()  # 2
 
 ### Example
 
-```python
+```
 from collections import deque
 q = deque([1, 2])
 q.append(3)        # [1,2,3]
 front = q.popleft() # 1
-```
-
+```text
 ---
 
 # Heaps / Priority Queues (`heapq`)
@@ -976,7 +941,7 @@ front = q.popleft() # 1
 
 ### Example
 
-```python
+```
 import heapq
 heap = [3, 1, 4]
 heapq.heapify(heap)
@@ -986,7 +951,7 @@ print(heapq.heappop(heap)) # 1
 
 ---
 
-## Algorithms & Data Structures
+## 1.2 Algorithms & Data Structures
 
 ## How to recognize DP
 
@@ -1004,19 +969,21 @@ print(heapq.heappop(heap)) # 1
 
 ### Template — Top-Down (Memo)
 
-```python
+```
 from functools import lru_cache
 
 @lru_cache(None)
 def f(args):
-    # base case(s)
-    # combine recursive calls
+    """
+    base case(s)
+    combine recursive calls
+    """
     return result
 ```
 
 ### Template — Bottom-Up (Tabulation)
 
-```python
+```
 # allocate dp
 # set base cases
 # iterate in dependency order
@@ -1061,7 +1028,7 @@ return dp[n]
 
 **Python (O(n) time, O(1) space)**
 
-```python
+```
 def climb_stairs(n: int) -> int:
     if n <= 1: return 1
     a, b = 1, 1
@@ -1103,7 +1070,7 @@ return dp[amount]
 
 **Python**
 
-```python
+```
 def coin_change(coins, amount):
     INF = amount + 1
     dp = [INF]*(amount+1)
@@ -1152,7 +1119,7 @@ return dp[n][m]
 
 **Python**
 
-```python
+```
 def edit_distance(s, t):
     n, m = len(s), len(t)
     dp = [[0]*(m+1) for _ in range(n+1)]
@@ -1200,7 +1167,7 @@ return dp[n][W]
 
 **Python (space-optimized O(W))**
 
-```python
+```
 def knapsack_01(weights, values, W):
     dp = [0]*(W+1)
     for i in range(len(weights)):
@@ -1239,7 +1206,7 @@ return max over dp
 
 **Python — O(n log n) patience sorting variant**
 
-```python
+```
 import bisect
 def lis_length(nums):
     tails = []
@@ -1295,7 +1262,7 @@ return count
 
 **Python**
 
-```python
+```
 def max_non_overlapping(intervals):
     intervals.sort(key=lambda x: x[1])
     cnt, last_end = 0, float('-inf')
@@ -1314,7 +1281,7 @@ def max_non_overlapping(intervals):
 
 **Python**
 
-```python
+```
 import heapq
 
 def min_meeting_rooms(intervals):
@@ -1391,7 +1358,7 @@ return total
 
 **Python (DSU helpers)**
 
-```python
+```
 class DSU:
     def __init__(self, n):
         self.p = list(range(n))
@@ -1444,7 +1411,7 @@ return heap[0]
 **Pattern**: Use two pointers moving at different speeds or directions
 
 #### **Two Pointers - Same Direction (Fast/Slow)**
-```python
+```
 # Find middle of linked list
 def find_middle(head):
     slow = fast = head
@@ -1465,7 +1432,7 @@ def has_cycle(head):
 ```
 
 #### **Two Pointers - Opposite Directions**
-```python
+```
 # Two Sum in sorted array
 def two_sum_sorted(nums, target):
     left, right = 0, len(nums) - 1
@@ -1483,7 +1450,7 @@ def two_sum_sorted(nums, target):
 def is_palindrome(s):
     left, right = 0, len(s) - 1
     while left < right:
-        # Skip non-alphanumeric characters
+        """ Skip non-alphanumeric characters """
         while left < right and not s[left].isalnum():
             left += 1
         while left < right and not s[right].isalnum():
@@ -1501,17 +1468,17 @@ def is_palindrome(s):
 **Pattern**: Maintain a window that slides through the array
 
 #### **Fixed Size Window**
-```python
+```
 # Maximum sum of subarray of size k
 def max_sum_subarray_k(nums, k):
     if len(nums) < k:
         return 0
     
-    # Calculate sum of first window
+    """ Calculate sum of first window """
     window_sum = sum(nums[:k])
     max_sum = window_sum
     
-    # Slide window
+    """ Slide window """
     for i in range(k, len(nums)):
         window_sum = window_sum - nums[i-k] + nums[i]
         max_sum = max(max_sum, window_sum)
@@ -1520,14 +1487,14 @@ def max_sum_subarray_k(nums, k):
 ```
 
 #### **Variable Size Window**
-```python
+```
 # Longest substring without repeating characters
 def length_of_longest_substring(s):
     char_map = {}
     left = max_length = 0
     
     for right, char in enumerate(s):
-        # If character exists, move left pointer
+        """ If character exists, move left pointer """
         if char in char_map and char_map[char] >= left:
             left = char_map[char] + 1
         
@@ -1542,7 +1509,7 @@ def length_of_longest_substring(s):
 **Pattern**: Divide search space in half each iteration
 
 #### **Standard Binary Search**
-```python
+```
 def binary_search(nums, target):
     left, right = 0, len(nums) - 1
     
@@ -1560,7 +1527,7 @@ def binary_search(nums, target):
 ```
 
 #### **Binary Search on Answer**
-```python
+```
 # Find minimum capacity to ship packages within D days
 def ship_within_days(weights, days):
     def can_ship(capacity):
@@ -1590,7 +1557,7 @@ def ship_within_days(weights, days):
 ```
 
 #### **Finding Insert Position**
-```python
+```
 def search_insert(nums, target):
     left, right = 0, len(nums)
     
@@ -1608,7 +1575,7 @@ def search_insert(nums, target):
 ### Graph Algorithms
 
 #### **Depth-First Search (DFS)**
-```python
+```
 # DFS with recursion
 def dfs_recursive(graph, node, visited):
     if node in visited:
@@ -1634,14 +1601,14 @@ def dfs_iterative(graph, start):
         visited.add(node)
         print(f"Visiting: {node}")
         
-        # Add unvisited neighbors to stack
+        """ Add unvisited neighbors to stack """
         for neighbor in reversed(graph[node]):
             if neighbor not in visited:
                 stack.append(neighbor)
 ```
 
 #### **Breadth-First Search (BFS)**
-```python
+```
 from collections import deque
 
 def bfs(graph, start):
@@ -1660,15 +1627,15 @@ def bfs(graph, start):
 ```
 
 #### **Topological Sort (Kahn's Algorithm)**
-```python
+```
 def topological_sort(graph):
-    # Calculate in-degrees
+    """ Calculate in-degrees """
     in_degree = {node: 0 for node in graph}
     for node in graph:
         for neighbor in graph[node]:
             in_degree[neighbor] += 1
     
-    # Find nodes with 0 in-degree
+    """ Find nodes with 0 in-degree """
     queue = deque([node for node in in_degree if in_degree[node] == 0])
     result = []
     
@@ -1676,20 +1643,20 @@ def topological_sort(graph):
         node = queue.popleft()
         result.append(node)
         
-        # Reduce in-degree of neighbors
+        """ Reduce in-degree of neighbors """
         for neighbor in graph[node]:
             in_degree[neighbor] -= 1
             if in_degree[neighbor] == 0:
                 queue.append(neighbor)
     
-    # Check if all nodes were processed
+    """ Check if all nodes were processed """
     return result if len(result) == len(graph) else []
 ```
 
 ### Tree Traversal Patterns
 
 #### **Inorder Traversal (Left -> Root -> Right)**
-```python
+```
 def inorder_traversal(root):
     result = []
     
@@ -1711,23 +1678,23 @@ def inorder_iterative(root):
     current = root
     
     while current or stack:
-        # Go to leftmost node
+        """ Go to leftmost node """
         while current:
             stack.append(current)
             current = current.left
         
-        # Process current node
+        """ Process current node """
         current = stack.pop()
         result.append(current.val)
         
-        # Move to right subtree
+        """ Move to right subtree """
         current = current.right
     
     return result
 ```
 
 #### **Level Order Traversal (BFS)**
-```python
+```
 from collections import deque
 
 def level_order_traversal(root):
@@ -1758,7 +1725,7 @@ def level_order_traversal(root):
 ### String Algorithms
 
 #### **KMP Algorithm for Pattern Matching**
-```python
+```
 def kmp_search(text, pattern):
     def build_lps(pattern):
         lps = [0] * len(pattern)
@@ -1802,37 +1769,37 @@ def kmp_search(text, pattern):
 ```
 
 #### **Rabin-Karp Algorithm**
-```python
+```
 def rabin_karp_search(text, pattern):
     if len(pattern) > len(text):
         return -1
     
-    # Hash function parameters
+    """ Hash function parameters """
     d = 256  # Number of characters in input alphabet
     q = 101  # Prime number
     
-    # Calculate hash values
+    """ Calculate hash values """
     pattern_hash = 0
     text_hash = 0
     h = 1
     
-    # Calculate h = d^(m-1) % q
+    """ Calculate h = d^(m-1) % q """
     for i in range(len(pattern) - 1):
         h = (h * d) % q
     
-    # Calculate hash for pattern and first window of text
+    """ Calculate hash for pattern and first window of text """
     for i in range(len(pattern)):
         pattern_hash = (d * pattern_hash + ord(pattern[i])) % q
         text_hash = (d * text_hash + ord(text[i])) % q
     
-    # Slide the pattern over text one by one
+    """ Slide the pattern over text one by one """
     for i in range(len(text) - len(pattern) + 1):
         if pattern_hash == text_hash:
-            # Check if characters match
+            """ Check if characters match """
             if text[i:i+len(pattern)] == pattern:
                 return i
         
-        # Calculate hash for next window
+        """ Calculate hash for next window """
         if i < len(text) - len(pattern):
             text_hash = (d * (text_hash - ord(text[i]) * h) + ord(text[i + len(pattern)])) % q
             if text_hash < 0:
@@ -1844,30 +1811,30 @@ def rabin_karp_search(text, pattern):
 ### Dynamic Programming Advanced Patterns
 
 #### **State Compression DP**
-```python
+```
 # Traveling Salesman Problem with bitmask
 def tsp_dp(graph):
     n = len(graph)
-    # dp[mask][pos] = minimum cost to visit all cities in mask ending at pos
+    """ dp[mask][pos] = minimum cost to visit all cities in mask ending at pos """
     dp = [[float('inf')] * n for _ in range(1 << n)]
     
-    # Base case: starting from city 0
+    """ Base case: starting from city 0 """
     dp[1][0] = 0
     
-    # Try all possible subsets
+    """ Try all possible subsets """
     for mask in range(1 << n):
         for pos in range(n):
             if not (mask & (1 << pos)):
                 continue
             
-            # Try to come from previous city
+            """ Try to come from previous city """
             prev_mask = mask ^ (1 << pos)
             for prev_pos in range(n):
                 if prev_mask & (1 << prev_pos):
                     dp[mask][pos] = min(dp[mask][pos], 
                                       dp[prev_mask][prev_pos] + graph[prev_pos][pos])
     
-    # Return to starting city
+    """ Return to starting city """
     result = float('inf')
     for pos in range(1, n):
         result = min(result, dp[(1 << n) - 1][pos] + graph[pos][0])
@@ -1876,7 +1843,7 @@ def tsp_dp(graph):
 ```
 
 #### **Digit DP**
-```python
+```
 # Count numbers with digit sum equal to target
 def count_numbers_with_digit_sum(n, target):
     def digit_dp(pos, tight, sum_so_far, dp):
@@ -1924,7 +1891,7 @@ def count_numbers_with_digit_sum(n, target):
 - "Container with most water"
 
 **Examples**:
-```python
+```
 # Two Sum in sorted array
 def two_sum_sorted(nums, target):
     left, right = 0, len(nums) - 1
@@ -1949,7 +1916,7 @@ def two_sum_sorted(nums, target):
 - "Find all anagrams in a string"
 
 **Examples**:
-```python
+```
 # Longest substring without repeating characters
 def length_of_longest_substring(s):
     char_map = {}
@@ -1974,7 +1941,7 @@ def length_of_longest_substring(s):
 - "Find peak element"
 
 **Examples**:
-```python
+```
 # Find minimum capacity to ship packages
 def ship_within_days(weights, days):
     def can_ship(capacity):
@@ -2012,7 +1979,7 @@ def ship_within_days(weights, days):
 - "Find lowest common ancestor"
 
 **Examples**:
-```python
+```
 # Validate Binary Search Tree
 def is_valid_bst(root):
     def validate(node, low, high):
@@ -2036,7 +2003,7 @@ def is_valid_bst(root):
 - "Clone graph"
 
 **Examples**:
-```python
+```
 # Detect cycle in directed graph
 def has_cycle(graph):
     visited = set()
@@ -2077,7 +2044,7 @@ def has_cycle(graph):
 - "Climbing stairs"
 
 **Examples**:
-```python
+```
 # Coin Change - Minimum coins needed
 def coin_change(coins, amount):
     dp = [float('inf')] * (amount + 1)
@@ -2100,7 +2067,7 @@ def coin_change(coins, amount):
 - "Unbounded knapsack"
 
 **Examples**:
-```python
+```
 # Partition Equal Subset Sum
 def can_partition(nums):
     total = sum(nums)
@@ -2132,7 +2099,7 @@ def can_partition(nums):
 - "Sliding window median"
 
 **Examples**:
-```python
+```
 # Find K-th Largest Element
 def find_kth_largest(nums, k):
     import heapq
@@ -2160,7 +2127,7 @@ def find_kth_largest(nums, k):
 - "Word search"
 
 **Examples**:
-```python
+```
 # Generate All Permutations
 def permute(nums):
     def backtrack(start):
@@ -2287,7 +2254,7 @@ Space Complexity: O(min(m, n)) where m is charset size
 
 ---
 
-## Complex Data Structures (Trees, Graphs)
+## 1.3 Complex Data Structures (Trees, Graphs)
 
 ### Key Properties
 
@@ -2325,7 +2292,7 @@ inorder(node):
 
 **Python Examples**
 
-```python
+```
 def inorder(root):
     if root:
         inorder(root.left)
@@ -2347,7 +2314,7 @@ def postorder(root):
 
 **Level Order BFS**
 
-```python
+```
 from collections import deque
 
 def level_order(root):
@@ -2376,7 +2343,7 @@ def level_order(root):
 
 In these grid problems, **`DIRS`** is just the set of neighbor **offsets** (row/col deltas) you iterate over to visit adjacent cells.
 
-```python
+```
 # 4-directional neighbors (Manhattan adjacency: up, down, left, right)
 DIRS_4 = ((1, 0), (-1, 0), (0, 1), (0, -1))
 # use like: for dr, dc in DIRS_4: nr, nc = r + dr, c + dc
@@ -2396,7 +2363,7 @@ Quick notes:
 
 If you prefer `(x, y)` (column, row) semantics, just swap the names and add accordingly:
 
-```python
+```
 DIRS_4_XY = ((1, 0), (-1, 0), (0, 1), (0, -1))  # (dx, dy)
 # then nx, ny = x + dx, y + dy
 ```
@@ -2434,7 +2401,7 @@ Use **DFS** when you see:
 
 **Invariant:** One outer loop = **one minute**. The queue holds **exactly** the frontier that can spread **this minute**. Newly affected cells go to the **next minute**.
 
-```python
+```
 from collections import deque
 
 def multi_source_bfs_minutes(grid: list[list[int]],
@@ -2449,7 +2416,7 @@ def multi_source_bfs_minutes(grid: list[list[int]],
     q = deque()
     targets = 0
 
-    # 1) Seed queue with all sources; count targets
+    """ 1) Seed queue with all sources; count targets """
     for r in range(rows):
         for c in range(cols):
             if is_source(grid[r][c]):
@@ -2462,7 +2429,7 @@ def multi_source_bfs_minutes(grid: list[list[int]],
 
     minutes = 0
 
-    # 2) Process by levels (each level = one minute)
+    """ 2) Process by levels (each level = one minute) """
     while q and targets > 0:
         for _ in range(len(q)):            # process current frontier
             r, c = q.popleft()
@@ -2481,7 +2448,7 @@ def multi_source_bfs_minutes(grid: list[list[int]],
 
 ## 4) Rotting Oranges (LC 994) — BFS (level-size)
 
-```python
+```
 from collections import deque
 
 # DIRS_4 reused from the top of the file
@@ -2492,7 +2459,7 @@ class Solution:
         q = deque()
         fresh = 0
 
-        # Seed: all rotten at t=0; count fresh
+        """ Seed: all rotten at t=0; count fresh """
         for r in range(rows):
             for c in range(cols):
                 if grid[r][c] == 2:
@@ -2505,7 +2472,7 @@ class Solution:
 
         minutes = 0
 
-        # Each outer loop = one minute (one “wave”)
+        """ Each outer loop = one minute (one “wave”) """
         while q and fresh > 0:
             for _ in range(len(q)):             # process current frontier only
                 r, c = q.popleft()
@@ -2522,7 +2489,7 @@ class Solution:
 
 ### (Conceptual) Two-phase “scan each minute” — equivalent but slower
 
-```python
+```
 def orangesRotting_scan(grid: list[list[int]]) -> int:
     rows, cols = len(grid), len(grid[0])
 
@@ -2537,7 +2504,7 @@ def orangesRotting_scan(grid: list[list[int]]) -> int:
         to_rot = []
         fresh_exists = False
 
-        # Phase 1: collect who will rot at end of this minute
+        """ Phase 1: collect who will rot at end of this minute """
         for r in range(rows):
             for c in range(cols):
                 if grid[r][c] == 1:
@@ -2550,7 +2517,7 @@ def orangesRotting_scan(grid: list[list[int]]) -> int:
         if not to_rot:
             return -1                # isolated fresh → impossible
 
-        # Phase 2: apply changes (no chain reaction within the minute)
+        """ Phase 2: apply changes (no chain reaction within the minute) """
         for r, c in to_rot:
             grid[r][c] = 2
         minutes += 1
@@ -2560,7 +2527,7 @@ def orangesRotting_scan(grid: list[list[int]]) -> int:
 
 ## 5) Number of Islands (LC 200) — DFS for components
 
-```python
+```
 # DIRS_4 reused from the top of the file
 
 class Solution:
@@ -2571,7 +2538,7 @@ class Solution:
         rows, cols = len(grid), len(grid[0])
 
         def dfs(r: int, c: int) -> None:
-            # bounds + must be land
+            """ bounds + must be land """
             if not (0 <= r < rows and 0 <= c < cols) or grid[r][c] != "1":
                 return
             grid[r][c] = "0"           # mark visited by sinking land
@@ -2591,7 +2558,7 @@ class Solution:
 
 ## 6) Flood Fill (LC 733) — DFS for region fill
 
-```python
+```
 # DIRS_4 reused from the top of the file
 
 class Solution:
@@ -2616,7 +2583,7 @@ class Solution:
 
 ## 7) Single-source shortest path in a grid — BFS template
 
-```python
+```
 from collections import deque
 
 # DIRS_4 reused from the top of the file
@@ -2680,22 +2647,22 @@ def bfs_shortest_path(grid: list[list[int]], sr: int, sc: int,
 
 **Python Implementation**:
 
-```python
+```
 def is_valid_bst(root):
     def inorder(node, prev):
         if not node:
             return True
 
-        # Check left subtree
+        """ Check left subtree """
         if not inorder(node.left, prev):
             return False
 
-        # Check current node (should be > previous)
+        """ Check current node (should be > previous) """
         if prev[0] is not None and node.val <= prev[0]:
             return False
         prev[0] = node.val
 
-        # Check right subtree
+        """ Check right subtree """
         return inorder(node.right, prev)
 
     prev = [None]  # Use list to store previous value
@@ -2710,7 +2677,7 @@ def is_valid_bst(root):
 
 **Python Implementation**:
 
-```python
+```
 def serialize(root):
     if not root:
         return "null"
@@ -2739,7 +2706,7 @@ def deserialize(data):
 
 **Python Implementation**:
 
-```python
+```
 def lowest_common_ancestor(root, p, q):
     if not root or root == p or root == q:
         return root
@@ -2760,16 +2727,16 @@ def lowest_common_ancestor(root, p, q):
 
 **Python Implementation**:
 
-```python
+```
 def has_path_sum(root, target_sum):
     if not root:
         return False
 
-    # Check if we're at a leaf
+    """ Check if we're at a leaf """
     if not root.left and not root.right:
         return root.val == target_sum
 
-    # Recursively check left and right subtrees
+    """ Recursively check left and right subtrees """
     remaining = target_sum - root.val
     return has_path_sum(root.left, remaining) or has_path_sum(root.right, remaining)
 ```
@@ -2782,7 +2749,7 @@ def has_path_sum(root, target_sum):
 
 **Python Implementation**:
 
-```python
+```
 def diameter_of_binary_tree(root):
     def height_and_diameter(node):
         if not node:
@@ -2791,13 +2758,13 @@ def diameter_of_binary_tree(root):
         left_height, left_diameter = height_and_diameter(node.left)
         right_height, right_diameter = height_and_diameter(node.right)
 
-        # Current height
+        """ Current height """
         current_height = max(left_height, right_height) + 1
 
-        # Current diameter (through current node)
+        """ Current diameter (through current node) """
         current_diameter = left_height + right_height
 
-        # Max diameter (either through current node or in subtrees)
+        """ Max diameter (either through current node or in subtrees) """
         max_diameter = max(current_diameter, left_diameter, right_diameter)
 
         return current_height, max_diameter
@@ -2831,7 +2798,7 @@ dfs(node):
 
 **Python**
 
-```python
+```
 def dfs(graph, node, visited=None):
     if visited is None:
         visited = set()
@@ -2860,7 +2827,7 @@ bfs(start):
 
 **Python**
 
-```python
+```
 from collections import deque
 
 def bfs(graph, start):
@@ -2907,7 +2874,7 @@ Great call—here are the **approved-style** sections you asked for, rebuilt wit
 
 ## Add / Remove / Traverse / “Sort”
 
-```python
+```
 # --- create empty dict
 d = {}
 
@@ -2927,17 +2894,17 @@ removed = d.pop("missing", None)
 
 # --- traverse keys
 for k in d.keys():
-    # use k
+    """ use k """
     pass
 
 # --- traverse values
 for v in d.values():
-    # use v
+    """ use v """
     pass
 
 # --- traverse key/value pairs
 for k, v in d.items():
-    # use k, v
+    """ use k, v """
     pass
 
 # --- "sort by key" → list of (k,v)
@@ -2952,12 +2919,12 @@ filtered = {k: v for k, v in d.items() if v > 5}
 
 ## Helpers (`defaultdict`, `Counter`)
 
-```python
+```
 # --- defaultdict for grouping
 from collections import defaultdict
 groups = defaultdict(list)
 for key, value in [("x", 1), ("x", 2), ("y", 9)]:
-    # append to auto-created list
+    """ append to auto-created list """
     groups[key].append(value)
 
 # --- Counter for frequency
@@ -2994,7 +2961,7 @@ freq = Counter("abracadabra")
 
 ## Add / Remove / Traverse / “Sort”
 
-```python
+```
 # --- create
 s = set()
 
@@ -3012,7 +2979,7 @@ s.discard(100)
 
 # --- traverse (order arbitrary)
 for x in s:
-    # use x
+    """ use x """
     pass
 
 # --- "sort" (returns a list)
@@ -3028,7 +2995,7 @@ x = s ^ t      # symmetric difference
 
 ## `frozenset` (hashable set)
 
-```python
+```
 # --- frozenset can be a dict key or set element
 fs = frozenset([1,2,3])
 d = {fs: "value"}
@@ -3047,7 +3014,7 @@ d = {fs: "value"}
 
 ## Node definition
 
-```python
+```
 # --- basic binary tree node
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
@@ -3058,70 +3025,74 @@ class TreeNode:
 
 ## Add (BST insert)
 
-```python
+```
 # --- insert a value into BST
 def bst_insert(root, x):
-    # empty spot → create node
+    """ empty spot → create node """
     if root is None:
         return TreeNode(x)
-    # go left if smaller
+    """ go left if smaller """
     if x < root.val:
         root.left = bst_insert(root.left, x)
-    # go right if larger
+    """ go right if larger """
     elif x > root.val:
         root.right = bst_insert(root.right, x)
-    # equal: often ignore or store count; here we ignore
+    """ equal: often ignore or store count; here we ignore """
     return root
 ```
 
 ## Remove (BST delete)
 
-```python
+```
 # --- delete value x from BST
 def bst_delete(root, x):
-    # base: not found
+    """ base: not found """
     if root is None:
         return None
-    # search left
+    """ search left """
     if x < root.val:
         root.left = bst_delete(root.left, x)
         return root
-    # search right
+    """ search right """
     if x > root.val:
         root.right = bst_delete(root.right, x)
         return root
-    # found node to delete:
-    # case 1: no left → return right
+    """
+    found node to delete:
+    case 1: no left → return right
+    """
     if root.left is None:
         return root.right
-    # case 2: no right → return left
+    """ case 2: no right → return left """
     if root.right is None:
         return root.left
-    # case 3: two children → replace with inorder successor
-    # find min in right subtree
+    """
+    case 3: two children → replace with inorder successor
+    find min in right subtree
+    """
     succ = root.right
     while succ.left:
         succ = succ.left
-    # copy successor value
+    """ copy successor value """
     root.val = succ.val
-    # delete successor node from right subtree
+    """ delete successor node from right subtree """
     root.right = bst_delete(root.right, succ.val)
     return root
 ```
 
 ## Traverse (DFS: pre/in/post)
 
-```python
+```
 # --- pre-order: N L R
 def preorder(root, visit):
-    # stop at empty
+    """ stop at empty """
     if not root:
         return
-    # visit node
+    """ visit node """
     visit(root)
-    # traverse left
+    """ traverse left """
     preorder(root.left, visit)
-    # traverse right
+    """ traverse right """
     preorder(root.right, visit)
 
 # --- in-order: L N R (sorted order for BST)
@@ -3143,11 +3114,11 @@ def postorder(root, visit):
 
 ## “Sort” a BST into a list (in-order)
 
-```python
+```
 # --- return ascending values of BST
 def bst_to_sorted_list(root):
     res = []
-    # helper to collect nodes in-order
+    """ helper to collect nodes in-order """
     def visit(node):
         res.append(node.val)
     inorder(root, visit)
@@ -3156,96 +3127,96 @@ def bst_to_sorted_list(root):
 
 ## Traverse (BFS: level-order)
 
-```python
+```
 # --- level-order traversal
 from collections import deque
 
 def level_order(root):
-    # result collector
+    """ result collector """
     res = []
-    # empty tree
+    """ empty tree """
     if not root:
         return res
-    # init queue with root
+    """ init queue with root """
     q = deque([root])
-    # process queue until empty
+    """ process queue until empty """
     while q:
-        # get current level size
+        """ get current level size """
         n = len(q)
-        # start new level list
+        """ start new level list """
         level = []
-        # process each node in level
+        """ process each node in level """
         for _ in range(n):
             node = q.popleft()
             level.append(node.val)
-            # push children if present
+            """ push children if present """
             if node.left:  q.append(node.left)
             if node.right: q.append(node.right)
-        # add level to result
+        """ add level to result """
         res.append(level)
     return res
 ```
 
 ## Search (BST)
 
-```python
+```
 # --- search value in BST
 def bst_search(root, x):
-    # walk down until hit None or value
+    """ walk down until hit None or value """
     while root and root.val != x:
-        # go right if current < x
+        """ go right if current < x """
         if root.val < x:
             root = root.right
-        # otherwise go left
+        """ otherwise go left """
         else:
             root = root.left
-    # either node or None
+    """ either node or None """
     return root
 ```
 
 ## Depth & Balance
 
-```python
+```
 # --- max depth
 def maxDepth(root):
-    # empty tree depth is 0
+    """ empty tree depth is 0 """
     if root is None:
         return 0
-    # depth of left subtree
+    """ depth of left subtree """
     left = maxDepth(root.left)
-    # depth of right subtree
+    """ depth of right subtree """
     right = maxDepth(root.right)
-    # include current node (+1)
+    """ include current node (+1) """
     return 1 + max(left, right)
 
 # --- height-balanced check
 def isBalanced(root):
     def dfs(node):
-        # height 0 for empty
+        """ height 0 for empty """
         if not node:
             return 0
-        # compute left/right heights
+        """ compute left/right heights """
         L = dfs(node.left)
         R = dfs(node.right)
-        # early stop if unbalanced below
+        """ early stop if unbalanced below """
         if L == -1 or R == -1:
             return -1
-        # check local balance
+        """ check local balance """
         if abs(L - R) > 1:
             return -1
-        # return height
+        """ return height """
         return 1 + max(L, R)
-    # balanced if not -1
+    """ balanced if not -1 """
     return dfs(root) != -1
 ```
 
 ---
 
-## Searching & Sorting Algorithms
+## 1.4 Searching & Sorting Algorithms
 
 ---
 
-# 📘 Sorting Algorithms
+#  Sorting Algorithms
 
 ### Key Properties
 
@@ -3286,7 +3257,7 @@ merge(left, right):
 
 **Python**
 
-```python
+```
 def merge_sort(arr):
     if len(arr) <= 1: return arr
     mid = len(arr)//2
@@ -3309,7 +3280,7 @@ def merge(left, right):
 
 ### Example: Quick Sort
 
-```python
+```
 def quicksort(arr):
     if len(arr) <= 1: return arr
     pivot = arr[len(arr)//2]
@@ -3321,14 +3292,14 @@ def quicksort(arr):
 
 ---
 
-# 📘 Searching Algorithms
+#  Searching Algorithms
 
 ### Linear Search
 
 - O(n).
 - Use when data is unsorted.
 
-```python
+```
 def linear_search(arr, target):
     for i, x in enumerate(arr):
         if x == target: return i
@@ -3366,7 +3337,7 @@ Binary search is an efficient algorithm for finding a target element in a **sort
 - Solving: k = log₂(n)
 
 **Python Implementation**:
-```python
+```
 def binary_search(arr, target):
     left, right = 0, len(arr) - 1
     
@@ -3408,10 +3379,10 @@ print(f"Found {target} at index {result}")  # Output: Found 7 at index 3
 # Start from the beginning of the array
 for index from 0 to length(arr)-1:
 
-    # Compare current element with the target
+    """ Compare current element with the target """
     if arr[index] == target:
 
-        # If found, return its position
+        """ If found, return its position """
         return index
 
 # If the loop finishes, target was not found
@@ -3648,7 +3619,7 @@ return left
 
 ---
 
-## Sliding Window Algorithms
+## 1.5 Sliding Window Algorithms
 
 ## **What is a Sliding Window?**
 
@@ -3703,7 +3674,7 @@ max_sum = window_sum
 
 # Slide window
 for i from k to n-1:
-    # Remove first element, add new element
+    """ Remove first element, add new element """
     window_sum = window_sum - arr[i-k] + arr[i]
     max_sum = max(max_sum, window_sum)
 
@@ -3711,18 +3682,18 @@ return max_sum
 ```
 
 **Python Implementation**:
-```python
+```
 def max_sum_subarray_k(arr, k):
     if len(arr) < k:
         return 0
     
-    # Calculate sum of first window
+    """ Calculate sum of first window """
     window_sum = sum(arr[:k])
     max_sum = window_sum
     
-    # Slide window
+    """ Slide window """
     for i in range(k, len(arr)):
-        # Remove first element, add new element
+        """ Remove first element, add new element """
         window_sum = window_sum - arr[i-k] + arr[i]
         max_sum = max(max_sum, window_sum)
     
@@ -3746,7 +3717,7 @@ print(max_sum_subarray_k(arr, k))  # Output: 24 (subarray [2, 10, 2, 3])
 **Approach**: Use a queue to track negative numbers in the current window.
 
 **Python Implementation**:
-```python
+```
 from collections import deque
 
 def first_negative_in_window(arr, k):
@@ -3756,28 +3727,28 @@ def first_negative_in_window(arr, k):
     result = []
     neg_queue = deque()
     
-    # Process first window
+    """ Process first window """
     for i in range(k):
         if arr[i] < 0:
             neg_queue.append(i)
     
-    # First window result
+    """ First window result """
     if neg_queue:
         result.append(arr[neg_queue[0]])
     else:
         result.append(0)
     
-    # Slide window
+    """ Slide window """
     for i in range(k, len(arr)):
-        # Remove elements outside current window
+        """ Remove elements outside current window """
         while neg_queue and neg_queue[0] <= i - k:
             neg_queue.popleft()
         
-        # Add new negative number
+        """ Add new negative number """
         if arr[i] < 0:
             neg_queue.append(i)
         
-        # Result for current window
+        """ Result for current window """
         if neg_queue:
             result.append(arr[neg_queue[0]])
         else:
@@ -3824,7 +3795,7 @@ return max_length
 ```
 
 **Python Implementation**:
-```python
+```
 def longest_substring_no_repeat(s):
     if not s:
         return 0
@@ -3834,12 +3805,12 @@ def longest_substring_no_repeat(s):
     max_length = 0
     
     for right in range(len(s)):
-        # If we find a duplicate, contract window from left
+        """ If we find a duplicate, contract window from left """
         while s[right] in char_set:
             char_set.remove(s[left])
             left += 1
         
-        # Add current character and expand window
+        """ Add current character and expand window """
         char_set.add(s[right])
         max_length = max(max_length, right - left + 1)
     
@@ -3867,14 +3838,14 @@ print(longest_substring_no_repeat("pwwkew"))    # Output: 3 ("wke")
 4. Track the minimum window found
 
 **Python Implementation**:
-```python
+```
 from collections import Counter
 
 def min_window_substring(s, t):
     if not s or not t:
         return ""
     
-    # Count characters needed from t
+    """ Count characters needed from t """
     need = Counter(t)
     missing = len(t)
     
@@ -3882,14 +3853,14 @@ def min_window_substring(s, t):
     min_start = 0
     min_len = float('inf')
     
-    # Expand window with right pointer
+    """ Expand window with right pointer """
     for right in range(len(s)):
         if s[right] in need:
             need[s[right]] -= 1
             if need[s[right]] >= 0:
                 missing -= 1
         
-        # Contract window from left when all characters found
+        """ Contract window from left when all characters found """
         while missing == 0:
             if right - left + 1 < min_len:
                 min_len = right - left + 1
@@ -3923,7 +3894,7 @@ print(min_window_substring("a", "aa"))               # Output: ""
 **Approach**: Use prefix sum with sliding window.
 
 **Python Implementation**:
-```python
+```
 def subarray_sum_equals_k(nums, k):
     prefix_sum = {0: 1}  # sum: count
     current_sum = 0
@@ -3932,11 +3903,11 @@ def subarray_sum_equals_k(nums, k):
     for num in nums:
         current_sum += num
         
-        # If current_sum - k exists in prefix_sum, we found a subarray
+        """ If current_sum - k exists in prefix_sum, we found a subarray """
         if current_sum - k in prefix_sum:
             count += prefix_sum[current_sum - k]
         
-        # Update prefix_sum count
+        """ Update prefix_sum count """
         prefix_sum[current_sum] = prefix_sum.get(current_sum, 0) + 1
     
     return count
@@ -3954,7 +3925,7 @@ print(subarray_sum_equals_k(nums, k))  # Output: 2 ([1,1] and [1,1])
 **Approach**: Use a deque to maintain indices of elements in decreasing order.
 
 **Python Implementation**:
-```python
+```
 from collections import deque
 
 def max_sliding_window(nums, k):
@@ -3965,18 +3936,18 @@ def max_sliding_window(nums, k):
     dq = deque()  # Store indices
     
     for i in range(len(nums)):
-        # Remove indices outside current window
+        """ Remove indices outside current window """
         while dq and dq[0] <= i - k:
             dq.popleft()
         
-        # Remove smaller elements from back
+        """ Remove smaller elements from back """
         while dq and nums[dq[-1]] < nums[i]:
             dq.pop()
         
-        # Add current index
+        """ Add current index """
         dq.append(i)
         
-        # Add maximum for current window
+        """ Add maximum for current window """
         if i >= k - 1:
             result.append(nums[dq[0]])
     
@@ -4014,37 +3985,39 @@ print(max_sliding_window(nums, k))  # Output: [3, 3, 5, 5, 6, 7]
 ## 6. Sliding Window Template
 
 ### Variable Size Window Template
-```python
+```
 def sliding_window_template(arr):
     left = 0
     result = 0  # or appropriate initial value
     
     for right in range(len(arr)):
-        # Expand window (add right element)
-        # Update state based on right element
+        """
+        Expand window (add right element)
+        Update state based on right element
+        """
         
-        # Contract window (remove left elements) until condition met
+        """ Contract window (remove left elements) until condition met """
         while condition_not_met:
-            # Update state based on left element
+            """ Update state based on left element """
             left += 1
         
-        # Update result
+        """ Update result """
         result = max(result, right - left + 1)  # or appropriate update
     
     return result
 ```
 
 ### Fixed Size Window Template
-```python
+```
 def fixed_window_template(arr, k):
     if len(arr) < k:
         return 0
     
-    # Calculate first window
+    """ Calculate first window """
     window_sum = sum(arr[:k])
     result = window_sum
     
-    # Slide window
+    """ Slide window """
     for i in range(k, len(arr)):
         window_sum = window_sum - arr[i-k] + arr[i]
         result = max(result, window_sum)  # or appropriate operation
@@ -4087,7 +4060,7 @@ def fixed_window_template(arr, k):
 
 ---
 
-## Frontend Development
+## 1.6 Frontend Development
 
 *Master the fundamentals of modern web development, React best practices, and ace your frontend interviews.*
 
@@ -4101,7 +4074,7 @@ The DOM is a programming interface for HTML and XML documents. It represents the
 ### DOM Manipulation Examples
 
 #### Basic DOM Selection
-```javascript
+```
 // Select elements
 const element = document.getElementById('myId');
 const elements = document.getElementsByClassName('myClass');
@@ -4116,7 +4089,7 @@ const prevSibling = element.previousElementSibling;
 ```
 
 #### Creating and Modifying Elements
-```javascript
+```
 // Create new element
 const newDiv = document.createElement('div');
 newDiv.textContent = 'Hello World';
@@ -4138,7 +4111,7 @@ element.innerText = 'Text with formatting preserved';
 ```
 
 #### Event Handling
-```javascript
+```
 // Add event listener
 element.addEventListener('click', function(event) {
     console.log('Clicked!', event);
@@ -4158,7 +4131,7 @@ document.addEventListener('click', function(event) {
 ```
 
 ### DOM Performance Best Practices
-```javascript
+```
 // Batch DOM updates
 const fragment = document.createDocumentFragment();
 for (let i = 0; i < 1000; i++) {
@@ -4183,7 +4156,7 @@ requestAnimationFrame(animate);
 ### Core Concepts
 
 #### JSX
-```jsx
+```
 {% raw %}
 // JSX is syntactic sugar for React.createElement
 const element = <h1>Hello, World!</h1>;
@@ -4206,7 +4179,7 @@ const element = (
 ```
 
 #### Components
-```jsx
+```
 {% raw %}
 // Function Component
 function Welcome(props) {
@@ -4232,7 +4205,7 @@ class Welcome extends React.Component {
 
 #### useState
 {% endraw %}
-```jsx
+```
 {% raw %}
 import React, { useState } from 'react';
 
@@ -4259,18 +4232,18 @@ function Counter() {
 **Advanced useState Patterns and Best Practices**:
 
 **1. Functional Updates** (When new state depends on previous state):
-```jsx
+```
 {% raw %}
 function Counter() {
     const [count, setCount] = useState(0);
     
-    // ❌ Bad: Can lead to stale closures
+    //  Bad: Can lead to stale closures
     const increment = () => setCount(count + 1);
     
-    // ✅ Good: Uses functional update
+    //  Good: Uses functional update
     const increment = () => setCount(prevCount => prevCount + 1);
     
-    // ✅ Good: Multiple updates in sequence
+    //  Good: Multiple updates in sequence
     const incrementByThree = () => {
         setCount(prev => prev + 1);
         setCount(prev => prev + 1);
@@ -4289,7 +4262,7 @@ function Counter() {
 ```
 
 **2. Object State Management** (Managing multiple related values):
-```jsx
+```
 {% raw %}
 function UserForm() {
     const [user, setUser] = useState({
@@ -4298,13 +4271,13 @@ function UserForm() {
         age: ''
     });
     
-    // ❌ Bad: Mutating state directly
+    //  Bad: Mutating state directly
     const handleChange = (field, value) => {
         user[field] = value; // This mutates the original object!
         setUser(user); // React won't detect the change
     };
     
-    // ✅ Good: Creating new object
+    //  Good: Creating new object
     const handleChange = (field, value) => {
         setUser(prevUser => ({
             ...prevUser, // Spread previous state
@@ -4336,13 +4309,13 @@ function UserForm() {
 ```
 
 **3. Lazy Initialization** (Expensive initial state):
-```jsx
+```
 {% raw %}
 function ExpensiveComponent() {
-    // ❌ Bad: Expensive computation runs on every render
+    //  Bad: Expensive computation runs on every render
     const [data, setData] = useState(expensiveCalculation());
     
-    // ✅ Good: Expensive computation only runs once
+    //  Good: Expensive computation only runs once
     const [data, setData] = useState(() => expensiveCalculation());
     
     function expensiveCalculation() {
@@ -4363,19 +4336,19 @@ function ExpensiveComponent() {
 **Common useState Mistakes and Solutions**:
 
 **Mistake 1: Stale Closures in Event Handlers**
-```jsx
+```
 {% raw %}
 function StaleClosureExample() {
     const [count, setCount] = useState(0);
     
-    // ❌ Bad: Creates a new function on every render
+    //  Bad: Creates a new function on every render
     const handleClick = () => {
         setTimeout(() => {
             console.log(count); // Always logs the initial value!
         }, 1000);
     };
     
-    // ✅ Good: Use functional update
+    //  Good: Use functional update
     const handleClick = () => {
         setTimeout(() => {
             setCount(prevCount => {
@@ -4396,18 +4369,18 @@ function StaleClosureExample() {
 ```
 
 **Mistake 2: Mutating State Objects**
-```jsx
+```
 {% raw %}
 function MutatingStateExample() {
     const [items, setItems] = useState([1, 2, 3]);
     
-    // ❌ Bad: Mutating the array directly
+    //  Bad: Mutating the array directly
     const addItem = () => {
         items.push(4); // This mutates the original array!
         setItems(items); // React won't detect the change
     };
     
-    // ✅ Good: Creating a new array
+    //  Good: Creating a new array
     const addItem = () => {
         setItems(prevItems => [...prevItems, 4]);
     };
@@ -4429,7 +4402,7 @@ function MutatingStateExample() {
 **Real-world useState Examples**:
 
 **1. Form Management**:
-```jsx
+```
 {% raw %}
 function ContactForm() {
     const [formData, setFormData] = useState({
@@ -4533,7 +4506,7 @@ function ContactForm() {
 ```
 
 **2. Shopping Cart State**:
-```jsx
+```
 {% raw %}
 function ShoppingCart() {
     const [cart, setCart] = useState([]);
@@ -4620,7 +4593,7 @@ function ShoppingCart() {
 - **Timing**: Runs after the browser has painted the DOM
 
 **Basic Usage**:
-```jsx
+```
 {% raw %}
 import React, { useState, useEffect } from 'react';
 
@@ -4672,18 +4645,18 @@ function UserProfile({ userId }) {
 **useEffect Dependency Array Patterns**:
 
 **1. No Dependencies** (Runs after every render):
-```jsx
+```
 {% raw %}
 function LoggingComponent() {
     const [count, setCount] = useState(0);
     
-    // ❌ Bad: Runs on every render, can cause infinite loops
+    //  Bad: Runs on every render, can cause infinite loops
     useEffect(() => {
         console.log('Component rendered');
         // This could trigger another render if it updates state!
     });
     
-    // ✅ Good: Only for logging, no state updates
+    //  Good: Only for logging, no state updates
     useEffect(() => {
         console.log('Component rendered, count:', count);
     });
@@ -4699,13 +4672,13 @@ function LoggingComponent() {
 ```
 
 **2. Empty Dependencies** (Runs only once on mount):
-```jsx
+```
 {% raw %}
 function SubscriptionComponent() {
     const [data, setData] = useState(null);
     
     useEffect(() => {
-        // ✅ Good: Set up subscription only once
+        //  Good: Set up subscription only once
         const subscription = subscribeToData((newData) => {
             setData(newData);
         });
@@ -4722,14 +4695,14 @@ function SubscriptionComponent() {
 ```
 
 **3. Specific Dependencies** (Runs when dependencies change):
-```jsx
+```
 {% raw %}
 function SearchComponent({ query, filters }) {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     
     useEffect(() => {
-        // ✅ Good: Only search when query or filters change
+        //  Good: Only search when query or filters change
         if (query.trim()) {
             setLoading(true);
             searchAPI(query, filters).then(setResults).finally(() => setLoading(false));
@@ -4752,15 +4725,15 @@ function SearchComponent({ query, filters }) {
 ```
 
 **4. Function Dependencies** (Handling function references):
-```jsx
+```
 {% raw %}
 function ParentComponent() {
     const [count, setCount] = useState(0);
     
-    // ❌ Bad: Function recreated on every render
+    //  Bad: Function recreated on every render
     const handleIncrement = () => setCount(count + 1);
     
-    // ✅ Good: Memoized function with useCallback
+    //  Good: Memoized function with useCallback
     const handleIncrement = useCallback(() => {
         setCount(prev => prev + 1);
     }, []); // No dependencies needed
@@ -4782,7 +4755,7 @@ function ChildComponent({ onIncrement }) {
 **Advanced useEffect Patterns**:
 
 **1. Multiple Effects for Different Concerns**:
-```jsx
+```
 {% raw %}
 function ComplexComponent({ userId, theme }) {
     const [user, setUser] = useState(null);
@@ -4831,7 +4804,7 @@ function ComplexComponent({ userId, theme }) {
 ```
 
 **2. Cleanup Functions and AbortController**:
-```jsx
+```
 {% raw %}
 function DataFetchingComponent({ url }) {
     const [data, setData] = useState(null);
@@ -4874,7 +4847,7 @@ function DataFetchingComponent({ url }) {
 ```
 
 **3. Custom Hook with useEffect**:
-```jsx
+```
 {% raw %}
 function useLocalStorage(key, initialValue) {
     const [storedValue, setStoredValue] = useState(() => {
@@ -4927,17 +4900,17 @@ function UserPreferences() {
 **Common useEffect Mistakes and Solutions**:
 
 **Mistake 1: Missing Dependencies**:
-```jsx
+```
 {% raw %}
 function BuggyComponent({ userId }) {
     const [user, setUser] = useState(null);
     
-    // ❌ Bad: Missing userId in dependencies
+    //  Bad: Missing userId in dependencies
     useEffect(() => {
         fetchUser(userId).then(setUser);
     }, []); // This will only fetch once, even if userId changes!
     
-    // ✅ Good: Include all dependencies
+    //  Good: Include all dependencies
     useEffect(() => {
         fetchUser(userId).then(setUser);
     }, [userId]);
@@ -4948,24 +4921,24 @@ function BuggyComponent({ userId }) {
 ```
 
 **Mistake 2: Infinite Loops**:
-```jsx
+```
 {% raw %}
 function InfiniteLoopComponent() {
     const [count, setCount] = useState(0);
     
-    // ❌ Bad: Updates state in effect with no dependencies
+    //  Bad: Updates state in effect with no dependencies
     useEffect(() => {
         setCount(count + 1); // This causes infinite re-renders!
     }); // No dependency array = runs after every render
     
-    // ✅ Good: Only update when needed
+    //  Good: Only update when needed
     useEffect(() => {
         if (count < 10) {
             setCount(prev => prev + 1);
         }
     }, [count]); // Only run when count changes
     
-    // ✅ Better: Use a ref to track if it's the first render
+    //  Better: Use a ref to track if it's the first render
     const isFirstRender = useRef(true);
     useEffect(() => {
         if (isFirstRender.current) {
@@ -4980,18 +4953,18 @@ function InfiniteLoopComponent() {
 ```
 
 **Mistake 3: Forgetting Cleanup**:
-```jsx
+```
 {% raw %}
 function SubscriptionComponent() {
     const [data, setData] = useState(null);
     
-    // ❌ Bad: No cleanup, can cause memory leaks
+    //  Bad: No cleanup, can cause memory leaks
     useEffect(() => {
         const subscription = subscribeToData(setData);
         // Missing return statement for cleanup!
     }, []);
     
-    // ✅ Good: Proper cleanup
+    //  Good: Proper cleanup
     useEffect(() => {
         const subscription = subscribeToData(setData);
         return () => subscription.unsubscribe();
@@ -5005,7 +4978,7 @@ function SubscriptionComponent() {
 **Real-world useEffect Examples**:
 
 **1. API Data Fetching with Loading States**:
-```jsx
+```
 {% raw %}
 function UserDashboard({ userId }) {
     const [user, setUser] = useState(null);
@@ -5091,7 +5064,7 @@ function UserDashboard({ userId }) {
 ```
 
 **2. Real-time Updates with WebSocket**:
-```jsx
+```
 {% raw %}
 function ChatRoom({ roomId, userId }) {
     const [messages, setMessages] = useState([]);
@@ -5190,7 +5163,7 @@ function ChatRoom({ roomId, userId }) {
 ```
 
 #### useRef
-```jsx
+```
 {% raw %}
 import React, { useRef, useEffect } from 'react';
 
@@ -5215,7 +5188,7 @@ function FocusInput() {
 ```
 
 #### Custom Hooks
-```jsx
+```
 {% raw %}
 // Custom hook for API calls
 function useApi(url) {
@@ -5268,9 +5241,9 @@ function UserList() {
 ### Component Design
 
 #### Single Responsibility Principle
-```jsx
+```
 {% raw %}
-// ❌ Bad: Component doing too many things
+//  Bad: Component doing too many things
 function UserDashboard() {
     const [users, setUsers] = useState([]);
     const [posts, setPosts] = useState([]);
@@ -5284,7 +5257,7 @@ function UserDashboard() {
     );
 }
 
-// ✅ Good: Separated concerns
+//  Good: Separated concerns
 function UserDashboard() {
     return (
         <div>
@@ -5304,14 +5277,14 @@ function UserList() {
 ```
 
 #### Props Design
-```jsx
+```
 {% raw %}
-// ❌ Bad: Too many props
+//  Bad: Too many props
 function UserCard({ id, name, email, avatar, bio, location, website, twitter, github, linkedin, skills, experience, education, projects, followers, following, createdAt, updatedAt, status, role, permissions, settings, preferences, notifications, theme, language, timezone, currency, units, privacy, security, verification, badges, achievements, level, points, rank, tier, subscription, plan, billing, payment, history, logs, analytics, reports, exports, imports, backups, restores, migrations, updates, patches, hotfixes, releases, versions, builds, deployments, environments, configs, secrets, keys, tokens, sessions, cookies, cache, storage, database, api, endpoints, routes, middleware, validation, sanitization, encryption, hashing, compression, optimization, minification, bundling, transpilation, polyfills, shims, fallbacks, polyfills, shims, fallbacks }) {
     // Component with 100+ props
 }
 
-// ✅ Good: Grouped props
+//  Good: Grouped props
 function UserCard({ user, actions, theme }) {
     const { name, email, avatar, bio } = user;
     const { onEdit, onDelete, onFollow } = actions;
@@ -5330,9 +5303,9 @@ function UserCard({ user, actions, theme }) {
 ```
 
 #### Conditional Rendering
-```jsx
+```
 {% raw %}
-// ❌ Bad: Complex nested ternaries
+//  Bad: Complex nested ternaries
 function UserStatus({ user }) {
     return (
         <div>
@@ -5357,7 +5330,7 @@ function UserStatus({ user }) {
     );
 }
 
-// ✅ Good: Clean conditional rendering
+//  Good: Clean conditional rendering
 function UserStatus({ user }) {
     if (!user.isActive) {
         return <span className="inactive">Inactive</span>;
@@ -5384,7 +5357,7 @@ function UserStatus({ user }) {
 ### Performance Optimization
 
 #### React.memo
-```jsx
+```
 {% raw %}
 import React, { memo } from 'react';
 
@@ -5412,7 +5385,7 @@ const ExpensiveComponent = memo(function ExpensiveComponent({ data, onAction }) 
 ```
 
 #### useMemo and useCallback
-```jsx
+```
 {% raw %}
 import React, { useState, useMemo, useCallback } from 'react';
 
@@ -5465,7 +5438,7 @@ function UserDashboard({ users, filters }) {
 ```
 
 #### Code Splitting
-```jsx
+```
 {% raw %}
 import React, { Suspense, lazy } from 'react';
 
@@ -5495,7 +5468,7 @@ function App() {
 ## Component Creation Examples
 
 ### Reusable Button Component
-```jsx
+```
 {% raw %}
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -5570,7 +5543,7 @@ export default Button;
 ```
 
 ### Form Component with Validation
-```jsx
+```
 {% raw %}
 import React, { useState, useCallback } from 'react';
 
@@ -5700,7 +5673,7 @@ function LoginForm() {
 ### Common Questions & Answers
 
 #### 1. What is the Virtual DOM?
-```javascript
+```
 // Virtual DOM is a lightweight copy of the actual DOM
 // React uses it to optimize rendering performance
 
@@ -5721,7 +5694,7 @@ function ReactUpdate() {
 ```
 
 #### 2. Explain React's Component Lifecycle
-```jsx
+```
 {% raw %}
 class ClassComponent extends React.Component {
     // Mounting Phase
@@ -5788,7 +5761,7 @@ function FunctionalComponent({ id }) {
 ```
 
 #### 3. State Management Patterns
-```jsx
+```
 {% raw %}
 // Local State
 function LocalStateExample() {
@@ -5842,7 +5815,7 @@ function useCounter(initialValue = 0) {
 ```
 
 #### 4. Performance Optimization Techniques
-```jsx
+```
 {% raw %}
 // 1. React.memo for expensive components
 const ExpensiveComponent = React.memo(({ data }) => {
@@ -5887,7 +5860,7 @@ function App() {
 ```
 
 #### 5. Error Boundaries
-```jsx
+```
 {% raw %}
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -5928,7 +5901,7 @@ class ErrorBoundary extends React.Component {
 ```
 
 ### CSS-in-JS and Styling
-```jsx
+```
 {% raw %}
 // Styled Components
 import styled from 'styled-components';
@@ -6017,7 +5990,7 @@ function Button({ children }) {
 
 ---
 
-## Programming Languages & Tools
+## 1.7 Programming Languages & Tools
 
 *Deep dive into Python, Node.js, Bash scripting, and React with advanced patterns, practical examples, and interview essentials.*
 
@@ -6035,7 +6008,7 @@ function Button({ children }) {
 
 **Key benefits**: Code reusability, separation of concerns, and clean syntax with the `@` symbol.
 
-```python
+```
 # Function decorator - adds timing functionality
 def timer(func):
     def wrapper(*args, **kwargs):
@@ -6076,7 +6049,7 @@ class Database:
 
 **Key benefits**: Automatic resource management, exception safety, and cleaner code than try-finally blocks.
 
-```python
+```
 # Custom context manager - manages database connections
 class DatabaseConnection:
     def __init__(self, host, port):
@@ -6099,7 +6072,7 @@ class DatabaseConnection:
 # Usage
 with DatabaseConnection("localhost", 5432) as conn:
     print(f"Using connection: {conn}")
-    # Database operations here
+    """ Database operations here """
 
 # Context manager with contextlib - simpler file handling
 from contextlib import contextmanager
@@ -6125,7 +6098,7 @@ with file_handler('data.txt', 'w') as f:
 
 **Key benefits**: Better performance for I/O operations, non-blocking execution, and efficient resource utilization.
 
-```python
+```
 import asyncio
 import aiohttp
 
@@ -6165,7 +6138,7 @@ async def main():
     
     async with AsyncDatabasePool() as pool:
         conn = await pool.get_connection()
-        # Use connection
+        """ Use connection """
 
 asyncio.run(main())
 ```
@@ -6179,7 +6152,7 @@ asyncio.run(main())
 
 **Common use cases**: Design patterns, validation, logging, and framework development.
 
-```python
+```
 # Metaclass - implements singleton pattern by controlling class instantiation
 class Singleton(type):
     _instances = {}
@@ -6235,7 +6208,7 @@ class User:
 
 **Key benefits**: Code reusability, loose coupling, and easier testing and maintenance.
 
-```python
+```
 # Factory pattern - creates objects based on type
 class Animal:
     def speak(self):
@@ -6291,7 +6264,7 @@ subject.notify("Hello observers!")
 
 **Common use cases**: High-performance applications, memory-constrained environments, and optimization of frequently called functions.
 
-```python
+```
 # __slots__ - reduces memory usage by preventing dynamic attribute creation
 class Point:
     __slots__ = ['x', 'y']
@@ -6339,7 +6312,7 @@ for word in words:
 
 **Why it matters**: Understanding the event loop is crucial for writing efficient, non-blocking Node.js applications and debugging timing issues.
 
-```javascript
+```
 // Event loop phases - demonstrates execution order
 console.log('1. Start');
 
@@ -6372,7 +6345,7 @@ console.log('6. End');
 
 **Common use cases**: File processing, network communication, data transformation pipelines, and handling large files without loading everything into memory.
 
-```javascript
+```
 const fs = require('fs');
 const { Transform } = require('stream');
 
@@ -6430,7 +6403,7 @@ readStream
 
 **Common use cases**: API calls, database operations, file processing, and any operation that requires waiting for external resources.
 
-```javascript
+```
 // Promise patterns - utility functions for common async scenarios
 class PromiseUtils {
     static delay(ms) {
@@ -6496,7 +6469,7 @@ if (isMainThread) {
 
 **Common use cases**: Building REST APIs, web applications, and microservices with proper security and error handling.
 
-```javascript
+```
 // Express middleware pattern - modular request processing
 const express = require('express');
 const app = express();
@@ -6584,7 +6557,7 @@ fastify.post('/users', {
 
 **Common use cases**: Setting up development environments, managing project dependencies, and automating common development tasks.
 
-```javascript
+```
 // Package.json scripts - automate common development tasks
 {
   "scripts": {
@@ -6647,7 +6620,7 @@ class UserService {
 ### System Administration Scripts
 
 #### Process Management
-```bash
+```
 #!/bin/bash
 
 # Process monitoring script
@@ -6689,7 +6662,7 @@ monitor_process "nginx" 80 90
 ```
 
 #### Log Analysis
-```bash
+```
 #!/bin/bash
 
 # Log analyzer
@@ -6731,7 +6704,7 @@ analyze_logs "/var/log/nginx/access.log" "log_report.txt"
 ```
 
 #### Backup and Automation
-```bash
+```
 #!/bin/bash
 
 # Automated backup script
@@ -6814,7 +6787,7 @@ setup_cron_jobs() {
 ### DevOps Automation
 
 #### Docker Management
-```bash
+```
 #!/bin/bash
 
 # Docker container management
@@ -6892,7 +6865,7 @@ k8s_management() {
 ### Component Patterns
 
 #### Higher-Order Components (HOC)
-```jsx
+```
 {% raw %}
 // HOC for authentication
 const withAuth = (WrappedComponent) => {
@@ -6958,7 +6931,7 @@ const ProtectedDashboard = withAuth(Dashboard);
 ```
 
 #### Render Props Pattern
-```jsx
+```
 {% raw %}
 // Data fetcher with render props
 class DataFetcher extends React.Component {
@@ -7014,7 +6987,7 @@ class DataFetcher extends React.Component {
 ```
 
 #### Custom Hooks
-```jsx
+```
 {% raw %}
 // Custom hook for API calls
 const useApi = (url, options = {}) => {
@@ -7127,7 +7100,7 @@ const useFormValidation = (initialValues, validationSchema) => {
 ### Performance Optimization
 
 #### React.memo and useMemo
-```jsx
+```
 {% raw %}
 // Optimized component with React.memo
 const ExpensiveComponent = React.memo(({ data, onAction }) => {
@@ -7184,7 +7157,7 @@ const VirtualList = ({ items, itemHeight, containerHeight }) => {
 ```
 
 #### Code Splitting and Lazy Loading
-```jsx
+```
 {% raw %}
 // Lazy loading components
 const LazyDashboard = React.lazy(() => import('./Dashboard'));
@@ -7246,7 +7219,7 @@ const MyComponent = () => {
 ### State Management Patterns
 
 #### Context API with useReducer
-```jsx
+```
 {% raw %}
 // Global state management
 const initialState = {
@@ -7347,11 +7320,11 @@ const useApp = () => {
 
 ---
 
-# System Design & Architecture
+# 2. System Design & Architecture
 
-## System Design Problems
+## 2.1 System Design Problems
 
-## **🔧 System Design Fundamentals**
+## ** System Design Fundamentals**
 
 *Reference: Grokking the System Design Interview*
 
@@ -7359,7 +7332,7 @@ Before diving into specific problems, let's understand the fundamental concepts,
 
 ---
 
-### **📊 Performance Metrics & Definitions**
+### ** Performance Metrics & Definitions**
 
 **Throughput (QPS/RPS)**
 - **Definition**: Number of requests/queries processed per second
@@ -7403,7 +7376,7 @@ Before diving into specific problems, let's understand the fundamental concepts,
 
 ---
 
-### **📈 Scalability Deep Dive**
+### ** Scalability Deep Dive**
 
 **Horizontal Scaling (Scale Out)**
 - **Definition**: Add more servers/nodes to handle increased load
@@ -7472,7 +7445,7 @@ Before diving into specific problems, let's understand the fundamental concepts,
 
 ---
 
-### **⚖️ Load Balancing**
+### ** Load Balancing**
 
 **What is Load Balancing?**
 - **Definition**: Distribute incoming requests across multiple servers
@@ -7537,7 +7510,7 @@ Before diving into specific problems, let's understand the fundamental concepts,
 
 ---
 
-### **💾 Caching Strategies**
+### ** Caching Strategies**
 
 **Why Cache?**
 - **Reduce Latency**: Serve data from fast memory instead of slow database
@@ -7649,7 +7622,7 @@ Before diving into specific problems, let's understand the fundamental concepts,
 
 ---
 
-### **🗄️ Database Scaling**
+### ** Database Scaling**
 
 **Replication**
 
@@ -7793,7 +7766,7 @@ Before diving into specific problems, let's understand the fundamental concepts,
 
 ---
 
-### **🏗️ Architecture Patterns**
+### ** Architecture Patterns**
 
 **Microservices vs Monolith**
 
@@ -7903,7 +7876,7 @@ Before diving into specific problems, let's understand the fundamental concepts,
 - **Microservice Calls**: Don't call failing microservice
 
 **Implementation Example**
-```python
+```
 class CircuitBreaker:
     def __init__(self, failure_threshold=5, timeout=60):
         self.failure_count = 0
@@ -7988,13 +7961,13 @@ User Profile Query (Optimized Read)
 ```
 
 **When to Use CQRS**
-- ✅ **Read/Write Ratio**: Much more reads than writes
-- ✅ **Different Data Shapes**: Write and read need different structures
-- ✅ **Performance**: Need to optimize reads and writes independently
-- ✅ **Scalability**: Need to scale reads separately from writes
-- ✅ **Complex Business Logic**: Write model has complex rules
-- ❌ **Simple CRUD**: Overkill for simple applications
-- ❌ **Strong Consistency Required**: If reads must be immediately consistent
+-  **Read/Write Ratio**: Much more reads than writes
+-  **Different Data Shapes**: Write and read need different structures
+-  **Performance**: Need to optimize reads and writes independently
+-  **Scalability**: Need to scale reads separately from writes
+-  **Complex Business Logic**: Write model has complex rules
+-  **Simple CRUD**: Overkill for simple applications
+-  **Strong Consistency Required**: If reads must be immediately consistent
 
 **Benefits**
 - **Independent Scaling**: Scale read and write models separately
@@ -8009,15 +7982,15 @@ User Profile Query (Optimized Read)
 - **Debugging**: Harder to debug across models
 
 **Real-World Example**
-```python
+```
 # Command Side (Write Model)
 class UserCommandHandler:
     def create_user(self, user_data):
-        # Validate, business logic
+        """ Validate, business logic """
         user = User.create(user_data)
         db.session.commit()
         
-        # Publish event
+        """ Publish event """
         event_bus.publish(UserCreatedEvent(
             user_id=user.id,
             email=user.email,
@@ -8028,13 +8001,13 @@ class UserCommandHandler:
 # Query Side (Read Model)
 class UserQueryHandler:
     def get_user_profile(self, user_id):
-        # Read from optimized read model
+        """ Read from optimized read model """
         return user_read_db.get_user_profile(user_id)
 
 # Event Handler (Syncs read model)
 class UserCreatedEventHandler:
     def handle(self, event):
-        # Update read model with denormalized data
+        """ Update read model with denormalized data """
         user_read_db.create_user_profile(
             user_id=event.user_id,
             email=event.email,
@@ -8050,7 +8023,7 @@ class UserCreatedEventHandler:
 
 ---
 
-### **🌐 CDN (Content Delivery Network)**
+### ** CDN (Content Delivery Network)**
 
 **What is a CDN?**
 - **Definition**: Distributed network of servers that cache content close to users
@@ -8105,7 +8078,7 @@ Origin Server (California) ← Slower, but only on miss
 
 ---
 
-### **🚦 Rate Limiting Algorithms**
+### ** Rate Limiting Algorithms**
 
 **What is Rate Limiting?**
 - **Definition**: Limit number of requests a user/IP can make in a time window
@@ -8182,7 +8155,7 @@ Origin Server (California) ← Slower, but only on miss
 - **Cons**: Slight approximation
 
 **Rate Limiting Implementation Example**
-```python
+```
 import time
 from collections import deque
 
@@ -8198,12 +8171,12 @@ class SlidingWindowRateLimiter:
         if user_id not in self.requests:
             self.requests[user_id] = deque()
         
-        # Remove old requests outside window
+        """ Remove old requests outside window """
         user_requests = self.requests[user_id]
         while user_requests and user_requests[0] < now - self.window_seconds:
             user_requests.popleft()
         
-        # Check if under limit
+        """ Check if under limit """
         if len(user_requests) < self.max_requests:
             user_requests.append(now)
             return True
@@ -8212,13 +8185,13 @@ class SlidingWindowRateLimiter:
 
 ---
 
-## **🔧 Core System Design Concepts**
+## ** Core System Design Concepts**
 
 Before diving into specific problems, let's understand the fundamental concepts that appear throughout system design interviews.
 
 ---
 
-### **🌐 WebSockets vs HTTP**
+### ** WebSockets vs HTTP**
 
 **WebSockets**
 - **What**: Full-duplex communication channel over a single TCP connection
@@ -8250,7 +8223,7 @@ Before diving into specific problems, let's understand the fundamental concepts 
 
 ---
 
-### **🔢 Base62 vs Base64 Encoding**
+### ** Base62 vs Base64 Encoding**
 
 **Base62 Encoding**
 - **What**: Uses 62 characters: A-Z, a-z, 0-9 (no special characters)
@@ -8299,7 +8272,7 @@ Before diving into specific problems, let's understand the fundamental concepts 
 - **Exponential TTL**: Increase expiration with usage
 
 **Example Implementation**:
-```python
+```
 # Redis TTL example
 redis.setex("user_session:123", 3600, session_data)  # Expires in 1 hour
 redis.expire("cache_key", 300)  # Set TTL to 5 minutes
@@ -8307,7 +8280,7 @@ redis.expire("cache_key", 300)  # Set TTL to 5 minutes
 
 ---
 
-### **📨 Message Brokers**
+### ** Message Brokers**
 
 **What is a Message Broker?**
 - **Definition**: Middleware that handles communication between different parts of a system
@@ -8353,7 +8326,7 @@ redis.expire("cache_key", 300)  # Set TTL to 5 minutes
 
 ---
 
-### **🖥️ Server vs Client Architecture**
+### ** Server vs Client Architecture**
 
 **Client-Server Model**:
 ```
@@ -8381,7 +8354,7 @@ Client (Browser/Mobile) ←→ Server (Backend)
 
 ---
 
-### **🔴 Redis (Remote Dictionary Server)**
+### ** Redis (Remote Dictionary Server)**
 
 **What is Redis?**
 - **Definition**: In-memory data structure store, often used as cache
@@ -8389,35 +8362,35 @@ Client (Browser/Mobile) ←→ Server (Backend)
 
 **Redis Data Structures**:
 1. **Strings**: Simple key-value pairs
-   ```python
+```
    redis.set("user:123", "John Doe")
    redis.get("user:123")  # Returns "John Doe"
-   ```
+```
 
 2. **Hashes**: Field-value pairs within a key
-   ```python
+```
    redis.hset("user:123", "name", "John")
    redis.hset("user:123", "age", "30")
    redis.hgetall("user:123")  # Returns {"name": "John", "age": "30"}
-   ```
+```
 
 3. **Lists**: Ordered collections
-   ```python
+```
    redis.lpush("queue", "task1")
    redis.rpop("queue")  # Returns "task1"
-   ```
+```
 
 4. **Sets**: Unordered unique collections
-   ```python
+```
    redis.sadd("online_users", "user1")
    redis.sismember("online_users", "user1")  # Returns True
-   ```
+```
 
 5. **Sorted Sets**: Ordered collections with scores
-   ```python
+```
    redis.zadd("leaderboard", {"player1": 100, "player2": 200})
    redis.zrevrange("leaderboard", 0, -1)  # Returns ["player2", "player1"]
-   ```
+```
 
 **Redis Use Cases**:
 - **Caching**: Store frequently accessed data
@@ -8432,7 +8405,7 @@ Client (Browser/Mobile) ←→ Server (Backend)
 
 ---
 
-### **🔒 Distributed Locks**
+### ** Distributed Locks**
 
 **What is a Distributed Lock?**
 - **Definition**: Mechanism to ensure only one process can access a resource across multiple servers
@@ -8446,7 +8419,7 @@ Client (Browser/Mobile) ←→ Server (Backend)
 **Implementation Strategies**:
 
 **Redis-based Locks**:
-```python
+```
 import redis
 import time
 
@@ -8491,7 +8464,7 @@ def release_lock(lock_name, lock_value):
 
 ---
 
-### **🏗️ System Design Principles**
+### ** System Design Principles**
 
 **1. Scalability**
 - **Horizontal**: Add more servers (scale out)
@@ -8533,10 +8506,10 @@ def release_lock(lock_name, lock_value):
 - **Short URL Generation**: Hash(long URL) → base62 encoding
 - **Storage**: Redis for hot URLs, PostgreSQL for persistence
 - **Database Schema**:
-  ```sql
+```
   urls (id, short_code, long_url, user_id, created_at, expires_at)
   clicks (id, short_code, ip, user_agent, timestamp, referrer)
-  ```
+```
 - **Key Decisions**: Use hash-based generation (not sequential), TTL for unused URLs
 
 **Trade-offs**
@@ -8560,9 +8533,9 @@ def release_lock(lock_name, lock_value):
 - **Storage**: Messages in PostgreSQL, user status in Redis
 - **Scaling**: Shard by user_id, use read replicas
 - **Architecture**:
-  ```
+```
   Client → Load Balancer → WebSocket Server → Message Broker → Storage
-  ```
+```
 
 **Trade-offs**
 - Message ordering: Global vs per-chat ordering
@@ -8605,9 +8578,9 @@ def release_lock(lock_name, lock_value):
 - **Storage**: User feeds in Redis, posts in PostgreSQL
 - **Scoring**: Time decay + engagement metrics
 - **Architecture**:
-  ```
+```
   Post → Fan-out Workers → User Feed Stores → Aggregation → Client
-  ```
+```
 
 **Trade-offs**
 - Fan-out: Write vs Read (write for normal users, read for celebrities)
@@ -8630,9 +8603,9 @@ def release_lock(lock_name, lock_value):
 - **Metadata**: PostgreSQL for file info, Redis for caching
 - **Upload**: Chunked uploads, resume capability
 - **Architecture**:
-  ```
+```
   Client → Load Balancer → Upload Service → Object Storage → CDN
-  ```
+```
 
 **Trade-offs**
 - Consistency: Strong vs eventual
@@ -8655,9 +8628,9 @@ def release_lock(lock_name, lock_value):
 - **Storage**: PostgreSQL for rides, Redis for active sessions
 - **Scaling**: Shard by geographic regions
 - **Architecture**:
-  ```
+```
   Location Updates → Matching Engine → Driver Assignment → Payment
-  ```
+```
 
 **Trade-offs**
 - Matching: Real-time vs batch processing
@@ -8702,9 +8675,9 @@ def release_lock(lock_name, lock_value):
 - **Processing**: Apache Flink/Spark for real-time aggregation
 - **Storage**: Time-series database (InfluxDB), data warehouse
 - **Architecture**:
-  ```
+```
   Events → Kafka → Stream Processor → Real-time Store → Query API
-  ```
+```
 
 **Trade-offs**
 - Latency: Real-time vs near-real-time
@@ -8727,9 +8700,9 @@ def release_lock(lock_name, lock_value):
 - **Distribution**: Pub/Sub for real-time updates
 - **Evaluation**: Client-side vs server-side evaluation
 - **Architecture**:
-  ```
+```
   Config Changes → Pub/Sub → Feature Service → Client Evaluation
-  ```
+```
 
 **Trade-offs**
 - Evaluation: Client vs server-side
@@ -8752,9 +8725,9 @@ def release_lock(lock_name, lock_value):
 - **Storage**: Object storage for video files, CDN for distribution
 - **Streaming**: Edge servers, adaptive bitrate selection
 - **Architecture**:
-  ```
+```
   Video Upload → Encoding → Storage → CDN → Client Player
-  ```
+```
 
 **Trade-offs**
 - Quality: Multiple bitrates vs single quality
@@ -8777,9 +8750,9 @@ def release_lock(lock_name, lock_value):
 - **Storage**: In-memory for fast access, Redis for persistence
 - **Scoring**: Frequency + recency + personalization
 - **Architecture**:
-  ```
+```
   Query → Trie Lookup → Scoring → Personalization → Response
-  ```
+```
 
 **Trade-offs**
 - Accuracy: Global vs personalized suggestions
@@ -8802,9 +8775,9 @@ def release_lock(lock_name, lock_value):
 - **Security**: JWT validation, API key management
 - **Scaling**: Horizontal scaling, health checks
 - **Architecture**:
-  ```
+```
   Client → API Gateway → Authentication → Rate Limiter → Service Router
-  ```
+```
 
 **Trade-offs**
 - Security: Centralized vs distributed
@@ -8816,7 +8789,7 @@ def release_lock(lock_name, lock_value):
 ## Common Patterns & Snippets
 
 ### Idempotent Endpoint
-```python
+```
 def process_request(request_id, data):
     if processed(request_id):
         return get_stored_result(request_id)
@@ -8827,7 +8800,7 @@ def process_request(request_id, data):
 ```
 
 ### Retry with Jitter
-```python
+```
 import random
 import time
 
@@ -8844,13 +8817,13 @@ def retry_with_jitter(func, max_retries=3, base_delay=1):
 ```
 
 ### Outbox Pattern
-```python
+```
 def process_order(order_data):
     with transaction():
-        # Business logic
+        """ Business logic """
         order = create_order(order_data)
         
-        # Store event in outbox
+        """ Store event in outbox """
         outbox_event = OutboxEvent(
             event_type="order_created",
             payload=order.to_dict(),
@@ -8901,15 +8874,15 @@ def process_outbox():
 
 ---
 
-## Data Layer & Databases
+## 2.2 Data Layer & Databases
 
-## **📚 Database Fundamentals & Definitions**
+## ** Database Fundamentals & Definitions**
 
 Before diving into advanced concepts, let's understand the fundamental database types and terminology.
 
 ---
 
-### **🗄️ SQL vs NoSQL: What Are They?**
+### ** SQL vs NoSQL: What Are They?**
 
 **SQL (Structured Query Language)**
 - **What**: Standard language for managing relational databases
@@ -8931,7 +8904,7 @@ Before diving into advanced concepts, let's understand the fundamental database 
 
 ---
 
-### **🏗️ Database Categories Explained**
+### ** Database Categories Explained**
 
 #### **1. Relational Databases (SQL)**
 **What They Are**: Databases that organize data into tables with rows and columns, where relationships between data are defined by foreign keys.
@@ -8946,12 +8919,12 @@ Before diving into advanced concepts, let's understand the fundamental database 
 **Examples**: PostgreSQL, MySQL, Oracle, SQL Server, SQLite
 
 **When to Use**:
-- ✅ **Structured data** with clear relationships
-- ✅ **ACID compliance** required (banking, financial systems)
-- ✅ **Complex queries** with JOINs and aggregations
-- ✅ **Data integrity** is critical
-- ❌ **Rapid schema changes** needed
-- ❌ **Massive horizontal scaling** required
+-  **Structured data** with clear relationships
+-  **ACID compliance** required (banking, financial systems)
+-  **Complex queries** with JOINs and aggregations
+-  **Data integrity** is critical
+-  **Rapid schema changes** needed
+-  **Massive horizontal scaling** required
 
 #### **2. Key-Value Stores (NoSQL)**
 **What They Are**: Simple databases that store data as key-value pairs, where each key maps to a single value.
@@ -8965,12 +8938,12 @@ Before diving into advanced concepts, let's understand the fundamental database 
 **Examples**: Redis, DynamoDB, Riak, Memcached
 
 **When to Use**:
-- ✅ **Simple data models** (user sessions, caching)
-- ✅ **High-performance lookups** by key
-- ✅ **Session storage** and temporary data
-- ✅ **Real-time counters** and simple state
-- ❌ **Complex queries** or relationships
-- ❌ **Data that needs** complex aggregations
+-  **Simple data models** (user sessions, caching)
+-  **High-performance lookups** by key
+-  **Session storage** and temporary data
+-  **Real-time counters** and simple state
+-  **Complex queries** or relationships
+-  **Data that needs** complex aggregations
 
 #### **3. Document Databases (NoSQL)**
 **What They Are**: Databases that store data in flexible, JSON-like documents that can have different structures.
@@ -8984,12 +8957,12 @@ Before diving into advanced concepts, let's understand the fundamental database 
 **Examples**: MongoDB, Couchbase, CouchDB, Firestore
 
 **When to Use**:
-- ✅ **Flexible schemas** that evolve over time
-- ✅ **Hierarchical data** (nested objects, arrays)
-- ✅ **Content management** systems
-- ✅ **Product catalogs** with varying attributes
-- ❌ **Complex transactions** across documents
-- ❌ **Data with many relationships** between entities
+-  **Flexible schemas** that evolve over time
+-  **Hierarchical data** (nested objects, arrays)
+-  **Content management** systems
+-  **Product catalogs** with varying attributes
+-  **Complex transactions** across documents
+-  **Data with many relationships** between entities
 
 #### **4. Column-Family Stores (NoSQL)**
 **What They Are**: Databases that store data in columns rather than rows, optimized for reading and writing large amounts of data.
@@ -9003,12 +8976,12 @@ Before diving into advanced concepts, let's understand the fundamental database 
 **Examples**: Cassandra, HBase, Bigtable, ScyllaDB
 
 **When to Use**:
-- ✅ **Time-series data** (logs, metrics, IoT data)
-- ✅ **High write throughput** requirements
-- ✅ **Analytics and reporting** workloads
-- ✅ **Data warehousing** and large-scale storage
-- ❌ **Complex transactions** or relationships
-- ❌ **Frequent schema changes**
+-  **Time-series data** (logs, metrics, IoT data)
+-  **High write throughput** requirements
+-  **Analytics and reporting** workloads
+-  **Data warehousing** and large-scale storage
+-  **Complex transactions** or relationships
+-  **Frequent schema changes**
 
 #### **5. Graph Databases (NoSQL)**
 **What They Are**: Databases designed to store and query relationships between entities, treating relationships as first-class citizens.
@@ -9022,12 +8995,12 @@ Before diving into advanced concepts, let's understand the fundamental database 
 **Examples**: Neo4j, ArangoDB, Amazon Neptune, OrientDB
 
 **When to Use**:
-- ✅ **Complex relationships** between entities
-- ✅ **Social networks** and recommendation engines
-- ✅ **Fraud detection** and network analysis
-- ✅ **Knowledge graphs** and semantic search
-- ❌ **Simple CRUD operations** without relationships
-- ❌ **Traditional reporting** and analytics
+-  **Complex relationships** between entities
+-  **Social networks** and recommendation engines
+-  **Fraud detection** and network analysis
+-  **Knowledge graphs** and semantic search
+-  **Simple CRUD operations** without relationships
+-  **Traditional reporting** and analytics
 
 #### **6. Search Engines (Specialized NoSQL)**
 **What They Are**: Databases optimized for full-text search, complex queries, and text-based analytics.
@@ -9041,16 +9014,16 @@ Before diving into advanced concepts, let's understand the fundamental database 
 **Examples**: Elasticsearch, OpenSearch, Solr, Algolia
 
 **When to Use**:
-- ✅ **Full-text search** requirements
-- ✅ **Log analysis** and monitoring
-- ✅ **Content search** and discovery
-- ✅ **Real-time analytics** on text data
-- ❌ **Primary data storage** (use as secondary)
-- ❌ **ACID transactions** or strong consistency
+-  **Full-text search** requirements
+-  **Log analysis** and monitoring
+-  **Content search** and discovery
+-  **Real-time analytics** on text data
+-  **Primary data storage** (use as secondary)
+-  **ACID transactions** or strong consistency
 
 ---
 
-### **🔄 ACID vs BASE: Transaction Models**
+### ** ACID vs BASE: Transaction Models**
 
 #### **ACID (Traditional SQL)**
 **Atomicity**: All operations in a transaction succeed or fail together
@@ -9069,7 +9042,7 @@ Before diving into advanced concepts, let's understand the fundamental database 
 
 ---
 
-### **📊 CAP Theorem: The Fundamental Trade-off**
+### ** CAP Theorem: The Fundamental Trade-off**
 
 **What is CAP Theorem?**
 In distributed database systems, you can only guarantee **2 out of 3** properties:
@@ -9217,7 +9190,7 @@ A secondary data structure that lets the database find rows **without scanning t
 
 ### SQL Snippets (PostgreSQL-flavored)
 
-```sql
+```
 -- B-Tree (default)
 CREATE INDEX idx_users_email ON users(email);
 
@@ -9338,7 +9311,7 @@ Reduce latency and database load by serving hot data from memory.
 
 ### Redis Patterns
 
-```python
+```
 # Cache-aside (pseudo/Python)
 value = redis.get(key)
 if value is None:
@@ -9375,7 +9348,7 @@ If you want, I can now fold these sections into your master document and then mo
 
 ---
 
-## Design Patterns
+## 2.3 Design Patterns
 
 Design patterns are reusable solutions to common software design problems. They provide a shared vocabulary and help create maintainable, scalable code.
 
@@ -9408,7 +9381,7 @@ Design patterns are reusable solutions to common software design problems. They 
 - Thread pools (needs to manage worker threads, queue state)
 
 **Implementation**:
-```python
+```
 class Singleton:
     _instance = None
     _initialized = False
@@ -9419,7 +9392,7 @@ class Singleton:
         return cls._instance
     
     def __init__(self):
-        # Prevent multiple initializations
+        """ Prevent multiple initializations """
         if not self._initialized:
             self._initialized = True
             self._data = {}
@@ -9453,7 +9426,7 @@ class DatabaseConnection:
     
     def get_connection(self):
         if not self.connection_pool:
-            # Create new connection
+            """ Create new connection """
             self.active_connections += 1
             return f"Connection_{self.active_connections}"
         return self.connection_pool.pop()
@@ -9478,7 +9451,7 @@ class ThreadSafeSingleton:
     def __new__(cls) -> 'ThreadSafeSingleton':
         if cls._instance is None:
             with cls._lock:
-                # Double-checked locking pattern
+                """ Double-checked locking pattern """
                 if cls._instance is None:
                     cls._instance = super().__new__(cls)
         return cls._instance
@@ -9487,7 +9460,7 @@ class ThreadSafeSingleton:
 **Advanced Singleton Patterns**:
 
 **1. Monostate Pattern** (Shared State):
-```python
+```
 class Monostate:
     _shared_state = {}
     
@@ -9506,7 +9479,7 @@ class Monostate:
 ```
 
 **2. Borg Pattern** (Python-specific):
-```python
+```
 class Borg:
     _shared_state = {}
     
@@ -9518,7 +9491,7 @@ class Borg:
 ```
 
 **3. Singleton Registry** (Multiple Singletons):
-```python
+```
 class SingletonRegistry:
     _instances = {}
     
@@ -9539,19 +9512,19 @@ cache = SingletonRegistry.get_instance('Cache')
 
 **Cost-Benefit Analysis**:
 - **Benefits**: 
-  - ✅ **Guarantees single instance** across the entire application
-  - ✅ **Lazy initialization** (only created when first needed)
-  - ✅ **Global access point** for shared resources
-  - ✅ **Resource management** (connection pooling, caching)
-  - ✅ **State persistence** across multiple calls
-  - ✅ **Configuration management** (load once, use everywhere)
+  -  **Guarantees single instance** across the entire application
+  -  **Lazy initialization** (only created when first needed)
+  -  **Global access point** for shared resources
+  -  **Resource management** (connection pooling, caching)
+  -  **State persistence** across multiple calls
+  -  **Configuration management** (load once, use everywhere)
 - **Costs**: 
-  - ❌ **Global state** (hard to test and debug)
-  - ❌ **Violates single responsibility principle** (manages both creation and behavior)
-  - ❌ **Can be difficult to mock** in unit tests
-  - ❌ **Tight coupling** (hard to replace or extend)
-  - ❌ **Memory leaks** if not properly managed
-  - ❌ **Thread safety issues** in multi-threaded environments
+  -  **Global state** (hard to test and debug)
+  -  **Violates single responsibility principle** (manages both creation and behavior)
+  -  **Can be difficult to mock** in unit tests
+  -  **Tight coupling** (hard to replace or extend)
+  -  **Memory leaks** if not properly managed
+  -  **Thread safety issues** in multi-threaded environments
 - **Use when**: 
   - You need exactly one instance and global access
   - The instance needs to maintain state over time
@@ -9565,7 +9538,7 @@ cache = SingletonRegistry.get_instance('Cache')
 - **Overuse**: Don't use Singleton for every class that should have one instance
 
 **Testing Strategies**:
-```python
+```
 # Reset Singleton for testing
 class TestableSingleton:
     _instance = None
@@ -9582,7 +9555,7 @@ class TestableSingleton:
 
 # In tests
 def test_singleton():
-    # Reset before each test
+    """ Reset before each test """
     TestableSingleton.reset()
     instance1 = TestableSingleton()
     instance2 = TestableSingleton()
@@ -9592,7 +9565,7 @@ def test_singleton():
 **Real-world Examples**:
 
 **1. Database Connection Pool**:
-```python
+```
 @singleton
 class DatabasePool:
     def __init__(self):
@@ -9613,12 +9586,12 @@ class DatabasePool:
         self.connections.append(connection)
     
     def _create_connection(self):
-        # Create new database connection
+        """ Create new database connection """
         return f"DB_Connection_{self.active_connections}"
 ```
 
 **2. Configuration Manager**:
-```python
+```
 @singleton
 class ConfigManager:
     def __init__(self):
@@ -9626,7 +9599,7 @@ class ConfigManager:
         self._load_config()
     
     def _load_config(self):
-        # Load from file, environment, etc.
+        """ Load from file, environment, etc. """
         self._config = {
             'database_url': 'postgresql://localhost:5432/mydb',
             'redis_url': 'redis://localhost:6379',
@@ -9639,14 +9612,14 @@ class ConfigManager:
     
     def set(self, key, value):
         self._config[key] = value
-        # Could also persist to file/database
+        """ Could also persist to file/database """
     
     def reload(self):
         self._load_config()
 ```
 
 **3. Logger with State**:
-```python
+```
 @singleton
 class Logger:
     def __init__(self):
@@ -9696,7 +9669,7 @@ class Logger:
 - You want to create families of related objects
 
 **Implementation**:
-```python
+```
 from abc import ABC, abstractmethod
 
 # Abstract product
@@ -9752,7 +9725,7 @@ print(dog.speak())  # Output: Woof!
 - Immutable objects
 
 **Implementation**:
-```python
+```
 class Computer:
     def __init__(self):
         self.cpu = None
@@ -9820,7 +9793,7 @@ print(computer)
 - Supporting multiple data formats
 
 **Implementation**:
-```python
+```
 # Old interface
 class OldPaymentSystem:
     def make_payment(self, amount, currency):
@@ -9870,7 +9843,7 @@ adapter.process_payment(payment_data)
 - Implementing cross-cutting concerns
 
 **Implementation**:
-```python
+```
 from abc import ABC, abstractmethod
 
 # Component interface
@@ -9948,7 +9921,7 @@ print(f"{coffee_with_milk_and_sugar.description()}: ${coffee_with_milk_and_sugar
 - Reducing dependencies between client and subsystem
 
 **Implementation**:
-```python
+```
 # Complex subsystems
 class AudioSystem:
     def turn_on(self):
@@ -9986,7 +9959,7 @@ class HomeTheaterFacade:
     
     def end_movie(self):
         print("=== Ending Movie Mode ===")
-        # Turn off systems...
+        """ Turn off systems... """
 
 # Usage
 theater = HomeTheaterFacade()
@@ -10017,7 +9990,7 @@ theater.watch_movie()
 - Publish-subscribe systems
 
 **Implementation**:
-```python
+```
 from abc import ABC, abstractmethod
 
 # Subject interface
@@ -10098,7 +10071,7 @@ agency.publish_news("Breaking: AI solves all problems!")
 - Avoiding complex conditional statements
 
 **Implementation**:
-```python
+```
 from abc import ABC, abstractmethod
 
 # Strategy interface
@@ -10186,7 +10159,7 @@ cart.checkout()
 - Remote procedure calls
 
 **Implementation**:
-```python
+```
 from abc import ABC, abstractmethod
 
 # Command interface
@@ -10335,9 +10308,9 @@ remote.press_undo()       # Undo last command
 
 ---
 
-# DevOps & Cloud
+# 3. DevOps & Cloud
 
-## CI/CD & Infrastructure
+## 3.1 CI/CD & Infrastructure
 
 The goal here is to be able to “drop in” a minimal but realistic setup during interviews or when spinning up a demo.
 
@@ -10482,7 +10455,7 @@ terraform/
 - **Security**: Prevents accidental infrastructure changes and protects sensitive information
 - **Audit Trail**: Keeps track of who made changes and when
 
-```bash
+```
 bucket         = "my-tf-state-bucket"    # S3 bucket to store Terraform state
 key            = "envs/dev/terraform.tfstate"  # Path within bucket for this environment
 region         = "us-west-2"             # AWS region for the backend
@@ -10502,7 +10475,7 @@ encrypt        = true                    # Encrypt state files at rest
 - **Provider Management**: Connects to AWS APIs to create and manage resources
 - **State Management**: Backend configuration enables team collaboration and state persistence
 
-```bash
+```
 terraform {
   required_version = ">= 1.6.0"         # Minimum Terraform version required
   backend "s3" {}                       # Use S3 backend for remote state (configured via backend.hcl at init-time)
@@ -10528,7 +10501,7 @@ provider "aws" {
 - **Internet Access**: Allows your web servers to be accessible from the internet
 - **Security**: Provides a foundation for implementing network security controls
 
-```bash
+```
 # Virtual Private Cloud - isolated network environment
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"           # Private IP range: 10.0.0.0 to 10.0.255.255
@@ -10561,13 +10534,13 @@ resource "aws_internet_gateway" "igw" {
 - **Compute**: Provides the actual server to run your web application
 - **Automation**: Automatically installs and configures the web server software
 
-```bash
+```
 # Security Group - firewall rules for EC2 instances
 resource "aws_security_group" "web" {
   name   = "web-sg"                     # Security group name
   vpc_id = aws_vpc.main.id             # Associate with our VPC
 
-  # Allow SSH access from anywhere (0.0.0.0/0 = all IPs)
+  """ Allow SSH access from anywhere (0.0.0.0/0 = all IPs) """
   ingress {
     from_port = 22                      # SSH port
     to_port   = 22
@@ -10575,7 +10548,7 @@ resource "aws_security_group" "web" {
     cidr_blocks = ["0.0.0.0/0"]        # WARNING: In production, restrict to specific IPs
   }
   
-  # Allow HTTP access from anywhere (for web traffic)
+  """ Allow HTTP access from anywhere (for web traffic) """
   ingress {
     from_port = 80                      # HTTP port
     to_port   = 80
@@ -10583,7 +10556,7 @@ resource "aws_security_group" "web" {
     cidr_blocks = ["0.0.0.0/0"]        # WARNING: In production, restrict to specific IPs
   }
   
-  # Allow all outbound traffic (instances can reach internet)
+  """ Allow all outbound traffic (instances can reach internet) """
   egress {
     from_port = 0                       # All ports
     to_port   = 0
@@ -10603,6 +10576,20 @@ data "aws_ami" "amazon_linux" {
 }
 ```
 
+**ec2.tf** (compute instance)
+
+**What this file provisions:**
+- **EC2 Instance**: A virtual server in AWS that runs your application
+- **User Data Script**: Commands that run when the instance first boots
+- **Security Groups**: Firewall rules that control network access
+
+**Why this matters:**
+- **Compute Power**: Provides the CPU and memory to run your applications
+- **Automation**: User data scripts automate initial setup and configuration
+- **Security**: Security groups control what traffic can reach your instance
+- **Scalability**: Can be replicated and scaled based on demand
+
+```
 resource "aws_instance" "web" {
   ami                    = data.aws_ami.amazon_linux.id    # Use the AMI we found earlier
   instance_type          = "t3.micro"                      # Small instance type (1 vCPU, 1 GB RAM)
@@ -10634,7 +10621,7 @@ resource "aws_instance" "web" {
 - **Data Protection**: Versioning helps recover from accidental deletions or overwrites
 - **Static Hosting**: Can serve static websites or store application assets
 
-```bash
+```
 # S3 bucket for storing static assets (images, CSS, JS files)
 resource "aws_s3_bucket" "assets" {
   bucket = var.bucket_name                                 # Bucket name from variable
@@ -10661,7 +10648,7 @@ resource "aws_s3_bucket_versioning" "assets" {
 - **Reusability**: Variables make your Terraform modules reusable across projects
 - **Environment Management**: Different values can be set for dev, staging, and production
 
-```bash
+```
 variable "region"      { type = string, default = "us-west-2" }  # AWS region with default
 variable "bucket_name" { type = string }                         # Required: S3 bucket name
 ```
@@ -10678,7 +10665,7 @@ variable "bucket_name" { type = string }                         # Required: S3 
 - **Documentation**: Provides a clear summary of what was created
 - **Troubleshooting**: Helps verify that resources were created correctly
 
-```bash
+```
 output "ec2_public_ip" { value = aws_instance.web.public_ip }   # Public IP of web server
 output "s3_bucket"     { value = aws_s3_bucket.assets.bucket }  # Name of S3 bucket
 ```
@@ -10696,7 +10683,7 @@ output "s3_bucket"     { value = aws_s3_bucket.assets.bucket }  # Name of S3 buc
 - **Automation**: These commands can be integrated into CI/CD pipelines
 - **Version Control**: Infrastructure changes are tracked and can be rolled back
 
-```bash
+```
 # Initialize Terraform and configure backend
 terraform init -backend-config=backend.hcl
 
@@ -10722,7 +10709,7 @@ terraform apply -auto-approve -var="bucket_name=my-artifacts-bucket"
 - **Team Workflow**: Different teams can work on different environments simultaneously
 - **Cost Control**: Prevents accidental resource creation in production
 
-```bash
+```
 # Create and switch to dev workspace (isolates state for different environments)
 terraform workspace new dev
 terraform workspace select dev
@@ -10889,7 +10876,7 @@ terraform apply -var-file="prod.tfvars"
 
 Below is a minimal slice of what provisioning with Terraform can look like on AWS: build a tiny network, a security group, and an EC2 instance that installs Docker via cloud-init and serves traffic behind a public IP.
 
-```hcl
+```
 terraform {
   required_providers { aws = { source = "hashicorp/aws", version = "~> 5.0" } }
   backend "s3" {
@@ -11010,7 +10997,7 @@ output "public_ip" { value = aws_instance.web.public_ip }
 - One giant state for everything → slow plans, big blast radius. Split by domain/env
 
 #### Module-based Architecture
-```hcl
+```
 # modules/vpc/main.tf - Reusable VPC module
 module "vpc" {
   source = "../../modules/vpc"                              # Path to module source
@@ -11038,7 +11025,7 @@ variable "azs" {
 ```
 
 #### Security Best Practices
-```hcl
+```
 # Enable VPC Flow Logs
 resource "aws_flow_log" "vpc_flow_log" {
   iam_role_arn    = aws_iam_role.vpc_flow_log_role.arn
@@ -11060,7 +11047,7 @@ resource "aws_vpc_endpoint" "s3" {
 
 ## 2) Jenkinsfile (build → test → Docker → push → deploy to K8s)
 
-```groovy
+```
 pipeline {
   agent any
   environment {
@@ -11105,7 +11092,7 @@ pipeline {
 
 **deployment.yaml**
 
-```yaml
+```
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -11140,7 +11127,7 @@ spec:
 
 **service.yaml**
 
-```yaml
+```
 apiVersion: v1
 kind: Service
 metadata:
@@ -11156,7 +11143,7 @@ spec:
 
 **ingress.yaml** (requires ingress controller)
 
-```yaml
+```
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -11177,7 +11164,7 @@ spec:
 
 **Apply**
 
-```bash
+```
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
 kubectl apply -f ingress.yaml
@@ -11189,7 +11176,7 @@ kubectl apply -f ingress.yaml
 
 **alert-rules.yaml**
 
-```yaml
+```
 groups:
   - name: app.rules
     rules:
@@ -11224,7 +11211,7 @@ groups:
 
 ---
 
-## Reliability Engineering (Internet Fundamentals, Observability, Chaos Engineering, Load Testing)
+## 3.2 Reliability Engineering (Internet Fundamentals, Observability, Chaos Engineering, Load Testing)
 
 Reliability engineering combines **observability**, **chaos engineering**, and **load testing** to build systems that are not only performant but also resilient and observable under stress.
 
@@ -11335,7 +11322,7 @@ Layer 1: Physical     - Cables, wireless, hardware
 - **Error checking**: detects and retransmits lost packets
 - **Use cases**: HTTP, HTTPS, FTP, SSH, database connections
 
-```python
+```
 # TCP Socket Example
 import socket
 
@@ -11365,7 +11352,7 @@ client_socket.close()
 - **No flow control**: can overwhelm receiver
 - **Use cases**: DNS, DHCP, streaming video, gaming, real-time data
 
-```python
+```
 # UDP Socket Example
 import socket
 
@@ -11392,7 +11379,7 @@ client_socket.close()
 - **Methods**: GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS
 - **Status codes**: 2xx (success), 3xx (redirect), 4xx (client error), 5xx (server error)
 
-```python
+```
 # HTTP Client Example
 import requests
 
@@ -11415,7 +11402,7 @@ response = requests.get('https://api.example.com/profile', headers=headers)
 - **Bidirectional streaming**: supports real-time communication
 - **Use cases**: microservices, real-time APIs, mobile apps
 
-```protobuf
+```
 // user.proto
 syntax = "proto3";
 
@@ -11436,7 +11423,7 @@ message GetUserRequest {
 }
 ```
 
-```python
+```
 # gRPC Server Example
 import grpc
 from concurrent import futures
@@ -11445,7 +11432,7 @@ import user_pb2_grpc
 
 class UserServicer(user_pb2_grpc.UserServiceServicer):
     def GetUser(self, request, context):
-        # Fetch user logic
+        """ Fetch user logic """
         return user_pb2.User(
             id=request.user_id,
             name="John Doe",
@@ -11478,7 +11465,7 @@ print(f"User: {response.name}")
 - **Partitioning**: topics divided into partitions for scalability
 - **Use cases**: log aggregation, stream processing, event sourcing, real-time analytics
 
-```python
+```
 # Kafka Producer Example
 from kafka import KafkaProducer
 import json
@@ -11518,11 +11505,11 @@ for message in consumer:
 
 | Protocol | Reliability | Performance | Use Case | Complexity |
 |----------|-------------|-------------|----------|------------|
-| **TCP** | ✅ Guaranteed | 🟡 Medium | Reliable data transfer | Low |
-| **UDP** | ❌ Best effort | 🟢 High | Real-time, streaming | Low |
-| **HTTP** | ✅ Reliable | 🟡 Medium | Web APIs, browsers | Low |
-| **gRPC** | ✅ Reliable | 🟢 High | Microservices, streaming | Medium |
-| **Kafka** | ✅ Reliable | 🟢 High | Event streaming, logs | High |
+| **TCP** |  Guaranteed | 🟡 Medium | Reliable data transfer | Low |
+| **UDP** |  Best effort | 🟢 High | Real-time, streaming | Low |
+| **HTTP** |  Reliable | 🟡 Medium | Web APIs, browsers | Low |
+| **gRPC** |  Reliable | 🟢 High | Microservices, streaming | Medium |
+| **Kafka** |  Reliable | 🟢 High | Event streaming, logs | High |
 
 ### Network Security Fundamentals
 
@@ -11535,7 +11522,7 @@ for message in consumer:
 ```
 
 #### Firewall Rules
-```bash
+```
 # Allow HTTP/HTTPS
 iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 iptables -A INPUT -p tcp --dport 443 -j ACCEPT
@@ -11548,7 +11535,7 @@ iptables -A INPUT -j DROP
 ```
 
 #### Network Monitoring
-```python
+```
 # Network connectivity check
 import socket
 import subprocess
@@ -11617,7 +11604,7 @@ Observability:
 ## 5. Practical Examples
 
 ### JMeter Load Test with Prometheus Monitoring
-```xml
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0">
   <hashTree>
@@ -11675,7 +11662,7 @@ Observability:
 ```
 
 ### Prometheus Alerting Rules for Load Tests
-```yaml
+```
 groups:
   - name: load_test.rules
     rules:
@@ -11705,7 +11692,7 @@ groups:
 ```
 
 ### Chaos Experiment with Monitoring
-```yaml
+```
 apiVersion: litmuschaos.io/v1alpha1
 kind: ChaosEngine
 metadata:
@@ -11758,10 +11745,10 @@ spec:
 ### Reliability Scorecard
 ```
 System: E-commerce API
-Availability: 99.95% (target: 99.9%) ✅
-Latency P95: 180ms (target: <200ms) ✅
-Error Rate: 0.8% (target: <1%) ✅
-Throughput: 1500 RPS (target: 1000 RPS) ✅
+Availability: 99.95% (target: 99.9%) 
+Latency P95: 180ms (target: <200ms) 
+Error Rate: 0.8% (target: <1%) 
+Throughput: 1500 RPS (target: 1000 RPS) 
 
 Reliability Grade: A
 ```
@@ -11794,7 +11781,7 @@ Reliability Grade: A
 ## 8. Tools Integration
 
 ### Prometheus + Grafana + AlertManager
-```yaml
+```
 # prometheus.yml
 global:
   scrape_interval: 15s
@@ -11817,7 +11804,7 @@ scrape_configs:
 ```
 
 ### Load Testing in CI/CD
-```yaml
+```
 # .github/workflows/reliability-test.yml
 name: Reliability Testing
 on: [push, pull_request]
@@ -11885,7 +11872,7 @@ The **Circuit Breaker** pattern is a reliability design pattern that prevents ca
 - Microservice communication
 - Any dependency that could cause cascading failures
 
-```python
+```
 import time
 
 class CircuitBreaker:
@@ -11897,30 +11884,30 @@ class CircuitBreaker:
         self.state = "CLOSED"                        # Current state: CLOSED, OPEN, HALF_OPEN
     
     def call(self, func, *args, **kwargs):
-        # Check if circuit is OPEN (service failing)
+        """ Check if circuit is OPEN (service failing) """
         if self.state == "OPEN":
-            # Check if enough time has passed to test recovery
+            """ Check if enough time has passed to test recovery """
             if time.time() - self.last_failure_time > self.recovery_timeout:
                 self.state = "HALF_OPEN"             # Try to test if service recovered
             else:
                 raise Exception("Circuit breaker is OPEN - service is failing")
         
         try:
-            # Attempt to call the actual service
+            """ Attempt to call the actual service """
             result = func(*args, **kwargs)
             
-            # If we're in HALF_OPEN and call succeeds, close the circuit
+            """ If we're in HALF_OPEN and call succeeds, close the circuit """
             if self.state == "HALF_OPEN":
                 self.state = "CLOSED"                 # Service has recovered
                 self.failure_count = 0                # Reset failure count
             
             return result
         except Exception as e:
-            # Call failed - increment failure count
+            """ Call failed - increment failure count """
             self.failure_count += 1
             self.last_failure_time = time.time()
             
-            # If we've hit the failure threshold, open the circuit
+            """ If we've hit the failure threshold, open the circuit """
             if self.failure_count >= self.failure_threshold:
                 self.state = "OPEN"                   # Stop allowing requests
             
@@ -11928,7 +11915,7 @@ class CircuitBreaker:
 
 # Usage example
 def unreliable_api_call():
-    # Simulate an API call that sometimes fails
+    """ Simulate an API call that sometimes fails """
     import random
     if random.random() < 0.3:  # 30% chance of failure
         raise Exception("API call failed")
@@ -11946,7 +11933,7 @@ except Exception as e:
 ```
 
 ### Retry with Exponential Backoff
-```python
+```
 import time
 import random
 
@@ -11963,7 +11950,7 @@ def retry_with_backoff(func, max_retries=3, base_delay=1):
 ```
 
 ### Health Check Endpoint
-```python
+```
 from flask import Flask, jsonify
 import psutil
 import redis
@@ -11978,21 +11965,21 @@ def health_check():
         'checks': {}
     }
     
-    # Check CPU usage
+    """ Check CPU usage """
     cpu_percent = psutil.cpu_percent(interval=1)
     health_status['checks']['cpu'] = {
         'status': 'healthy' if cpu_percent < 80 else 'unhealthy',
         'value': cpu_percent
     }
     
-    # Check memory usage
+    """ Check memory usage """
     memory_percent = psutil.virtual_memory().percent
     health_status['checks']['memory'] = {
         'status': 'healthy' if memory_percent < 90 else 'unhealthy',
         'value': memory_percent
     }
     
-    # Check Redis connection
+    """ Check Redis connection """
     try:
         redis_client = redis.Redis(host='localhost', port=6379)
         redis_client.ping()
@@ -12000,7 +11987,7 @@ def health_check():
     except:
         health_status['checks']['redis'] = {'status': 'unhealthy'}
     
-    # Overall status
+    """ Overall status """
     all_healthy = all(check['status'] == 'healthy' for check in health_status['checks'].values())
     health_status['status'] = 'healthy' if all_healthy else 'unhealthy'
     
@@ -12046,50 +12033,49 @@ def health_check():
 ### Incident Response Framework
 
 #### On-Call Procedures
+
 **Escalation Matrix**
-```
-Level 1 (PagerDuty): Primary on-call engineer
+
+**Level 1 (PagerDuty): Primary on-call engineer**
 - Response time: 5 minutes
 - Escalation: 15 minutes if no acknowledgment
 
-Level 2: Senior engineer or team lead
+**Level 2: Senior engineer or team lead**
 - Response time: 15 minutes
 - Escalation: 30 minutes if no resolution
 
-Level 3: Engineering manager or architect
+**Level 3: Engineering manager or architect**
 - Response time: 30 minutes
 - Escalation: 1 hour if no resolution
 
-Level 4: CTO/VP Engineering
+**Level 4: CTO/VP Engineering**
 - Response time: 1 hour
 - Escalation: 2 hours if no resolution
-```
 
 **Incident Severity Levels**
-```
-SEV-1 (Critical): Service completely down, data loss
+
+**SEV-1 (Critical): Service completely down, data loss**
 - Response: Immediate (within 5 minutes)
 - Communication: All stakeholders, status page updates
 - Resolution target: 1 hour
 
-SEV-2 (High): Major feature broken, significant performance degradation
+**SEV-2 (High): Major feature broken, significant performance degradation**
 - Response: Within 15 minutes
 - Communication: Engineering team, product managers
 - Resolution target: 4 hours
 
-SEV-3 (Medium): Minor feature broken, slight performance impact
+**SEV-3 (Medium): Minor feature broken, slight performance impact**
 - Response: Within 1 hour
 - Communication: Engineering team
 - Resolution target: 24 hours
 
-SEV-4 (Low): Cosmetic issues, minor bugs
+**SEV-4 (Low): Cosmetic issues, minor bugs**
 - Response: Within 4 hours
 - Communication: Engineering team
 - Resolution target: 1 week
-```
 
 #### Incident Response Process
-```python
+```
 # Incident response workflow
 class IncidentResponse:
     def __init__(self):
@@ -12142,7 +12128,7 @@ class IncidentResponse:
 ### Post-Incident Analysis
 
 #### Blameless Post-Mortem Template
-```markdown
+```
 # Post-Mortem: [Incident Title]
 
 ## Incident Summary
@@ -12186,7 +12172,7 @@ class IncidentResponse:
 ### Performance Debugging at Scale
 
 #### Distributed System Debugging
-```python
+```
 # Distributed tracing for performance debugging
 import opentelemetry
 from opentelemetry import trace
@@ -12240,7 +12226,7 @@ class PerformanceDebugger:
 ```
 
 #### Performance Metrics Collection
-```python
+```
 # Performance metrics for debugging
 import time
 import psutil
@@ -12336,7 +12322,7 @@ class PerformanceMonitor:
 ### SLO/SLI Management
 
 #### Service Level Objectives
-```python
+```
 # SLO/SLI implementation
 from dataclasses import dataclass
 from typing import List, Dict
@@ -12387,7 +12373,7 @@ class SLOManager:
         if not slo:
             return {"error": "SLO not found"}
         
-        # Get data within measurement window
+        """ Get data within measurement window """
         cutoff_time = time.time() - slo.measurement_window
         relevant_data = [s for s in self.sli_data 
                         if s.name == slo_name and s.timestamp > cutoff_time]
@@ -12419,7 +12405,7 @@ class SLOManager:
         if not slo:
             return 0.0
         
-        # Calculate burn rate over last hour vs last 24 hours
+        """ Calculate burn rate over last hour vs last 24 hours """
         one_hour_ago = time.time() - 3600
         one_day_ago = time.time() - 86400
         
@@ -12443,7 +12429,7 @@ class SLOManager:
 ```
 
 #### SLO Configuration Examples
-```yaml
+```
 # SLO configuration for different services
 slo_configs:
   api_latency:
@@ -12474,7 +12460,7 @@ slo_configs:
 ### Capacity Planning & Cost Forecasting
 
 #### Capacity Planning Framework
-```python
+```
 # Capacity planning and forecasting
 import numpy as np
 from typing import Dict, List, Tuple
@@ -12505,7 +12491,7 @@ class CapacityPlanner:
         if len(self.historical_usage) < 2:
             return 0.0
         
-        # Get data from last N days
+        """ Get data from last N days """
         cutoff_time = time.time() - (days * 86400)
         recent_data = [h for h in self.historical_usage 
                       if h["timestamp"] > cutoff_time]
@@ -12513,10 +12499,10 @@ class CapacityPlanner:
         if len(recent_data) < 2:
             return 0.0
         
-        # Sort by timestamp
+        """ Sort by timestamp """
         recent_data.sort(key=lambda x: x["timestamp"])
         
-        # Calculate growth rate
+        """ Calculate growth rate """
         initial_value = recent_data[0]["usage"].get(metric, 0)
         final_value = recent_data[-1]["usage"].get(metric, 0)
         
@@ -12525,7 +12511,7 @@ class CapacityPlanner:
         
         time_diff_days = (recent_data[-1]["timestamp"] - recent_data[0]["timestamp"]) / 86400
         
-        # Annual growth rate
+        """ Annual growth rate """
         growth_rate = ((final_value / initial_value) ** (365 / time_diff_days)) - 1
         return growth_rate
     
@@ -12534,7 +12520,7 @@ class CapacityPlanner:
         current_usage = self.historical_usage[-1]["usage"].get(metric, 0)
         growth_rate = self.growth_rates.get(metric, self.calculate_growth_rate(metric))
         
-        # Compound growth
+        """ Compound growth """
         months = months_ahead
         forecasted_usage = current_usage * ((1 + growth_rate) ** (months / 12))
         
@@ -12546,7 +12532,7 @@ class CapacityPlanner:
         memory_forecast = self.forecast_capacity("memory_gb", months_ahead)
         storage_forecast = self.forecast_capacity("storage_gb", months_ahead)
         
-        # AWS pricing (example)
+        """ AWS pricing (example) """
         cpu_cost_per_hour = 0.0416  # t3.medium
         memory_cost_per_hour = 0.0056  # per GB
         storage_cost_per_month = 0.023  # per GB
@@ -12572,10 +12558,10 @@ class CapacityPlanner:
         if current_monthly_cost <= target_cost:
             return {"status": "within_budget", "current_cost": current_monthly_cost}
         
-        # Find optimization opportunities
+        """ Find optimization opportunities """
         optimizations = []
         
-        # Reserved instances (30% savings)
+        """ Reserved instances (30% savings) """
         reserved_savings = current_monthly_cost * 0.3
         optimizations.append({
             "type": "reserved_instances",
@@ -12583,7 +12569,7 @@ class CapacityPlanner:
             "implementation": "Purchase 1-year reserved instances"
         })
         
-        # Spot instances for non-critical workloads (50% savings on 20% of instances)
+        """ Spot instances for non-critical workloads (50% savings on 20% of instances) """
         spot_savings = current_monthly_cost * 0.2 * 0.5
         optimizations.append({
             "type": "spot_instances",
@@ -12591,7 +12577,7 @@ class CapacityPlanner:
             "implementation": "Use spot instances for batch processing"
         })
         
-        # Storage optimization (20% savings)
+        """ Storage optimization (20% savings) """
         storage_savings = self.calculate_cost_forecast(0)["storage_cost"] * 0.2
         optimizations.append({
             "type": "storage_optimization",
@@ -12614,9 +12600,9 @@ class CapacityPlanner:
 
 ---
 
-# Security & Compliance
+# 4. Security & Compliance
 
-## Security & Compliance
+## 4.1 Security & Compliance
 
 ## 1. HIPAA Compliance
 
@@ -12667,6 +12653,30 @@ class CapacityPlanner:
 
 ## 3. Common Security Vulnerabilities
 
+### OWASP (Open Web Application Security Project)
+
+**Definition**: OWASP is a nonprofit foundation that works to improve software security. It provides freely-available articles, methodologies, documentation, tools, and technologies in the field of web application security.
+
+**What OWASP Does:**
+- **Community-Driven**: Open source community focused on application security
+- **Educational Resources**: Free documentation, tools, and best practices
+- **Standards**: Establishes security standards and guidelines
+- **Tools**: Develops security testing tools (OWASP ZAP, Dependency-Check, etc.)
+- **Research**: Conducts security research and publishes findings
+
+**Why OWASP Matters:**
+- **Industry Standard**: OWASP Top 10 is the de facto standard for web application security risks
+- **Free & Open**: All resources are free and open source
+- **Vendor-Neutral**: Not tied to any specific technology or vendor
+- **Regular Updates**: Top 10 list is updated every 3-4 years based on real-world data
+- **Compliance**: Many security frameworks reference OWASP guidelines
+
+**Key OWASP Resources:**
+- **OWASP Top 10**: Most critical web application security risks
+- **OWASP ASVS**: Application Security Verification Standard
+- **OWASP Testing Guide**: Comprehensive security testing methodology
+- **OWASP ZAP**: Free security testing tool for finding vulnerabilities
+
 ### OWASP Top 10
 1. **Injection**: SQL, NoSQL, OS command injection
 2. **Broken Authentication**: Weak passwords, session fixation
@@ -12690,7 +12700,7 @@ class CapacityPlanner:
 ## 4. Security Implementation Examples
 
 ### Secure Password Storage
-```python
+```
 import bcrypt
 import secrets
 
@@ -12706,8 +12716,40 @@ def generate_secure_token():
     return secrets.token_urlsafe(32)
 ```
 
+### JWT (JSON Web Token)
+
+**Definition**: JWT is a compact, URL-safe token format used for securely transmitting information between parties. It's an open standard (RFC 7519) that defines a way to encode claims (user information) as a JSON object that can be digitally signed or encrypted.
+
+**JWT Structure:**
+- **Header**: Contains token type (JWT) and signing algorithm (e.g., HS256, RS256)
+- **Payload**: Contains claims (user data, expiration, issuer, etc.)
+- **Signature**: Used to verify the token hasn't been tampered with
+
+**JWT Format**: `header.payload.signature` (three base64-encoded parts separated by dots)
+
+**Key Characteristics:**
+- **Stateless**: No need to store tokens on the server (unlike session cookies)
+- **Self-contained**: All necessary information is in the token itself
+- **Verifiable**: Can be verified using the secret/key without database lookup
+- **Expirable**: Built-in expiration mechanism via `exp` claim
+
+**Common Use Cases:**
+- **Authentication**: After login, server issues JWT to client
+- **Authorization**: Token contains user roles/permissions
+- **API Authentication**: Stateless authentication for REST APIs
+- **Single Sign-On (SSO)**: Share authentication across multiple services
+- **Microservices**: Pass user context between services
+
+**Security Considerations:**
+- **Never store sensitive data** in the payload (it's base64-encoded, not encrypted)
+- **Use HTTPS** to prevent token interception
+- **Set short expiration times** for access tokens
+- **Use refresh tokens** for long-lived sessions
+- **Validate tokens** on every request
+- **Choose appropriate algorithm**: HS256 for single-party, RS256 for multi-party
+
 ### JWT Implementation
-```python
+```
 import jwt
 from datetime import datetime, timedelta
 
@@ -12732,7 +12774,7 @@ def verify_token(token):
 ```
 
 ### Rate Limiting
-```python
+```
 import time
 from collections import defaultdict
 
@@ -12746,7 +12788,7 @@ class RateLimiter:
         now = time.time()
         client_requests = self.requests[client_id]
         
-        # Remove old requests outside window
+        """ Remove old requests outside window """
         client_requests[:] = [req_time for req_time in client_requests 
                             if now - req_time < self.window_seconds]
         
@@ -12759,10 +12801,10 @@ class RateLimiter:
 # Usage
 limiter = RateLimiter(max_requests=100, window_seconds=60)
 if limiter.is_allowed("user123"):
-    # Process request
+    """ Process request """
     pass
 else:
-    # Rate limit exceeded
+    """ Rate limit exceeded """
     pass
 ```
 
@@ -12779,36 +12821,36 @@ HTTPS (HTTP Secure) combines HTTP with TLS/SSL encryption to provide:
 ### TLS Handshake Process
 ```
 1. Client Hello
-   ├── Supported TLS versions
-   ├── Supported cipher suites
-   ├── Random number
-   └── Session ID (if resuming)
+    Supported TLS versions
+    Supported cipher suites
+    Random number
+    Session ID (if resuming)
 
 2. Server Hello
-   ├── Chosen TLS version
-   ├── Chosen cipher suite
-   ├── Random number
-   ├── Session ID
-   └── Digital certificate
+    Chosen TLS version
+    Chosen cipher suite
+    Random number
+    Session ID
+    Digital certificate
 
 3. Certificate Verification
-   ├── Client verifies server certificate
-   ├── Checks certificate chain
-   └── Validates domain name
+    Client verifies server certificate
+    Checks certificate chain
+    Validates domain name
 
 4. Key Exchange
-   ├── Client generates pre-master secret
-   ├── Encrypts with server's public key
-   └── Both sides derive master secret
+    Client generates pre-master secret
+    Encrypts with server's public key
+    Both sides derive master secret
 
 5. Finished
-   ├── Both sides verify handshake
-   ├── Switch to encrypted communication
-   └── Application data exchange begins
+    Both sides verify handshake
+    Switch to encrypted communication
+    Application data exchange begins
 ```
 
 ### SSL/TLS Configuration
-```nginx
+```
 # Nginx HTTPS configuration
 server {
     listen 443 ssl http2;
@@ -12837,7 +12879,7 @@ server {
 ```
 
 ### Certificate Management
-```bash
+```
 # Generate private key
 openssl genrsa -out private.key 2048
 
@@ -12859,7 +12901,7 @@ openssl x509 -in certificate.crt -outform DER -out certificate.der
 ## 6. Essential Security Libraries & Tools
 
 ### Python Security Libraries
-```python
+```
 # Cryptography
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
@@ -12885,7 +12927,7 @@ from flask_talisman import Talisman
 ```
 
 ### Security Headers Implementation
-```python
+```
 from flask import Flask
 from flask_talisman import Talisman
 
@@ -12913,7 +12955,7 @@ def index():
 ```
 
 ### Input Sanitization
-```python
+```
 import bleach
 import validators
 from urllib.parse import urlparse
@@ -12942,13 +12984,13 @@ def validate_url(url):
 def sanitize_filename(filename):
     """Remove dangerous characters from filenames"""
     import re
-    # Remove or replace dangerous characters
+    """ Remove or replace dangerous characters """
     safe_filename = re.sub(r'[<>:"/\\|?*]', '_', filename)
     return safe_filename[:255]  # Limit length
 ```
 
 ### Secure File Upload
-```python
+```
 import os
 import hashlib
 from werkzeug.utils import secure_filename
@@ -12962,18 +13004,18 @@ def allowed_file(filename):
 
 def secure_file_upload(file, upload_folder):
     if file and allowed_file(file.filename):
-        # Secure the filename
+        """ Secure the filename """
         filename = secure_filename(file.filename)
         
-        # Generate unique filename to prevent conflicts
+        """ Generate unique filename to prevent conflicts """
         file_hash = hashlib.md5(file.read()).hexdigest()
         file.seek(0)  # Reset file pointer
         
-        # Create safe filename with hash
+        """ Create safe filename with hash """
         safe_filename = f"{file_hash}_{filename}"
         filepath = os.path.join(upload_folder, safe_filename)
         
-        # Check file size
+        """ Check file size """
         file.seek(0, 2)  # Seek to end
         file_size = file.tell()
         file.seek(0)  # Reset to beginning
@@ -12981,7 +13023,7 @@ def secure_file_upload(file, upload_folder):
         if file_size > MAX_FILE_SIZE:
             raise ValueError("File too large")
         
-        # Save file
+        """ Save file """
         file.save(filepath)
         return safe_filename
     
@@ -13022,6 +13064,9 @@ def secure_file_upload(file, upload_folder):
 - [ ] Incident response procedures
 - [ ] Data backup and recovery
 - [ ] Vendor security assessments
+
+### JWT Token Implementation
+```
 ALGORITHM = "HS256"
 
 def create_access_token(data: dict, expires_delta: timedelta = None):
@@ -13046,7 +13091,7 @@ def verify_token(token: str):
 ```
 
 ### Rate Limiting
-```python
+```
 import redis
 import time
 
@@ -13060,10 +13105,10 @@ class RateLimiter:
         current = int(time.time())
         window_start = current - self.window_seconds
         
-        # Remove expired entries
+        """ Remove expired entries """
         self.redis.zremrangebyscore(key, 0, window_start)
         
-        # Count current requests
+        """ Count current requests """
         current_requests = self.redis.zcard(key)
         
         if current_requests < self.max_requests:
@@ -13156,7 +13201,7 @@ class RateLimiter:
 - **Cons**: More complex implementation, newer standard
 
 **Algorithm Selection Guide:**
-```python
+```
 # For internal services (single organization)
 ALGORITHM = "HS256"  # Use strong secret key (32+ bytes)
 
@@ -13186,7 +13231,7 @@ def create_token_with_algorithm(data: dict, algorithm: str = "HS256"):
 - **Public keys**: Can be published and shared freely
 
 **Key Storage Security:**
-```python
+```
 # Secure key storage examples
 import os
 from cryptography.fernet import Fernet
@@ -13314,9 +13359,9 @@ SECRET_KEY = client.secrets.kv.v2.read_secret_version(path='jwt-secret')['data']
 
 ---
 
-# Quick Reference & Cheat Sheets
+# 5. Quick Reference & Cheat Sheets
 
-## Comprehensive Cheat Sheet
+## 5.1 Comprehensive Cheat Sheet
 
 ## 1) Load Balancing
 
@@ -13485,7 +13530,7 @@ function call():
 
 | Operation       | list                                 | dict                                | set                          | deque                           | heapq                       |               |
 | --------------- | ------------------------------------ | ----------------------------------- | ---------------------------- | ------------------------------- | --------------------------- | ------------- |
-| `len(x)`        | ✓                                    | ✓                                   | ✓                            | ✓                               | ✓ (len of list)             |               |
+| `len(x)`        |                                     |                                    |                             |                                |  (len of list)             |               |
 | Membership `in` | O(n)                                 | O(1) avg                            | O(1) avg                     | O(n)                            | —                           |               |
 | Add             | `.append(x)` / `.insert(i,x)`        | `d[k]=v`                            | `.add(x)`                    | `.append(x)` / `.appendleft(x)` | `heappush(h,x)`             |               |
 | Remove          | `.remove(x)` / `.pop()` / `del a[i]` | `del d[k]` / `.pop(k)`              | `.remove(x)` / `.discard(x)` | `.popleft()` / `.pop()`         | `heappop(h)`                |               |
@@ -13507,16 +13552,18 @@ function call():
 
 **Recursion template**
 
-```python
+```
 def solve(x):
-    # base case(s)
-    # combine results from smaller subproblems
+    """
+    base case(s)
+    combine results from smaller subproblems
+    """
     return result
 ```
 
 **DFS (graph)**
 
-```python
+```
 def dfs(u):
     if u in seen: return
     seen.add(u)
@@ -13526,7 +13573,7 @@ def dfs(u):
 
 **BFS (graph)**
 
-```python
+```
 from collections import deque
 def bfs(s):
     q, seen = deque([s]), {s}
@@ -13539,7 +13586,7 @@ def bfs(s):
 
 **Binary search (index or insert position)**
 
-```python
+```
 def bsearch(a, t):
     l, r = 0, len(a)-1
     while l <= r:
@@ -13552,7 +13599,7 @@ def bsearch(a, t):
 
 **Sliding window (no repeats)**
 
-```python
+```
 def longest(s):
     pos, L, best = {}, 0, 0
     for R,ch in enumerate(s):
@@ -13564,7 +13611,7 @@ def longest(s):
 
 **Dijkstra (min distances)**
 
-```python
+```
 import heapq
 def dijkstra(G, s):
     dist = {s:0}; pq = [(0,s)]
@@ -13580,7 +13627,7 @@ def dijkstra(G, s):
 
 **DP template**
 
-```python
+```
 # define state dp[...] and base cases
 # fill in dependency order using transitions
 return answer_state
@@ -13596,3 +13643,549 @@ return answer_state
 - Don’t use **mutable defaults** in function params; use `None` then set.
 
 ---
+
+# 6. Algorithm Flashcards & Pattern Recognition
+
+*This section contains algorithm pattern flashcards for quick reference and pattern recognition practice.*
+
+---
+
+## 6.1 Common Interview Patterns Flashcards
+
+Generated for interview preparation
+
+
+## Card 1
+
+**Front:** What is the time/space complexity of Common Interview Patterns?
+
+**Back:** Varies by implementation
+
+---
+
+## 6.2 Longest substring without repeating characters
+
+Generated for interview preparation
+
+
+## Card 1
+
+**Front:** Identify the algorithm pattern for: Sliding Window Pattern
+
+**Back:** Key indicators:
+• "Find longest substring without repeating characters"
+• "Maximum sum subarray of size k"
+• "Minimum window substring"
+• "Longest substring with at most k distinct characters"
+• "Find all anagrams in a string"
+
+
+## Card 2
+
+**Front:** Give examples of Sliding Window Pattern problems
+
+**Back:** Common examples:
+
+
+
+## Card 3
+
+**Front:** Implement length_of_longest_substring using Sliding Window Pattern
+
+**Back:** ```python
+def length_of_longest_substring(s):
+    char_map = {}
+    left = max_length = 0
+    
+    for right, char in enumerate(s):
+        if char in char_map and char_map[char] >= left:
+            left = char_map[char] + 1
+        char_map[char] = right
+        max_length = max(max_length, right - left + 1)
+    
+    return max_length
+```
+
+
+## Card 4
+
+**Front:** What is the time/space complexity of Sliding Window Pattern?
+
+**Back:** Varies by implementation
+
+---
+
+## 6.3 Two Sum in sorted array
+
+Generated for interview preparation
+
+
+## Card 1
+
+**Front:** Identify the algorithm pattern for: Two Pointers Pattern
+
+**Back:** Key indicators:
+• "Find two numbers that sum to target"
+• "Remove duplicates from sorted array"
+• "Check if string is palindrome"
+• "Merge two sorted arrays"
+• "Container with most water"
+
+
+## Card 2
+
+**Front:** Give examples of Two Pointers Pattern problems
+
+**Back:** Common examples:
+
+
+
+## Card 3
+
+**Front:** Implement two_sum_sorted using Two Pointers Pattern
+
+**Back:** ```python
+def two_sum_sorted(nums, target):
+    left, right = 0, len(nums) - 1
+    while left < right:
+        current_sum = nums[left] + nums[right]
+        if current_sum == target:
+            return [left, right]
+        elif current_sum < target:
+            left += 1
+        else:
+            right -= 1
+    return []
+```
+
+
+## Card 4
+
+**Front:** What is the time/space complexity of Two Pointers Pattern?
+
+**Back:** Varies by implementation
+
+---
+
+## 6.4 Find minimum capacity to ship packages
+
+Generated for interview preparation
+
+
+## Card 1
+
+**Front:** Identify the algorithm pattern for: Binary Search Pattern
+
+**Back:** Key indicators:
+• "Find element in sorted array"
+• "Find first/last occurrence"
+• "Find minimum/maximum capacity"
+• "Search in rotated sorted array"
+• "Find peak element"
+
+
+## Card 2
+
+**Front:** Give examples of Binary Search Pattern problems
+
+**Back:** Common examples:
+
+
+
+## Card 3
+
+**Front:** Implement ship_within_days using Binary Search Pattern
+
+**Back:** ```python
+def ship_within_days(weights, days):
+    def can_ship(capacity):
+        current_weight = 0
+        days_needed = 1
+        for weight in weights:
+            if current_weight + weight > capacity:
+                days_needed += 1
+                current_weight = weight
+            else:
+                current_weight += weight
+        return days_needed <= days
+    
+    left, right = max(weights), sum(weights)
+    while left < right:
+        mid = left + (right - left) // 2
+        if can_ship(mid):
+            right = mid
+        else:
+            left = mid + 1
+    return left
+```
+
+
+## Card 4
+
+**Front:** What is the time/space complexity of Binary Search Pattern?
+
+**Back:** Varies by implementation
+
+---
+
+## 6.5 Generate All Permutations
+
+Generated for interview preparation
+
+
+## Card 1
+
+**Front:** Identify the algorithm pattern for: Backtracking Pattern
+
+**Back:** Key indicators:
+• "Generate all combinations"
+• "Find all permutations"
+• "N
+• queens problem"
+• "Sudoku solver"
+• "Word search"
+
+
+## Card 2
+
+**Front:** Give examples of Backtracking Pattern problems
+
+**Back:** Common examples:
+
+
+
+## Card 3
+
+**Front:** Implement permute using Backtracking Pattern
+
+**Back:** ```python
+def permute(nums):
+    def backtrack(start):
+        if start == len(nums):
+            result.append(nums[:])
+            return
+        
+        for i in range(start, len(nums)):
+            nums[start], nums[i] = nums[i], nums[start]
+            backtrack(start + 1)
+            nums[start], nums[i] = nums[i], nums[start]
+    
+    result = []
+    backtrack(0)
+    return result
+```
+
+
+## Card 4
+
+**Front:** What is the time/space complexity of Backtracking Pattern?
+
+**Back:** Varies by implementation
+
+---
+
+## 6.6 Coin Change - Minimum coins needed
+
+Generated for interview preparation
+
+
+## Card 1
+
+**Front:** Identify the algorithm pattern for: Classic DP Pattern
+
+**Back:** Key indicators:
+• "Maximum/minimum value"
+• "Count ways to do something"
+• "Longest increasing subsequence"
+• "Coin change"
+• "Climbing stairs"
+
+
+## Card 2
+
+**Front:** Give examples of Classic DP Pattern problems
+
+**Back:** Common examples:
+
+
+
+## Card 3
+
+**Front:** Implement coin_change using Classic DP Pattern
+
+**Back:** ```python
+def coin_change(coins, amount):
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+    
+    for coin in coins:
+        for i in range(coin, amount + 1):
+            dp[i] = min(dp[i], dp[i - coin] + 1)
+    
+    return dp[amount] if dp[amount] != float('inf') else -1
+```
+
+
+## Card 4
+
+**Front:** What is the time/space complexity of Classic DP Pattern?
+
+**Back:** Varies by implementation
+
+---
+
+## 6.7 Partition Equal Subset Sum
+
+Generated for interview preparation
+
+
+## Card 1
+
+**Front:** Identify the algorithm pattern for: Knapsack Pattern
+
+**Back:** Key indicators:
+• "Select items with weight/value constraints"
+• "Partition equal subset sum"
+• "Target sum"
+• "0/1 knapsack"
+• "Unbounded knapsack"
+
+
+## Card 2
+
+**Front:** Give examples of Knapsack Pattern problems
+
+**Back:** Common examples:
+
+
+
+## Card 3
+
+**Front:** Implement can_partition using Knapsack Pattern
+
+**Back:** ```python
+def can_partition(nums):
+    total = sum(nums)
+    if total % 2 != 0:
+        return False
+    
+    target = total // 2
+    dp = [False] * (target + 1)
+    dp[0] = True
+    
+    for num in nums:
+        for i in range(target, num - 1, -1):
+            dp[i] = dp[i] or dp[i - num]
+    
+    return dp[target]
+```
+
+
+## Card 4
+
+**Front:** What is the time/space complexity of Knapsack Pattern?
+
+**Back:** Varies by implementation
+
+---
+
+## 6.8 Detect cycle in directed graph
+
+Generated for interview preparation
+
+
+## Card 1
+
+**Front:** Identify the algorithm pattern for: Graph Traversal Pattern
+
+**Back:** Key indicators:
+• "Find shortest path"
+• "Detect cycle in graph"
+• "Topological sort"
+• "Number of islands"
+• "Clone graph"
+
+
+## Card 2
+
+**Front:** Give examples of Graph Traversal Pattern problems
+
+**Back:** Common examples:
+
+
+
+## Card 3
+
+**Front:** Implement has_cycle using Graph Traversal Pattern
+
+**Back:** ```python
+def has_cycle(graph):
+    visited = set()
+    rec_stack = set()
+    
+    def dfs(node):
+        visited.add(node)
+        rec_stack.add(node)
+        
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                if dfs(neighbor):
+                    return True
+            elif neighbor in rec_stack:
+                return True
+        
+        rec_stack.remove(node)
+        return False
+    
+    for node in graph:
+        if node not in visited:
+            if dfs(node):
+                return True
+    return False
+```
+
+
+## Card 4
+
+**Front:** What is the time/space complexity of Graph Traversal Pattern?
+
+**Back:** Varies by implementation
+
+---
+
+## 6.9 Validate Binary Search Tree
+
+Generated for interview preparation
+
+
+## Card 1
+
+**Front:** Identify the algorithm pattern for: Tree Traversal Pattern
+
+**Back:** Key indicators:
+• "Inorder/preorder/postorder traversal"
+• "Level order traversal"
+• "Validate binary search tree"
+• "Serialize/deserialize tree"
+• "Find lowest common ancestor"
+
+
+## Card 2
+
+**Front:** Give examples of Tree Traversal Pattern problems
+
+**Back:** Common examples:
+
+
+
+## Card 3
+
+**Front:** Implement is_valid_bst using Tree Traversal Pattern
+
+**Back:** ```python
+def is_valid_bst(root):
+    def validate(node, low, high):
+        if not node:
+            return True
+        if node.val <= low or node.val >= high:
+            return False
+        return (validate(node.left, low, node.val) and 
+                validate(node.right, node.val, high))
+    
+    return validate(root, float('-inf'), float('inf'))
+```
+
+
+## Card 4
+
+**Front:** What is the time/space complexity of Tree Traversal Pattern?
+
+**Back:** Varies by implementation
+
+---
+
+## 6.10 Find K-th Largest Element
+
+Generated for interview preparation
+
+
+## Card 1
+
+**Front:** Identify the algorithm pattern for: Heap Pattern
+
+**Back:** Key indicators:
+• "Find k
+• th largest/smallest element"
+• "Merge k sorted lists"
+• "Top k frequent elements"
+• "Median of data stream"
+• "Sliding window median"
+
+
+## Card 2
+
+**Front:** Give examples of Heap Pattern problems
+
+**Back:** Common examples:
+
+
+
+## Card 3
+
+**Front:** Implement find_kth_largest using Heap Pattern
+
+**Back:** ```python
+def find_kth_largest(nums, k):
+    import heapq
+    heap = []
+    
+    for num in nums:
+        heapq.heappush(heap, num)
+        if len(heap) > k:
+            heapq.heappop(heap)
+    
+    return heap[0]
+```
+
+
+## Card 4
+
+**Front:** What is the time/space complexity of Heap Pattern?
+
+**Back:** Varies by implementation
+
+---
+
+## 6.11 Back Side (Solution Pattern) Flashcards
+
+Generated for interview preparation
+
+
+## Card 1
+
+**Front:** What is the time/space complexity of Back Side (Solution Pattern)?
+
+**Back:** Varies by implementation
+
+---
+
+## 6.12 Problem Type → Algorithm Pattern Flashcards
+
+Generated for interview preparation
+
+
+## Card 1
+
+**Front:** What is the time/space complexity of Problem Type → Algorithm Pattern?
+
+**Back:** Varies by implementation
+
+---
+
+
+---
+
+# End of Study Guide
+
+*This complete study guide includes all documentation and algorithm flashcards.*
+*Generated for comprehensive offline study and interview preparation.*

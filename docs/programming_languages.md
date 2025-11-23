@@ -84,7 +84,7 @@ class DatabaseConnection:
 # Usage
 with DatabaseConnection("localhost", 5432) as conn:
     print(f"Using connection: {conn}")
-    # Database operations here
+    """ Database operations here """
 
 # Context manager with contextlib - simpler file handling
 from contextlib import contextmanager
@@ -150,7 +150,7 @@ async def main():
     
     async with AsyncDatabasePool() as pool:
         conn = await pool.get_connection()
-        # Use connection
+        """ Use connection """
 
 asyncio.run(main())
 ```
@@ -357,7 +357,7 @@ console.log('6. End');
 
 **Common use cases**: File processing, network communication, data transformation pipelines, and handling large files without loading everything into memory.
 
-```javascript
+```python
 const fs = require('fs');
 const { Transform } = require('stream');
 
@@ -415,7 +415,7 @@ readStream
 
 **Common use cases**: API calls, database operations, file processing, and any operation that requires waiting for external resources.
 
-```javascript
+```python
 // Promise patterns - utility functions for common async scenarios
 class PromiseUtils {
     static delay(ms) {
@@ -569,7 +569,7 @@ fastify.post('/users', {
 
 **Common use cases**: Setting up development environments, managing project dependencies, and automating common development tasks.
 
-```javascript
+```text
 // Package.json scripts - automate common development tasks
 {
   "scripts": {
@@ -877,7 +877,7 @@ k8s_management() {
 ### Component Patterns
 
 #### Higher-Order Components (HOC)
-```jsx
+```python
 {% raw %}
 // HOC for authentication
 const withAuth = (WrappedComponent) => {
@@ -943,7 +943,7 @@ const ProtectedDashboard = withAuth(Dashboard);
 ```
 
 #### Render Props Pattern
-```jsx
+```python
 {% raw %}
 // Data fetcher with render props
 class DataFetcher extends React.Component {
@@ -999,7 +999,7 @@ class DataFetcher extends React.Component {
 ```
 
 #### Custom Hooks
-```jsx
+```javascript
 {% raw %}
 // Custom hook for API calls
 const useApi = (url, options = {}) => {
@@ -1112,7 +1112,7 @@ const useFormValidation = (initialValues, validationSchema) => {
 ### Performance Optimization
 
 #### React.memo and useMemo
-```jsx
+```javascript
 {% raw %}
 // Optimized component with React.memo
 const ExpensiveComponent = React.memo(({ data, onAction }) => {
@@ -1169,7 +1169,7 @@ const VirtualList = ({ items, itemHeight, containerHeight }) => {
 ```
 
 #### Code Splitting and Lazy Loading
-```jsx
+```javascript
 {% raw %}
 // Lazy loading components
 const LazyDashboard = React.lazy(() => import('./Dashboard'));
@@ -1231,7 +1231,7 @@ const MyComponent = () => {
 ### State Management Patterns
 
 #### Context API with useReducer
-```jsx
+```javascript
 {% raw %}
 // Global state management
 const initialState = {

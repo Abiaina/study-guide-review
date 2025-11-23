@@ -53,6 +53,30 @@ title: Security & Compliance
 
 ## 3. Common Security Vulnerabilities
 
+### OWASP (Open Web Application Security Project)
+
+**Definition**: OWASP is a nonprofit foundation that works to improve software security. It provides freely-available articles, methodologies, documentation, tools, and technologies in the field of web application security.
+
+**What OWASP Does:**
+- **Community-Driven**: Open source community focused on application security
+- **Educational Resources**: Free documentation, tools, and best practices
+- **Standards**: Establishes security standards and guidelines
+- **Tools**: Develops security testing tools (OWASP ZAP, Dependency-Check, etc.)
+- **Research**: Conducts security research and publishes findings
+
+**Why OWASP Matters:**
+- **Industry Standard**: OWASP Top 10 is the de facto standard for web application security risks
+- **Free & Open**: All resources are free and open source
+- **Vendor-Neutral**: Not tied to any specific technology or vendor
+- **Regular Updates**: Top 10 list is updated every 3-4 years based on real-world data
+- **Compliance**: Many security frameworks reference OWASP guidelines
+
+**Key OWASP Resources:**
+- **OWASP Top 10**: Most critical web application security risks
+- **OWASP ASVS**: Application Security Verification Standard
+- **OWASP Testing Guide**: Comprehensive security testing methodology
+- **OWASP ZAP**: Free security testing tool for finding vulnerabilities
+
 ### OWASP Top 10
 1. **Injection**: SQL, NoSQL, OS command injection
 2. **Broken Authentication**: Weak passwords, session fixation
@@ -91,6 +115,38 @@ def verify_password(password, hashed):
 def generate_secure_token():
     return secrets.token_urlsafe(32)
 ```
+
+### JWT (JSON Web Token)
+
+**Definition**: JWT is a compact, URL-safe token format used for securely transmitting information between parties. It's an open standard (RFC 7519) that defines a way to encode claims (user information) as a JSON object that can be digitally signed or encrypted.
+
+**JWT Structure:**
+- **Header**: Contains token type (JWT) and signing algorithm (e.g., HS256, RS256)
+- **Payload**: Contains claims (user data, expiration, issuer, etc.)
+- **Signature**: Used to verify the token hasn't been tampered with
+
+**JWT Format**: `header.payload.signature` (three base64-encoded parts separated by dots)
+
+**Key Characteristics:**
+- **Stateless**: No need to store tokens on the server (unlike session cookies)
+- **Self-contained**: All necessary information is in the token itself
+- **Verifiable**: Can be verified using the secret/key without database lookup
+- **Expirable**: Built-in expiration mechanism via `exp` claim
+
+**Common Use Cases:**
+- **Authentication**: After login, server issues JWT to client
+- **Authorization**: Token contains user roles/permissions
+- **API Authentication**: Stateless authentication for REST APIs
+- **Single Sign-On (SSO)**: Share authentication across multiple services
+- **Microservices**: Pass user context between services
+
+**Security Considerations:**
+- **Never store sensitive data** in the payload (it's base64-encoded, not encrypted)
+- **Use HTTPS** to prevent token interception
+- **Set short expiration times** for access tokens
+- **Use refresh tokens** for long-lived sessions
+- **Validate tokens** on every request
+- **Choose appropriate algorithm**: HS256 for single-party, RS256 for multi-party
 
 ### JWT Implementation
 ```python
@@ -132,7 +188,7 @@ class RateLimiter:
         now = time.time()
         client_requests = self.requests[client_id]
         
-        # Remove old requests outside window
+        """ Remove old requests outside window """
         client_requests[:] = [req_time for req_time in client_requests 
                             if now - req_time < self.window_seconds]
         
@@ -145,10 +201,10 @@ class RateLimiter:
 # Usage
 limiter = RateLimiter(max_requests=100, window_seconds=60)
 if limiter.is_allowed("user123"):
-    # Process request
+    """ Process request """
     pass
 else:
-    # Rate limit exceeded
+    """ Rate limit exceeded """
     pass
 ```
 
@@ -163,7 +219,7 @@ HTTPS (HTTP Secure) combines HTTP with TLS/SSL encryption to provide:
 - **Authentication**: Verifies the server's identity
 
 ### TLS Handshake Process
-```
+```text
 1. Client Hello
    ├── Supported TLS versions
    ├── Supported cipher suites
@@ -194,7 +250,7 @@ HTTPS (HTTP Secure) combines HTTP with TLS/SSL encryption to provide:
 ```
 
 ### SSL/TLS Configuration
-```nginx
+```markdown
 # Nginx HTTPS configuration
 server {
     listen 443 ssl http2;
@@ -223,7 +279,7 @@ server {
 ```
 
 ### Certificate Management
-```bash
+```markdown
 # Generate private key
 openssl genrsa -out private.key 2048
 
@@ -328,7 +384,7 @@ def validate_url(url):
 def sanitize_filename(filename):
     """Remove dangerous characters from filenames"""
     import re
-    # Remove or replace dangerous characters
+    """ Remove or replace dangerous characters """
     safe_filename = re.sub(r'[<>:"/\\|?*]', '_', filename)
     return safe_filename[:255]  # Limit length
 ```
@@ -348,18 +404,18 @@ def allowed_file(filename):
 
 def secure_file_upload(file, upload_folder):
     if file and allowed_file(file.filename):
-        # Secure the filename
+        """ Secure the filename """
         filename = secure_filename(file.filename)
         
-        # Generate unique filename to prevent conflicts
+        """ Generate unique filename to prevent conflicts """
         file_hash = hashlib.md5(file.read()).hexdigest()
         file.seek(0)  # Reset file pointer
         
-        # Create safe filename with hash
+        """ Create safe filename with hash """
         safe_filename = f"{file_hash}_{filename}"
         filepath = os.path.join(upload_folder, safe_filename)
         
-        # Check file size
+        """ Check file size """
         file.seek(0, 2)  # Seek to end
         file_size = file.tell()
         file.seek(0)  # Reset to beginning
@@ -367,7 +423,7 @@ def secure_file_upload(file, upload_folder):
         if file_size > MAX_FILE_SIZE:
             raise ValueError("File too large")
         
-        # Save file
+        """ Save file """
         file.save(filepath)
         return safe_filename
     
@@ -408,6 +464,9 @@ def secure_file_upload(file, upload_folder):
 - [ ] Incident response procedures
 - [ ] Data backup and recovery
 - [ ] Vendor security assessments
+
+### JWT Token Implementation
+```python
 ALGORITHM = "HS256"
 
 def create_access_token(data: dict, expires_delta: timedelta = None):
@@ -446,10 +505,10 @@ class RateLimiter:
         current = int(time.time())
         window_start = current - self.window_seconds
         
-        # Remove expired entries
+        """ Remove expired entries """
         self.redis.zremrangebyscore(key, 0, window_start)
         
-        # Count current requests
+        """ Count current requests """
         current_requests = self.redis.zcard(key)
         
         if current_requests < self.max_requests:
@@ -542,7 +601,7 @@ class RateLimiter:
 - **Cons**: More complex implementation, newer standard
 
 **Algorithm Selection Guide:**
-```python
+```markdown
 # For internal services (single organization)
 ALGORITHM = "HS256"  # Use strong secret key (32+ bytes)
 

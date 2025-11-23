@@ -123,7 +123,7 @@ This example shows how to structure Terraform for multiple environments (dev, st
 
 **Layout**
 
-```
+```text
 terraform/
   main.tf
   vpc.tf
@@ -147,7 +147,7 @@ terraform/
 - **Security**: Prevents accidental infrastructure changes and protects sensitive information
 - **Audit Trail**: Keeps track of who made changes and when
 
-```bash
+```text
 bucket         = "my-tf-state-bucket"    # S3 bucket to store Terraform state
 key            = "envs/dev/terraform.tfstate"  # Path within bucket for this environment
 region         = "us-west-2"             # AWS region for the backend
@@ -167,7 +167,7 @@ encrypt        = true                    # Encrypt state files at rest
 - **Provider Management**: Connects to AWS APIs to create and manage resources
 - **State Management**: Backend configuration enables team collaboration and state persistence
 
-```bash
+```hcl
 terraform {
   required_version = ">= 1.6.0"         # Minimum Terraform version required
   backend "s3" {}                       # Use S3 backend for remote state (configured via backend.hcl at init-time)
@@ -193,7 +193,7 @@ provider "aws" {
 - **Internet Access**: Allows your web servers to be accessible from the internet
 - **Security**: Provides a foundation for implementing network security controls
 
-```bash
+```python
 # Virtual Private Cloud - isolated network environment
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"           # Private IP range: 10.0.0.0 to 10.0.255.255
@@ -226,13 +226,13 @@ resource "aws_internet_gateway" "igw" {
 - **Compute**: Provides the actual server to run your web application
 - **Automation**: Automatically installs and configures the web server software
 
-```bash
+```python
 # Security Group - firewall rules for EC2 instances
 resource "aws_security_group" "web" {
   name   = "web-sg"                     # Security group name
   vpc_id = aws_vpc.main.id             # Associate with our VPC
 
-  # Allow SSH access from anywhere (0.0.0.0/0 = all IPs)
+  """ Allow SSH access from anywhere (0.0.0.0/0 = all IPs) """
   ingress {
     from_port = 22                      # SSH port
     to_port   = 22
@@ -240,7 +240,7 @@ resource "aws_security_group" "web" {
     cidr_blocks = ["0.0.0.0/0"]        # WARNING: In production, restrict to specific IPs
   }
   
-  # Allow HTTP access from anywhere (for web traffic)
+  """ Allow HTTP access from anywhere (for web traffic) """
   ingress {
     from_port = 80                      # HTTP port
     to_port   = 80
@@ -248,7 +248,7 @@ resource "aws_security_group" "web" {
     cidr_blocks = ["0.0.0.0/0"]        # WARNING: In production, restrict to specific IPs
   }
   
-  # Allow all outbound traffic (instances can reach internet)
+  """ Allow all outbound traffic (instances can reach internet) """
   egress {
     from_port = 0                       # All ports
     to_port   = 0
@@ -268,6 +268,20 @@ data "aws_ami" "amazon_linux" {
 }
 ```
 
+**ec2.tf** (compute instance)
+
+**What this file provisions:**
+- **EC2 Instance**: A virtual server in AWS that runs your application
+- **User Data Script**: Commands that run when the instance first boots
+- **Security Groups**: Firewall rules that control network access
+
+**Why this matters:**
+- **Compute Power**: Provides the CPU and memory to run your applications
+- **Automation**: User data scripts automate initial setup and configuration
+- **Security**: Security groups control what traffic can reach your instance
+- **Scalability**: Can be replicated and scaled based on demand
+
+```bash
 resource "aws_instance" "web" {
   ami                    = data.aws_ami.amazon_linux.id    # Use the AMI we found earlier
   instance_type          = "t3.micro"                      # Small instance type (1 vCPU, 1 GB RAM)
@@ -299,7 +313,7 @@ resource "aws_instance" "web" {
 - **Data Protection**: Versioning helps recover from accidental deletions or overwrites
 - **Static Hosting**: Can serve static websites or store application assets
 
-```bash
+```python
 # S3 bucket for storing static assets (images, CSS, JS files)
 resource "aws_s3_bucket" "assets" {
   bucket = var.bucket_name                                 # Bucket name from variable
@@ -326,7 +340,7 @@ resource "aws_s3_bucket_versioning" "assets" {
 - **Reusability**: Variables make your Terraform modules reusable across projects
 - **Environment Management**: Different values can be set for dev, staging, and production
 
-```bash
+```hcl
 variable "region"      { type = string, default = "us-west-2" }  # AWS region with default
 variable "bucket_name" { type = string }                         # Required: S3 bucket name
 ```
@@ -343,7 +357,7 @@ variable "bucket_name" { type = string }                         # Required: S3 
 - **Documentation**: Provides a clear summary of what was created
 - **Troubleshooting**: Helps verify that resources were created correctly
 
-```bash
+```text
 output "ec2_public_ip" { value = aws_instance.web.public_ip }   # Public IP of web server
 output "s3_bucket"     { value = aws_s3_bucket.assets.bucket }  # Name of S3 bucket
 ```
@@ -361,7 +375,7 @@ output "s3_bucket"     { value = aws_s3_bucket.assets.bucket }  # Name of S3 buc
 - **Automation**: These commands can be integrated into CI/CD pipelines
 - **Version Control**: Infrastructure changes are tracked and can be rolled back
 
-```bash
+```markdown
 # Initialize Terraform and configure backend
 terraform init -backend-config=backend.hcl
 
@@ -387,7 +401,7 @@ terraform apply -auto-approve -var="bucket_name=my-artifacts-bucket"
 - **Team Workflow**: Different teams can work on different environments simultaneously
 - **Cost Control**: Prevents accidental resource creation in production
 
-```bash
+```markdown
 # Create and switch to dev workspace (isolates state for different environments)
 terraform workspace new dev
 terraform workspace select dev
@@ -675,7 +689,7 @@ output "public_ip" { value = aws_instance.web.public_ip }
 - One giant state for everything → slow plans, big blast radius. Split by domain/env
 
 #### Module-based Architecture
-```hcl
+```markdown
 # modules/vpc/main.tf - Reusable VPC module
 module "vpc" {
   source = "../../modules/vpc"                              # Path to module source
@@ -725,7 +739,7 @@ resource "aws_vpc_endpoint" "s3" {
 
 ## 2) Jenkinsfile (build → test → Docker → push → deploy to K8s)
 
-```groovy
+```bash
 pipeline {
   agent any
   environment {
@@ -842,7 +856,7 @@ spec:
 
 **Apply**
 
-```bash
+```text
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
 kubectl apply -f ingress.yaml
@@ -854,7 +868,7 @@ kubectl apply -f ingress.yaml
 
 **alert-rules.yaml**
 
-```yaml
+```text
 groups:
   - name: app.rules
     rules:

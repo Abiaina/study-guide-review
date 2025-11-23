@@ -25,14 +25,16 @@ from functools import lru_cache
 
 @lru_cache(None)
 def f(args):
-    # base case(s)
-    # combine recursive calls
+    """
+    base case(s)
+    combine recursive calls
+    """
     return result
 ```
 
 ### Template — Bottom-Up (Tabulation)
 
-```python
+```markdown
 # allocate dp
 # set base cases
 # iterate in dependency order
@@ -60,7 +62,7 @@ def f(args):
 
 **Pseudocode**
 
-```
+```python
 # dp[0] means one way to be at ground (do nothing)
 dp[0] = 1
 # one step has one way
@@ -96,7 +98,7 @@ def climb_stairs(n: int) -> int:
 
 **Pseudocode**
 
-```
+```python
 # dp[0] is zero coins
 dp[0] = 0
 # initialize other amounts as infinity
@@ -144,7 +146,7 @@ def coin_change(coins, amount):
 
 **Pseudocode**
 
-```
+```python
 # initialize first row/col as inserting or deleting everything
 for i from 0..n: dp[i][0] = i
 for j from 0..m: dp[0][j] = j
@@ -196,7 +198,7 @@ def edit_distance(s, t):
 
 **Pseudocode**
 
-```
+```python
 # no items → value 0
 for w from 0..W: dp[0][w] = 0
 
@@ -236,7 +238,7 @@ def knapsack_01(weights, values, W):
 
 **Pseudocode (O(n²))**
 
-```
+```python
 # each element is an LIS of length 1
 for i from 0..n-1:
     dp[i] = 1
@@ -288,7 +290,7 @@ def lis_length(nums):
 
 **Pseudocode**
 
-```
+```markdown
 # sort by end time ascending
 sort intervals by end
 
@@ -351,7 +353,7 @@ def min_meeting_rooms(intervals):
 
 **Pseudocode**
 
-```
+```python
 # current window end
 end = 0
 # furthest reachable in current window
@@ -382,7 +384,7 @@ return jumps
 
 **Pseudocode**
 
-```
+```markdown
 # sort edges by weight ascending
 sort edges by weight
 
@@ -433,7 +435,7 @@ class DSU:
 
 **Pseudocode**
 
-```
+```markdown
 # build min-heap of (freq, symbol)
 heapify(freqs)
 
@@ -499,7 +501,7 @@ def two_sum_sorted(nums, target):
 def is_palindrome(s):
     left, right = 0, len(s) - 1
     while left < right:
-        # Skip non-alphanumeric characters
+        """ Skip non-alphanumeric characters """
         while left < right and not s[left].isalnum():
             left += 1
         while left < right and not s[right].isalnum():
@@ -523,11 +525,11 @@ def max_sum_subarray_k(nums, k):
     if len(nums) < k:
         return 0
     
-    # Calculate sum of first window
+    """ Calculate sum of first window """
     window_sum = sum(nums[:k])
     max_sum = window_sum
     
-    # Slide window
+    """ Slide window """
     for i in range(k, len(nums)):
         window_sum = window_sum - nums[i-k] + nums[i]
         max_sum = max(max_sum, window_sum)
@@ -543,7 +545,7 @@ def length_of_longest_substring(s):
     left = max_length = 0
     
     for right, char in enumerate(s):
-        # If character exists, move left pointer
+        """ If character exists, move left pointer """
         if char in char_map and char_map[char] >= left:
             left = char_map[char] + 1
         
@@ -650,7 +652,7 @@ def dfs_iterative(graph, start):
         visited.add(node)
         print(f"Visiting: {node}")
         
-        # Add unvisited neighbors to stack
+        """ Add unvisited neighbors to stack """
         for neighbor in reversed(graph[node]):
             if neighbor not in visited:
                 stack.append(neighbor)
@@ -678,13 +680,13 @@ def bfs(graph, start):
 #### **Topological Sort (Kahn's Algorithm)**
 ```python
 def topological_sort(graph):
-    # Calculate in-degrees
+    """ Calculate in-degrees """
     in_degree = {node: 0 for node in graph}
     for node in graph:
         for neighbor in graph[node]:
             in_degree[neighbor] += 1
     
-    # Find nodes with 0 in-degree
+    """ Find nodes with 0 in-degree """
     queue = deque([node for node in in_degree if in_degree[node] == 0])
     result = []
     
@@ -692,13 +694,13 @@ def topological_sort(graph):
         node = queue.popleft()
         result.append(node)
         
-        # Reduce in-degree of neighbors
+        """ Reduce in-degree of neighbors """
         for neighbor in graph[node]:
             in_degree[neighbor] -= 1
             if in_degree[neighbor] == 0:
                 queue.append(neighbor)
     
-    # Check if all nodes were processed
+    """ Check if all nodes were processed """
     return result if len(result) == len(graph) else []
 ```
 
@@ -727,16 +729,16 @@ def inorder_iterative(root):
     current = root
     
     while current or stack:
-        # Go to leftmost node
+        """ Go to leftmost node """
         while current:
             stack.append(current)
             current = current.left
         
-        # Process current node
+        """ Process current node """
         current = stack.pop()
         result.append(current.val)
         
-        # Move to right subtree
+        """ Move to right subtree """
         current = current.right
     
     return result
@@ -823,32 +825,32 @@ def rabin_karp_search(text, pattern):
     if len(pattern) > len(text):
         return -1
     
-    # Hash function parameters
+    """ Hash function parameters """
     d = 256  # Number of characters in input alphabet
     q = 101  # Prime number
     
-    # Calculate hash values
+    """ Calculate hash values """
     pattern_hash = 0
     text_hash = 0
     h = 1
     
-    # Calculate h = d^(m-1) % q
+    """ Calculate h = d^(m-1) % q """
     for i in range(len(pattern) - 1):
         h = (h * d) % q
     
-    # Calculate hash for pattern and first window of text
+    """ Calculate hash for pattern and first window of text """
     for i in range(len(pattern)):
         pattern_hash = (d * pattern_hash + ord(pattern[i])) % q
         text_hash = (d * text_hash + ord(text[i])) % q
     
-    # Slide the pattern over text one by one
+    """ Slide the pattern over text one by one """
     for i in range(len(text) - len(pattern) + 1):
         if pattern_hash == text_hash:
-            # Check if characters match
+            """ Check if characters match """
             if text[i:i+len(pattern)] == pattern:
                 return i
         
-        # Calculate hash for next window
+        """ Calculate hash for next window """
         if i < len(text) - len(pattern):
             text_hash = (d * (text_hash - ord(text[i]) * h) + ord(text[i + len(pattern)])) % q
             if text_hash < 0:
@@ -864,26 +866,26 @@ def rabin_karp_search(text, pattern):
 # Traveling Salesman Problem with bitmask
 def tsp_dp(graph):
     n = len(graph)
-    # dp[mask][pos] = minimum cost to visit all cities in mask ending at pos
+    """ dp[mask][pos] = minimum cost to visit all cities in mask ending at pos """
     dp = [[float('inf')] * n for _ in range(1 << n)]
     
-    # Base case: starting from city 0
+    """ Base case: starting from city 0 """
     dp[1][0] = 0
     
-    # Try all possible subsets
+    """ Try all possible subsets """
     for mask in range(1 << n):
         for pos in range(n):
             if not (mask & (1 << pos)):
                 continue
             
-            # Try to come from previous city
+            """ Try to come from previous city """
             prev_mask = mask ^ (1 << pos)
             for prev_pos in range(n):
                 if prev_mask & (1 << prev_pos):
                     dp[mask][pos] = min(dp[mask][pos], 
                                       dp[prev_mask][prev_pos] + graph[prev_pos][pos])
     
-    # Return to starting city
+    """ Return to starting city """
     result = float('inf')
     for pos in range(1, n):
         result = min(result, dp[(1 << n) - 1][pos] + graph[pos][0])
@@ -1229,14 +1231,14 @@ def permute(nums):
 ### **Flashcard Format**
 
 #### **Front Side (Problem Type)**
-```
+```text
 Problem: "Find longest substring without repeating characters"
 Input: "abcabcbb"
 Expected: 3 (substring "abc")
 ```
 
 #### **Back Side (Solution Pattern)**
-```
+```text
 Algorithm: Sliding Window
 Key Insight: Maintain window with unique characters
 Time Complexity: O(n)

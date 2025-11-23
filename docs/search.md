@@ -29,7 +29,7 @@ title: Searching Algorithms
 
 **Pseudocode**
 
-```
+```text
 merge_sort(arr):
     if length <= 1: return arr
     split arr into left and right
@@ -110,7 +110,7 @@ Binary search is an efficient algorithm for finding a target element in a **sort
 **Key Insight**: Each comparison eliminates half of the remaining search space, making it extremely efficient.
 
 **Core Algorithm**:
-```
+```text
 1. Set left = 0, right = n-1
 2. While left <= right:
    - mid = (left + right) // 2
@@ -165,14 +165,14 @@ print(f"Found {target} at index {result}")  # Output: Found 7 at index 3
 
 **Pseudocode:**
 
-```
+```python
 # Start from the beginning of the array
 for index from 0 to length(arr)-1:
 
-    # Compare current element with the target
+    """ Compare current element with the target """
     if arr[index] == target:
 
-        # If found, return its position
+        """ If found, return its position """
         return index
 
 # If the loop finishes, target was not found
@@ -188,7 +188,7 @@ return -1
 
 **Pseudocode:**
 
-```
+```markdown
 # Initialize search range
 left = 0
 right = length(arr) - 1
@@ -223,7 +223,7 @@ return -1
 
 **Pseudocode:**
 
-```
+```markdown
 # Initialize result as not found
 result = -1
 left = 0
@@ -259,7 +259,7 @@ return result
 
 **Pseudocode:**
 
-```
+```markdown
 # Initialize result as not found
 result = -1
 left = 0
@@ -299,7 +299,7 @@ return result
 
 **Pseudocode:**
 
-```
+```markdown
 # Initialize range
 left = 0
 right = length(arr) - 1
@@ -337,7 +337,7 @@ return left
 
 **Pseudocode:**
 
-```
+```text
 left = 0
 right = length(arr) - 1
 
@@ -379,7 +379,7 @@ return -1
 
 **Pseudocode (general template):**
 
-```
+```markdown
 # Search over possible range
 left = minimum_possible_value
 right = maximum_possible_value

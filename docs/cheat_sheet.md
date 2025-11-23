@@ -42,7 +42,7 @@ title: Cheat Sheet
 
 **Pseudocode**
 
-```
+```javascript
 # ring: sorted list of (token, server)
 # tokens: hash(server_id + vnode_index)
 
@@ -83,7 +83,7 @@ function lookup(key):
 
 **Retry/backoff (pseudocode)**
 
-```
+```text
 retries = 0
 delay = base
 while retries < max_retries:
@@ -135,7 +135,7 @@ return FAIL
 
 **Circuit breaker (pseudocode)**
 
-```
+```javascript
 state = CLOSED
 failures = 0
 last_open = -inf
@@ -195,8 +195,10 @@ function call():
 
 ```python
 def solve(x):
-    # base case(s)
-    # combine results from smaller subproblems
+    """
+    base case(s)
+    combine results from smaller subproblems
+    """
     return result
 ```
 
@@ -266,7 +268,7 @@ def dijkstra(G, s):
 
 **DP template**
 
-```python
+```markdown
 # define state dp[...] and base cases
 # fill in dependency order using transitions
 return answer_state

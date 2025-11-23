@@ -94,7 +94,7 @@ Reliability engineering combines **observability**, **chaos engineering**, and *
 ## 4. Internet Fundamentals & Communication Protocols
 
 ### OSI 7-Layer Model
-```
+```text
 Layer 7: Application    - HTTP, HTTPS, FTP, SMTP, DNS
 Layer 6: Presentation  - SSL/TLS, data formatting
 Layer 5: Session      - NetBIOS, RPC, SQL
@@ -193,7 +193,7 @@ response = requests.get('https://api.example.com/profile', headers=headers)
 - **Bidirectional streaming**: supports real-time communication
 - **Use cases**: microservices, real-time APIs, mobile apps
 
-```protobuf
+```text
 // user.proto
 syntax = "proto3";
 
@@ -223,7 +223,7 @@ import user_pb2_grpc
 
 class UserServicer(user_pb2_grpc.UserServiceServicer):
     def GetUser(self, request, context):
-        # Fetch user logic
+        """ Fetch user logic """
         return user_pb2.User(
             id=request.user_id,
             name="John Doe",
@@ -305,7 +305,7 @@ for message in consumer:
 ### Network Security Fundamentals
 
 #### TLS/SSL Handshake
-```
+```text
 1. Client Hello: Supported ciphers, random number
 2. Server Hello: Chosen cipher, random number, certificate
 3. Key Exchange: Generate shared secret
@@ -313,7 +313,7 @@ for message in consumer:
 ```
 
 #### Firewall Rules
-```bash
+```python
 # Allow HTTP/HTTPS
 iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 iptables -A INPUT -p tcp --dport 443 -j ACCEPT
@@ -368,7 +368,7 @@ print(f"Host reachable: {ping_host('example.com')}")
 6. **Iterate**: Improve system based on findings
 
 ### Example: E-commerce System Reliability
-```
+```text
 Baseline SLOs:
 - 99.9% availability
 - P95 latency < 200ms
@@ -395,7 +395,7 @@ Observability:
 ## 5. Practical Examples
 
 ### JMeter Load Test with Prometheus Monitoring
-```xml
+```text
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0">
   <hashTree>
@@ -453,7 +453,7 @@ Observability:
 ```
 
 ### Prometheus Alerting Rules for Load Tests
-```yaml
+```text
 groups:
   - name: load_test.rules
     rules:
@@ -534,7 +534,7 @@ spec:
   - Slow burn: 5% of budget in 6 hours → investigate
 
 ### Reliability Scorecard
-```
+```text
 System: E-commerce API
 Availability: 99.95% (target: 99.9%) ✅
 Latency P95: 180ms (target: <200ms) ✅
@@ -572,7 +572,7 @@ Reliability Grade: A
 ## 8. Tools Integration
 
 ### Prometheus + Grafana + AlertManager
-```yaml
+```markdown
 # prometheus.yml
 global:
   scrape_interval: 15s
@@ -595,7 +595,7 @@ scrape_configs:
 ```
 
 ### Load Testing in CI/CD
-```yaml
+```markdown
 # .github/workflows/reliability-test.yml
 name: Reliability Testing
 on: [push, pull_request]
@@ -675,30 +675,30 @@ class CircuitBreaker:
         self.state = "CLOSED"                        # Current state: CLOSED, OPEN, HALF_OPEN
     
     def call(self, func, *args, **kwargs):
-        # Check if circuit is OPEN (service failing)
+        """ Check if circuit is OPEN (service failing) """
         if self.state == "OPEN":
-            # Check if enough time has passed to test recovery
+            """ Check if enough time has passed to test recovery """
             if time.time() - self.last_failure_time > self.recovery_timeout:
                 self.state = "HALF_OPEN"             # Try to test if service recovered
             else:
                 raise Exception("Circuit breaker is OPEN - service is failing")
         
         try:
-            # Attempt to call the actual service
+            """ Attempt to call the actual service """
             result = func(*args, **kwargs)
             
-            # If we're in HALF_OPEN and call succeeds, close the circuit
+            """ If we're in HALF_OPEN and call succeeds, close the circuit """
             if self.state == "HALF_OPEN":
                 self.state = "CLOSED"                 # Service has recovered
                 self.failure_count = 0                # Reset failure count
             
             return result
         except Exception as e:
-            # Call failed - increment failure count
+            """ Call failed - increment failure count """
             self.failure_count += 1
             self.last_failure_time = time.time()
             
-            # If we've hit the failure threshold, open the circuit
+            """ If we've hit the failure threshold, open the circuit """
             if self.failure_count >= self.failure_threshold:
                 self.state = "OPEN"                   # Stop allowing requests
             
@@ -706,7 +706,7 @@ class CircuitBreaker:
 
 # Usage example
 def unreliable_api_call():
-    # Simulate an API call that sometimes fails
+    """ Simulate an API call that sometimes fails """
     import random
     if random.random() < 0.3:  # 30% chance of failure
         raise Exception("API call failed")
@@ -756,21 +756,21 @@ def health_check():
         'checks': {}
     }
     
-    # Check CPU usage
+    """ Check CPU usage """
     cpu_percent = psutil.cpu_percent(interval=1)
     health_status['checks']['cpu'] = {
         'status': 'healthy' if cpu_percent < 80 else 'unhealthy',
         'value': cpu_percent
     }
     
-    # Check memory usage
+    """ Check memory usage """
     memory_percent = psutil.virtual_memory().percent
     health_status['checks']['memory'] = {
         'status': 'healthy' if memory_percent < 90 else 'unhealthy',
         'value': memory_percent
     }
     
-    # Check Redis connection
+    """ Check Redis connection """
     try:
         redis_client = redis.Redis(host='localhost', port=6379)
         redis_client.ping()
@@ -778,7 +778,7 @@ def health_check():
     except:
         health_status['checks']['redis'] = {'status': 'unhealthy'}
     
-    # Overall status
+    """ Overall status """
     all_healthy = all(check['status'] == 'healthy' for check in health_status['checks'].values())
     health_status['status'] = 'healthy' if all_healthy else 'unhealthy'
     
@@ -824,47 +824,46 @@ def health_check():
 ### Incident Response Framework
 
 #### On-Call Procedures
+
 **Escalation Matrix**
-```
-Level 1 (PagerDuty): Primary on-call engineer
+
+**Level 1 (PagerDuty): Primary on-call engineer**
 - Response time: 5 minutes
 - Escalation: 15 minutes if no acknowledgment
 
-Level 2: Senior engineer or team lead
+**Level 2: Senior engineer or team lead**
 - Response time: 15 minutes
 - Escalation: 30 minutes if no resolution
 
-Level 3: Engineering manager or architect
+**Level 3: Engineering manager or architect**
 - Response time: 30 minutes
 - Escalation: 1 hour if no resolution
 
-Level 4: CTO/VP Engineering
+**Level 4: CTO/VP Engineering**
 - Response time: 1 hour
 - Escalation: 2 hours if no resolution
-```
 
 **Incident Severity Levels**
-```
-SEV-1 (Critical): Service completely down, data loss
+
+**SEV-1 (Critical): Service completely down, data loss**
 - Response: Immediate (within 5 minutes)
 - Communication: All stakeholders, status page updates
 - Resolution target: 1 hour
 
-SEV-2 (High): Major feature broken, significant performance degradation
+**SEV-2 (High): Major feature broken, significant performance degradation**
 - Response: Within 15 minutes
 - Communication: Engineering team, product managers
 - Resolution target: 4 hours
 
-SEV-3 (Medium): Minor feature broken, slight performance impact
+**SEV-3 (Medium): Minor feature broken, slight performance impact**
 - Response: Within 1 hour
 - Communication: Engineering team
 - Resolution target: 24 hours
 
-SEV-4 (Low): Cosmetic issues, minor bugs
+**SEV-4 (Low): Cosmetic issues, minor bugs**
 - Response: Within 4 hours
 - Communication: Engineering team
 - Resolution target: 1 week
-```
 
 #### Incident Response Process
 ```python
@@ -1165,7 +1164,7 @@ class SLOManager:
         if not slo:
             return {"error": "SLO not found"}
         
-        # Get data within measurement window
+        """ Get data within measurement window """
         cutoff_time = time.time() - slo.measurement_window
         relevant_data = [s for s in self.sli_data 
                         if s.name == slo_name and s.timestamp > cutoff_time]
@@ -1197,7 +1196,7 @@ class SLOManager:
         if not slo:
             return 0.0
         
-        # Calculate burn rate over last hour vs last 24 hours
+        """ Calculate burn rate over last hour vs last 24 hours """
         one_hour_ago = time.time() - 3600
         one_day_ago = time.time() - 86400
         
@@ -1221,7 +1220,7 @@ class SLOManager:
 ```
 
 #### SLO Configuration Examples
-```yaml
+```markdown
 # SLO configuration for different services
 slo_configs:
   api_latency:
@@ -1283,7 +1282,7 @@ class CapacityPlanner:
         if len(self.historical_usage) < 2:
             return 0.0
         
-        # Get data from last N days
+        """ Get data from last N days """
         cutoff_time = time.time() - (days * 86400)
         recent_data = [h for h in self.historical_usage 
                       if h["timestamp"] > cutoff_time]
@@ -1291,10 +1290,10 @@ class CapacityPlanner:
         if len(recent_data) < 2:
             return 0.0
         
-        # Sort by timestamp
+        """ Sort by timestamp """
         recent_data.sort(key=lambda x: x["timestamp"])
         
-        # Calculate growth rate
+        """ Calculate growth rate """
         initial_value = recent_data[0]["usage"].get(metric, 0)
         final_value = recent_data[-1]["usage"].get(metric, 0)
         
@@ -1303,7 +1302,7 @@ class CapacityPlanner:
         
         time_diff_days = (recent_data[-1]["timestamp"] - recent_data[0]["timestamp"]) / 86400
         
-        # Annual growth rate
+        """ Annual growth rate """
         growth_rate = ((final_value / initial_value) ** (365 / time_diff_days)) - 1
         return growth_rate
     
@@ -1312,7 +1311,7 @@ class CapacityPlanner:
         current_usage = self.historical_usage[-1]["usage"].get(metric, 0)
         growth_rate = self.growth_rates.get(metric, self.calculate_growth_rate(metric))
         
-        # Compound growth
+        """ Compound growth """
         months = months_ahead
         forecasted_usage = current_usage * ((1 + growth_rate) ** (months / 12))
         
@@ -1324,7 +1323,7 @@ class CapacityPlanner:
         memory_forecast = self.forecast_capacity("memory_gb", months_ahead)
         storage_forecast = self.forecast_capacity("storage_gb", months_ahead)
         
-        # AWS pricing (example)
+        """ AWS pricing (example) """
         cpu_cost_per_hour = 0.0416  # t3.medium
         memory_cost_per_hour = 0.0056  # per GB
         storage_cost_per_month = 0.023  # per GB
@@ -1350,10 +1349,10 @@ class CapacityPlanner:
         if current_monthly_cost <= target_cost:
             return {"status": "within_budget", "current_cost": current_monthly_cost}
         
-        # Find optimization opportunities
+        """ Find optimization opportunities """
         optimizations = []
         
-        # Reserved instances (30% savings)
+        """ Reserved instances (30% savings) """
         reserved_savings = current_monthly_cost * 0.3
         optimizations.append({
             "type": "reserved_instances",
@@ -1361,7 +1360,7 @@ class CapacityPlanner:
             "implementation": "Purchase 1-year reserved instances"
         })
         
-        # Spot instances for non-critical workloads (50% savings on 20% of instances)
+        """ Spot instances for non-critical workloads (50% savings on 20% of instances) """
         spot_savings = current_monthly_cost * 0.2 * 0.5
         optimizations.append({
             "type": "spot_instances",
@@ -1369,7 +1368,7 @@ class CapacityPlanner:
             "implementation": "Use spot instances for batch processing"
         })
         
-        # Storage optimization (20% savings)
+        """ Storage optimization (20% savings) """
         storage_savings = self.calculate_cost_forecast(0)["storage_cost"] * 0.2
         optimizations.append({
             "type": "storage_optimization",
