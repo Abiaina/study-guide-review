@@ -3,7 +3,7 @@
 # Generate combined versions of the study guide
 # This script runs the Python generator and provides feedback
 
-echo "🚀 Generating Study Guide Versions..."
+echo " Generating Study Guide Versions..."
 echo "======================================"
 
 # Check if Python 3 is available
@@ -22,7 +22,7 @@ if [ ! -f "scripts/generate_versions.py" ]; then
 fi
 
 # Run the Python script
-echo "📝 Running generation script..."
+echo " Running generation script..."
 python3 scripts/generate_versions.py
 
 # Check if generation was successful
@@ -30,16 +30,16 @@ if [ $? -eq 0 ]; then
     echo ""
     echo "✅ Generation completed successfully!"
     echo ""
-    echo "📁 Generated files:"
+    echo " Generated files:"
     echo "  - generated/study-guide-printable.md (for printing)"
     echo "  - generated/study-guide-complete.md (for GitHub Pages)"
     echo ""
-    echo "🔄 Next steps:"
+    echo " Next steps:"
     echo "  1. Review the generated files in the 'generated/' directory"
     echo "  2. Copy study-guide-complete.md to docs/ for web viewing"
     echo "  3. Use study-guide-printable.md for printing or PDF conversion"
     echo ""
-    echo "🖨️  To convert to PDF (requires pandoc):"
+    echo "  To convert to PDF (requires pandoc):"
     echo "  pandoc generated/study-guide-printable.md -o study-guide.pdf"
 else
     echo "❌ Generation failed. Please check the error messages above."

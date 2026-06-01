@@ -296,11 +296,11 @@ for message in consumer:
 
 | Protocol | Reliability | Performance | Use Case | Complexity |
 |----------|-------------|-------------|----------|------------|
-| **TCP** | ✅ Guaranteed | 🟡 Medium | Reliable data transfer | Low |
-| **UDP** | ❌ Best effort | 🟢 High | Real-time, streaming | Low |
-| **HTTP** | ✅ Reliable | 🟡 Medium | Web APIs, browsers | Low |
-| **gRPC** | ✅ Reliable | 🟢 High | Microservices, streaming | Medium |
-| **Kafka** | ✅ Reliable | 🟢 High | Event streaming, logs | High |
+| **TCP** | ✅ Guaranteed |  Medium | Reliable data transfer | Low |
+| **UDP** | ❌ Best effort |  High | Real-time, streaming | Low |
+| **HTTP** | ✅ Reliable |  Medium | Web APIs, browsers | Low |
+| **gRPC** | ✅ Reliable |  High | Microservices, streaming | Medium |
+| **Kafka** | ✅ Reliable |  High | Event streaming, logs | High |
 
 ### Network Security Fundamentals
 

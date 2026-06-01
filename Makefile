@@ -20,34 +20,34 @@ check-python:
 
 # Generate both versions
 generate: check-python
-	@echo "🚀 Generating Study Guide Versions..."
+	@echo " Generating Study Guide Versions..."
 	@python3 scripts/generate_versions.py
 
 # Generate printable version only
 print: check-python
-	@echo "📖 Generating Printable Version..."
+	@echo " Generating Printable Version..."
 	@python3 -c "import sys; sys.path.append('scripts'); from generate_versions import *; docs_dir = Path('docs'); output_dir = Path('generated'); output_dir.mkdir(exist_ok=True); generate_printable_version(docs_dir, output_dir / 'study-guide-printable.md'); print('✅ Printable version generated: generated/study-guide-printable.md')"
 
 # Generate web version only
 web: check-python
-	@echo "🌐 Generating GitHub Pages Version..."
+	@echo " Generating GitHub Pages Version..."
 	@python3 -c "import sys; sys.path.append('scripts'); from generate_versions import *; docs_dir = Path('docs'); output_dir = Path('generated'); output_dir.mkdir(exist_ok=True); generate_github_pages_version(docs_dir, output_dir / 'study-guide-complete.md'); print('✅ GitHub Pages version generated: generated/study-guide-complete.md')"
 
 # Clean generated files
 clean:
-	@echo "🧹 Cleaning generated files..."
+	@echo " Cleaning generated files..."
 	@rm -rf generated/
 	@echo "✅ Cleaned generated/ directory"
 
 # Install dependencies (if any)
 install:
-	@echo "📦 Installing dependencies..."
+	@echo " Installing dependencies..."
 	@echo "✅ No external dependencies required (uses Python standard library)"
 
 # Generate PDF from printable version (requires pandoc)
 pdf: generate
 	@if command -v pandoc > /dev/null 2>&1; then \
-		echo "📄 Generating PDF..."; \
+		echo " Generating PDF..."; \
 		pandoc generated/study-guide-printable.md -o study-guide.pdf; \
 		echo "✅ PDF generated: study-guide.pdf"; \
 	else \
@@ -58,14 +58,14 @@ pdf: generate
 
 # Deploy complete version to docs (for GitHub Pages)
 deploy: generate
-	@echo "🚀 Deploying complete version to docs..."
+	@echo " Deploying complete version to docs..."
 	@cp generated/study-guide-complete.md docs/study-guide-complete.md
 	@echo "✅ Complete version deployed to docs/study-guide-complete.md"
-	@echo "💡 Commit and push to update GitHub Pages"
+	@echo " Commit and push to update GitHub Pages"
 
 # Show file sizes and word counts
 stats: generate
-	@echo "📊 Study Guide Statistics:"
+	@echo " Study Guide Statistics:"
 	@echo "=========================="
 	@if [ -f "generated/study-guide-printable.md" ]; then \
 		echo "Printable version:"; \

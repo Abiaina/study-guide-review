@@ -6,7 +6,7 @@ title: Searching Algorithms
 
 ---
 
-# 📘 Sorting Algorithms
+# Sorting Algorithms
 
 ### Key Properties
 
@@ -82,7 +82,7 @@ def quicksort(arr):
 
 ---
 
-# 📘 Searching Algorithms
+# Searching Algorithms
 
 ### Linear Search
 
@@ -350,7 +350,7 @@ return -1
 
 ---
 
-## 🔍 Binary Search on Answer (a.k.a. “Search Space Reduction”)
+## Binary Search on Answer (a.k.a. “Search Space Reduction”)
 
 - **What it does:**
 

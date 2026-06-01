@@ -6,8 +6,8 @@ title: Study Guide Index
 
 ## Quick Navigation
 
-### 📚 **Complete Study Guide**
-- [**📖 Complete Edition**](study-guide-complete.md) - All content in one document (printable)
+### **Complete Study Guide**
+- [** Complete Edition**](study-guide-complete.md) - All content in one document (printable)
 
 ### Core Fundamentals
 - [**Algorithms & Data Structures**](algo.md) - Dynamic Programming, Greedy Algorithms
