@@ -392,7 +392,7 @@ Observability:
 
 ---
 
-## 5. Practical Examples
+## 6. Practical Examples
 
 ### JMeter Load Test with Prometheus Monitoring
 ```xml
@@ -519,7 +519,7 @@ spec:
 
 ---
 
-## 6. Reliability Metrics & SLOs
+## 7. Reliability Metrics & SLOs
 
 ### Service Level Objectives (SLOs)
 - **Availability**: 99.9% uptime (allows ~43 minutes downtime/month)
@@ -546,7 +546,7 @@ Reliability Grade: A
 
 ---
 
-## 7. Reliability Testing Schedule
+## 8. Reliability Testing Schedule
 
 ### Daily
 - **Health Checks**: automated health checks on all services
@@ -569,7 +569,7 @@ Reliability Grade: A
 
 ---
 
-## 8. Tools Integration
+## 9. Tools Integration
 
 ### Prometheus + Grafana + AlertManager
 ```yaml
@@ -625,7 +625,7 @@ jobs:
 
 ---
 
-## 9. Best Practices
+## 10. Best Practices
 
 ### Observability
 - **Instrument Everything**: metrics, logs, and traces for all services
@@ -647,7 +647,7 @@ jobs:
 
 ---
 
-## 10. Common Reliability Patterns
+## 11. Common Reliability Patterns
 
 ### Circuit Breaker
 The **Circuit Breaker** pattern is a reliability design pattern that prevents cascading failures by temporarily stopping requests to a failing service. It works like an electrical circuit breaker - when there are too many failures, it "trips" and stops allowing requests through.
@@ -787,7 +787,7 @@ def health_check():
 
 ---
 
-## 11. Reliability Checklist
+## 12. Reliability Checklist
 
 ### Pre-Production
 - [ ] SLOs defined and documented
@@ -819,7 +819,7 @@ def health_check():
 
 ---
 
-## 12. Production Operations & Incident Response
+## 13. Production Operations & Incident Response
 
 ### Incident Response Framework
 

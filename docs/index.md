@@ -45,7 +45,7 @@ title: Study Guide Index
 1. Begin with [Algorithms](algo.md) and [Data Structures](Core_Data_Structures.md)
 2. Study [System Design Problems](system_design.md) for architecture skills
 3. Learn [Data Layer](data_layer.md) for database design
-4. Review [Performance Testing](performance_testing.md) for optimization
+4. Review [Reliability Engineering](reliability.md) for performance testing and optimization
 5. Understand [Security Patterns](security_compliance.md) for secure applications
 
 ### **Full-Stack Developer Track**
@@ -104,4 +104,4 @@ For printing and offline study, each document is formatted without emojis and op
 
 ---
 
-*Last Updated: 2024 - Comprehensive study guide covering DevOps, Chaos Engineering, and Backend Development fundamentals*
+*Last Updated: 2026 - Comprehensive study guide covering DevOps, Chaos Engineering, and Backend Development fundamentals*
