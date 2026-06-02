@@ -223,6 +223,7 @@ data "aws_ami" "amazon_linux" {
 }
 ```
 
+```bash
 resource "aws_instance" "web" {
   ami                    = data.aws_ami.amazon_linux.id    # Use the AMI we found earlier
   instance_type          = "t3.micro"                      # Small instance type (1 vCPU, 1 GB RAM)

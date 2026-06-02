@@ -834,323 +834,7 @@ return heap[0]
 
 ---
 
-## Algorithm Patterns & Techniques
-
-### Two Pointers Technique
-**When to use**: Array problems, linked lists, string manipulation
-**Pattern**: Use two pointers moving at different speeds or directions
-
-#### **Two Pointers - Same Direction (Fast/Slow)**
-```python
-# Find middle of linked list
-def find_middle(head):
-    slow = fast = head
-    while fast and fast.next:
-        slow = slow.next          # Move 1 step
-        fast = fast.next.next     # Move 2 steps
-    return slow
-
-# Detect cycle in linked list
-def has_cycle(head):
-    slow = fast = head
-    while fast and fast.next:
-        slow = slow.next
-        fast = fast.next.next
-        if slow == fast:          # Cycle detected
-            return True
-    return False
-```
-
-#### **Two Pointers - Opposite Directions**
-```python
-# Two Sum in sorted array
-def two_sum_sorted(nums, target):
-    left, right = 0, len(nums) - 1
-    while left < right:
-        current_sum = nums[left] + nums[right]
-        if current_sum == target:
-            return [left, right]
-        elif current_sum < target:
-            left += 1
-        else:
-            right -= 1
-    return []
-
-# Valid palindrome
-def is_palindrome(s):
-    left, right = 0, len(s) - 1
-    while left < right:
-        # Skip non-alphanumeric characters
-        while left < right and not s[left].isalnum():
-            left += 1
-        while left < right and not s[right].isalnum():
-            right -= 1
-        
-        if s[left].lower() != s[right].lower():
-            return False
-        left += 1
-        right -= 1
-    return True
-```
-
-### Sliding Window Technique
-**When to use**: Subarray/substring problems, fixed or variable size windows
-**Pattern**: Maintain a window that slides through the array
-
-#### **Fixed Size Window**
-```python
-# Maximum sum of subarray of size k
-def max_sum_subarray_k(nums, k):
-    if len(nums) < k:
-        return 0
-    
-    # Calculate sum of first window
-    window_sum = sum(nums[:k])
-    max_sum = window_sum
-    
-    # Slide window
-    for i in range(k, len(nums)):
-        window_sum = window_sum - nums[i-k] + nums[i]
-        max_sum = max(max_sum, window_sum)
-    
-    return max_sum
-```
-
-#### **Variable Size Window**
-```python
-# Longest substring without repeating characters
-def length_of_longest_substring(s):
-    char_map = {}
-    left = max_length = 0
-    
-    for right, char in enumerate(s):
-        # If character exists, move left pointer
-        if char in char_map and char_map[char] >= left:
-            left = char_map[char] + 1
-        
-        char_map[char] = right
-        max_length = max(max_length, right - left + 1)
-    
-    return max_length
-```
-
-### Binary Search Variations
-**When to use**: Sorted arrays, searching problems, optimization problems
-**Pattern**: Divide search space in half each iteration
-
-#### **Standard Binary Search**
-```python
-def binary_search(nums, target):
-    left, right = 0, len(nums) - 1
-    
-    while left <= right:
-        mid = left + (right - left) // 2
-        
-        if nums[mid] == target:
-            return mid
-        elif nums[mid] < target:
-            left = mid + 1
-        else:
-            right = mid - 1
-    
-    return -1
-```
-
-#### **Binary Search on Answer**
-```python
-# Find minimum capacity to ship packages within D days
-def ship_within_days(weights, days):
-    def can_ship(capacity):
-        current_weight = 0
-        days_needed = 1
-        
-        for weight in weights:
-            if current_weight + weight > capacity:
-                days_needed += 1
-                current_weight = weight
-            else:
-                current_weight += weight
-        
-        return days_needed <= days
-    
-    left, right = max(weights), sum(weights)
-    
-    while left < right:
-        mid = left + (right - left) // 2
-        
-        if can_ship(mid):
-            right = mid
-        else:
-            left = mid + 1
-    
-    return left
-```
-
-#### **Finding Insert Position**
-```python
-def search_insert(nums, target):
-    left, right = 0, len(nums)
-    
-    while left < right:
-        mid = left + (right - left) // 2
-        
-        if nums[mid] < target:
-            left = mid + 1
-        else:
-            right = mid
-    
-    return left
-```
-
-### Graph Algorithms
-
-#### **Depth-First Search (DFS)**
-```python
-# DFS with recursion
-def dfs_recursive(graph, node, visited):
-    if node in visited:
-        return
-    
-    visited.add(node)
-    print(f"Visiting: {node}")
-    
-    for neighbor in graph[node]:
-        dfs_recursive(graph, neighbor, visited)
-
-# DFS with stack (iterative)
-def dfs_iterative(graph, start):
-    visited = set()
-    stack = [start]
-    
-    while stack:
-        node = stack.pop()
-        
-        if node in visited:
-            continue
-        
-        visited.add(node)
-        print(f"Visiting: {node}")
-        
-        # Add unvisited neighbors to stack
-        for neighbor in reversed(graph[node]):
-            if neighbor not in visited:
-                stack.append(neighbor)
-```
-
-#### **Breadth-First Search (BFS)**
-```python
-from collections import deque
-
-def bfs(graph, start):
-    visited = set()
-    queue = deque([start])
-    visited.add(start)
-    
-    while queue:
-        node = queue.popleft()
-        print(f"Visiting: {node}")
-        
-        for neighbor in graph[node]:
-            if neighbor not in visited:
-                visited.add(neighbor)
-                queue.append(neighbor)
-```
-
-#### **Topological Sort (Kahn's Algorithm)**
-```python
-def topological_sort(graph):
-    # Calculate in-degrees
-    in_degree = {node: 0 for node in graph}
-    for node in graph:
-        for neighbor in graph[node]:
-            in_degree[neighbor] += 1
-    
-    # Find nodes with 0 in-degree
-    queue = deque([node for node in in_degree if in_degree[node] == 0])
-    result = []
-    
-    while queue:
-        node = queue.popleft()
-        result.append(node)
-        
-        # Reduce in-degree of neighbors
-        for neighbor in graph[node]:
-            in_degree[neighbor] -= 1
-            if in_degree[neighbor] == 0:
-                queue.append(neighbor)
-    
-    # Check if all nodes were processed
-    return result if len(result) == len(graph) else []
-```
-
-### Tree Traversal Patterns
-
-#### **Inorder Traversal (Left -> Root -> Right)**
-```python
-def inorder_traversal(root):
-    result = []
-    
-    def inorder(node):
-        if not node:
-            return
-        
-        inorder(node.left)        # Visit left subtree
-        result.append(node.val)    # Visit root
-        inorder(node.right)       # Visit right subtree
-    
-    inorder(root)
-    return result
-
-# Iterative version using stack
-def inorder_iterative(root):
-    result = []
-    stack = []
-    current = root
-    
-    while current or stack:
-        # Go to leftmost node
-        while current:
-            stack.append(current)
-            current = current.left
-        
-        # Process current node
-        current = stack.pop()
-        result.append(current.val)
-        
-        # Move to right subtree
-        current = current.right
-    
-    return result
-```
-
-#### **Level Order Traversal (BFS)**
-```python
-from collections import deque
-
-def level_order_traversal(root):
-    if not root:
-        return []
-    
-    result = []
-    queue = deque([root])
-    
-    while queue:
-        level_size = len(queue)
-        current_level = []
-        
-        for _ in range(level_size):
-            node = queue.popleft()
-            current_level.append(node.val)
-            
-            if node.left:
-                queue.append(node.left)
-            if node.right:
-                queue.append(node.right)
-        
-        result.append(current_level)
-    
-    return result
-```
+## Advanced Algorithm Techniques
 
 ### String Algorithms
 
@@ -1660,7 +1344,7 @@ Space Complexity: O(min(m, n)) where m is charset size
 
 ### **Interview Quick Reference**
 
-#### **🚀 30-Second Problem Analysis**
+#### ** 30-Second Problem Analysis**
 
 1. **Read the problem** - Identify input/output
 2. **Look for keywords** - "longest", "shortest", "k-th", "all"
@@ -2332,7 +2016,7 @@ def isBalanced(root):
 
 ---
 
-# 📘 Sorting Algorithms
+# Sorting Algorithms
 
 ### Key Properties
 
@@ -2408,7 +2092,7 @@ def quicksort(arr):
 
 ---
 
-# 📘 Searching Algorithms
+# Searching Algorithms
 
 ### Linear Search
 
@@ -3710,30 +3394,16 @@ const Button = React.memo(function Button({
         }
     };
 
-    return (
-        <button
-            type={type}
-            className={classes}
-            disabled={disabled || loading}
-            onClick={handleClick}
-            {...props}
-        >
-            {loading && <span className="spinner" />}
-            {children}
-        </button>
-    );
-});
+### Easy Level
+- **Maximum Average Subarray I**: Find subarray of size k with maximum average
+- **Contains Duplicate II**: Check if array has duplicate within distance k
+- **Longest Continuous Increasing Subsequence**: Find longest increasing subarray
 
-Button.propTypes = {
-    children: PropTypes.node.isRequired,
-    variant: PropTypes.oneOf(['primary', 'secondary', 'danger', 'success', 'warning']),
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
-    disabled: PropTypes.bool,
-    loading: PropTypes.bool,
-    onClick: PropTypes.func,
-    type: PropTypes.oneOf(['button', 'submit', 'reset']),
-    className: PropTypes.string
-};
+### Medium Level
+- **Longest Substring with At Most K Distinct Characters**
+- **Longest Substring with At Most Two Distinct Characters**
+- **Subarray Product Less Than K**
+- **Maximum Sum of Two Non-Overlapping Subarrays**
 
 export default Button;
 {% endraw %}
@@ -3744,115 +3414,70 @@ export default Button;
 {% raw %}
 import React, { useState, useCallback } from 'react';
 
-function useForm(initialValues, validationSchema) {
-    const [values, setValues] = useState(initialValues);
-    const [errors, setErrors] = useState({});
-    const [touched, setTouched] = useState({});
+## 6. Sliding Window Template
 
-    const handleChange = useCallback((name, value) => {
-        setValues(prev => ({ ...prev, [name]: value }));
+### Variable Size Window Template
+```python
+def sliding_window_template(arr):
+    left = 0
+    result = 0  # or appropriate initial value
+    
+    for right in range(len(arr)):
+        # Expand window (add right element)
+        # Update state based on right element
         
-        // Clear error when user starts typing
-        if (errors[name]) {
-            setErrors(prev => ({ ...prev, [name]: '' }));
-        }
-    }, [errors]);
-
-    const handleBlur = useCallback((name) => {
-        setTouched(prev => ({ ...prev, [name]: true }));
+        # Contract window (remove left elements) until condition met
+        while condition_not_met:
+            # Update state based on left element
+            left += 1
         
-        // Validate on blur
-        if (validationSchema[name]) {
-            const error = validationSchema[name](values[name]);
-            setErrors(prev => ({ ...prev, [name]: error }));
-        }
-    }, [values, validationSchema]);
+        # Update result
+        result = max(result, right - left + 1)  # or appropriate update
+    
+    return result
+```
 
-    const validate = useCallback(() => {
-        const newErrors = {};
-        Object.keys(validationSchema).forEach(field => {
-            const error = validationSchema[field](values[field]);
-            if (error) newErrors[field] = error;
-        });
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    }, [values, validationSchema]);
+### Fixed Size Window Template
+```python
+def fixed_window_template(arr, k):
+    if len(arr) < k:
+        return 0
+    
+    # Calculate first window
+    window_sum = sum(arr[:k])
+    result = window_sum
+    
+    # Slide window
+    for i in range(k, len(arr)):
+        window_sum = window_sum - arr[i-k] + arr[i]
+        result = max(result, window_sum)  # or appropriate operation
+    
+    return result
+```
 
-    const reset = useCallback(() => {
-        setValues(initialValues);
-        setErrors({});
-        setTouched({});
-    }, [initialValues]);
+---
 
-    return {
-        values,
-        errors,
-        touched,
-        handleChange,
-        handleBlur,
-        validate,
-        reset
-    };
-}
+## 7. When to Use Sliding Window
 
-function LoginForm() {
-    const validationSchema = {
-        email: (value) => {
-            if (!value) return 'Email is required';
-            if (!/\S+@\S+\.\S+/.test(value)) return 'Email is invalid';
-            return '';
-        },
-        password: (value) => {
-            if (!value) return 'Password is required';
-            if (value.length < 6) return 'Password must be at least 6 characters';
-            return '';
-        }
-    };
+### Use Sliding Window When:
+- **Problem involves contiguous subarrays/substrings**
+- **You need to find minimum/maximum length satisfying a condition**
+- **You need to find something of a specific size**
+- **Problem involves "within k distance" or "at most k elements"
 
-    const { values, errors, touched, handleChange, handleBlur, validate } = useForm(
-        { email: '', password: '' },
-        validationSchema
-    );
+### Alternative Approaches to Consider:
+- **Two Pointers**: When you need to find pairs or triplets
+- **Binary Search**: When you can determine if a solution exists for a given size
+- **Dynamic Programming**: When you need to consider all possible subarrays
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (validate()) {
-            console.log('Form submitted:', values);
-            // Submit logic
-        }
-    };
+---
 
-    return (
-        <form onSubmit={handleSubmit} className="login-form">
-            <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input
-                    id="email"
-                    type="email"
-                    value={values.email}
-                    onChange={(e) => handleChange('email', e.target.value)}
-                    onBlur={() => handleBlur('email')}
-                    className={touched.email && errors.email ? 'error' : ''}
-                />
-                {touched.email && errors.email && (
-                    <span className="error-message">{errors.email}</span>
-                )}
-            </div>
+## 8. Time and Space Complexity
 
-            <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                    id="password"
-                    type="password"
-                    value={values.password}
-                    onChange={(e) => handleChange('password', e.target.value)}
-                    onBlur={() => handleBlur('password')}
-                    className={touched.password && errors.password ? 'error' : ''}
-                />
-                {touched.password && errors.password && (
-                    <span className="error-message">{errors.password}</span>
-                )}
-            </div>
+### Time Complexity
+- **Most sliding window problems**: O(n) where n is array/string length
+- **Each element is processed at most twice** (added once, removed once)
+- **Inner while loop**: Amortized O(1) per element
 
             <button type="submit" className="btn btn-primary">
                 Login
@@ -3865,30 +3490,12 @@ function LoginForm() {
 
 ---
 
-## Frontend Interview Essentials
+*Sliding window is a powerful technique that can solve many array and string problems efficiently. The key is identifying when to expand and when to contract the window.*
 
-### Common Questions & Answers
+---
 
-#### 1. What is the Virtual DOM?
-```javascript
-// Virtual DOM is a lightweight copy of the actual DOM
-// React uses it to optimize rendering performance
-
-// Without Virtual DOM (expensive)
-function updateDOM() {
-    // Directly manipulate DOM - causes reflows/repaints
-    document.getElementById('user-list').innerHTML = newHTML;
-}
-
-// With Virtual DOM (efficient)
-function ReactUpdate() {
-    // React compares Virtual DOM with previous version
-    // Only updates what changed
-    return (
-        <UserList users={updatedUsers} />
-    );
-}
-```
+<a name='frontend-development'></a>
+## Frontend Development
 
 #### 2. Explain React's Component Lifecycle
 ```jsx
@@ -3900,42 +3507,30 @@ class ClassComponent extends React.Component {
         this.state = { data: null };
     }
 
-    static getDerivedStateFromProps(props, state) {
-        // Called before render, can update state
-        return null;
-    }
+---
 
-    componentDidMount() {
-        // Component mounted, safe to make API calls
-        this.fetchData();
-    }
+## The DOM (Document Object Model)
 
-    // Updating Phase
-    shouldComponentUpdate(nextProps, nextState) {
-        // Return false to prevent re-render
-        return this.props.id !== nextProps.id;
-    }
+**What it is**: A tree-structured in-memory representation of an HTML document. JavaScript manipulates this tree to update the UI without page reloads.
 
-    getSnapshotBeforeUpdate(prevProps, prevState) {
-        // Capture info before DOM updates
-        return { scrollPosition: window.scrollY };
-    }
+**Key API surface**:
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        // Component updated, can access DOM
-        if (snapshot.scrollPosition) {
-            window.scrollTo(0, snapshot.scrollPosition);
-        }
-    }
+| Method / Property | Purpose |
+|---|---|
+| `document.querySelector('.cls')` | Select first matching element (CSS selector) |
+| `element.addEventListener('click', fn)` | Attach event handler |
+| `element.appendChild(child)` | Add child node |
+| `element.remove()` | Remove element from DOM |
+| `element.textContent = '...'` | Set text safely (no XSS risk unlike `innerHTML`) |
+| `element.setAttribute('data-id', '1')` | Set HTML attribute |
 
-    // Unmounting Phase
-    componentWillUnmount() {
-        // Cleanup: remove event listeners, cancel requests
-        this.cancelRequest();
-    }
+**Event delegation** — Attach one listener to a parent instead of many listeners to individual children. Works because DOM events bubble up the tree. Essential for dynamically added elements and for performance with large lists.
 
-    render() {
-        return <div>{this.state.data}</div>;
+```javascript
+// One listener handles all button clicks in the list
+document.getElementById('list').addEventListener('click', (event) => {
+    if (event.target.matches('.item-btn')) {
+        handleClick(event.target.dataset.id);
     }
 }
 
@@ -4020,31 +3615,25 @@ const ExpensiveComponent = React.memo(({ data }) => {
     return <div>{/* Expensive rendering */}</div>;
 });
 
-// 2. useMemo for expensive calculations
-function DataTable({ data, filters }) {
-    const filteredData = useMemo(() => {
-        return data.filter(item => {
-            // Expensive filtering logic
-            return filters.every(filter => filter(item));
-        });
-    }, [data, filters]);
+**Core idea**: `UI = f(state)` — the view is a pure function of state. React re-renders a component whenever its state or props change, diffs the new Virtual DOM against the previous one (**reconciliation**), and applies only the changed nodes to the real DOM.
 
-    return <table>{/* Render filtered data */}</table>;
-}
+**Data flow**:
+- Data flows **down** via props
+- Events flow **up** via callback props
+- Shared state lives in the **nearest common ancestor**
 
-// 3. useCallback for stable references
-function ParentComponent() {
-    const [count, setCount] = useState(0);
-    
-    const handleClick = useCallback(() => {
-        setCount(c => c + 1);
-    }, []); // Stable reference, won't cause child re-renders
+### Hooks Quick Reference
 
-    return <ChildComponent onClick={handleClick} />;
-}
+| Hook | Purpose | Interview gotcha |
+|---|---|---|
+| `useState` | Local component state | Setter is async — don't read state immediately after calling it |
+| `useEffect` | Side effects: fetching, subscriptions, timers | Dependency array controls when it runs (see below) |
+| `useRef` | DOM refs; mutable values that don't trigger re-render | Changing `.current` does NOT cause a re-render |
+| `useMemo` | Cache expensive computed values | Only add when profiling shows real cost |
+| `useCallback` | Stable function reference across renders | Needed when passing callbacks to memoized children |
+| `useContext` | Read from Context without prop drilling | Context changes re-render ALL consumers |
 
-// 4. Lazy loading
-const LazyComponent = React.lazy(() => import('./LazyComponent'));
+**`useEffect` dependency array** — the most common interview question:
 
 function App() {
     return (
@@ -4069,26 +3658,17 @@ class ErrorBoundary extends React.Component {
         return { hasError: true, error };
     }
 
-    componentDidCatch(error, errorInfo) {
-        // Log error to service
-        console.error('Error caught by boundary:', error, errorInfo);
-    }
+## Performance Patterns
 
-    render() {
-        if (this.state.hasError) {
-            return (
-                <div className="error-boundary">
-                    <h2>Something went wrong</h2>
-                    <button onClick={() => window.location.reload()}>
-                        Reload Page
-                    </button>
-                </div>
-            );
-        }
+| Pattern | What it does | When to reach for it |
+|---|---|---|
+| `React.memo` | Skips re-render if props are shallow-equal | Child receives stable props but parent re-renders often |
+| `useMemo` | Caches computed value | Expensive derivation (sorting/filtering large arrays) |
+| `useCallback` | Caches function reference | Callback passed to a `React.memo`-wrapped child |
+| `React.lazy` + `Suspense` | Defers loading a component's JS bundle | Large feature not needed on initial load |
+| Virtual list | Renders only visible rows | Lists with 1000+ items |
 
-        return this.props.children;
-    }
-}
+**Rule of thumb**: don't add `useMemo`/`useCallback` preemptively. React is fast by default; memoization adds complexity and has its own overhead. Profile first.
 
 // Usage
 <ErrorBoundary>
@@ -4121,28 +3701,13 @@ const Button = styled.button`
     }
 `;
 
-// CSS Modules
-import styles from './Button.module.css';
+**Virtual DOM**: "React keeps a lightweight JS-object copy of the DOM. On re-render it diffs old vs new virtual trees and batches the minimal real DOM mutations — avoiding redundant layout recalculations."
 
-function Button({ children, variant }) {
-    const buttonClass = `${styles.button} ${styles[variant]}`;
-    return <button className={buttonClass}>{children}</button>;
-}
+**When to lift state**: "When two sibling components need shared data, move the state to their nearest common ancestor and pass it down as props plus a setter callback."
 
-// CSS-in-JS with emotion
-import { css } from '@emotion/react';
+**Context vs Redux / Zustand**: "Context is built-in and fine for low-frequency global values like theme or auth user. A dedicated store (Zustand, Redux Toolkit) is better when many components need frequent updates, or when you need middleware, time-travel debugging, or serializable state."
 
-const buttonStyle = css`
-    background: blue;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    
-    &:hover {
-        background: darkblue;
-    }
-`;
+**Reconciliation and keys**: "React compares elements by type and key. If the type changes it unmounts and remounts. Stable, unique keys tell React which list items are the same across renders — missing or index-based keys can force unnecessary remounts."
 
 function Button({ children }) {
     return <button css={buttonStyle}>{children}</button>;
@@ -4152,38 +3717,20 @@ function Button({ children }) {
 
 ---
 
-## Key Takeaways
+## Quick-Reference Card
 
-### **DOM Mastery**
-- Understand DOM tree structure and traversal
-- Use event delegation for performance
-- Batch DOM updates to minimize reflows
+```
+Component re-renders when:    state changes | parent re-renders | context changes
+Prevent re-render:            React.memo | PureComponent
+Side effects go in:           useEffect (not render body)
+Cleanup side effects:         return fn from useEffect
+Avoid passing as props:       new object/array literals each render — breaks memo
+State updates are:            batched and async — don't read state right after setState
+```
 
-### **React Best Practices**
-- Keep components small and focused
-- Use hooks for state and side effects
-- Implement proper error boundaries
-- Optimize with React.memo, useMemo, useCallback
+---
 
-### **Component Design**
-- Single responsibility principle
-- Props design with object grouping
-- Conditional rendering patterns
-- Reusable component libraries
-
-### **Performance**
-- Virtual DOM understanding
-- Code splitting and lazy loading
-- Bundle optimization
-- Memory leak prevention
-
-### **Interview Success**
-- Explain concepts clearly with examples
-- Show understanding of trade-offs
-- Demonstrate problem-solving approach
-- Know when to use different patterns
-
-*Frontend development is about creating intuitive, performant user experiences. Master these fundamentals and you'll be well-prepared for any frontend role!*
+*For deep frontend work (advanced state machines, SSR, accessibility, bundler config) see a dedicated frontend guide.*
 
 ---
 
@@ -5984,8 +5531,6 @@ If the system crashes mid-way, rollback ensures no partial transfer.
 \* **CA** is only meaningful when there’s effectively **no partition** (e.g., single-node or same-box). In real distributed settings you must pick between **CP** and **AP** under partitions.
 **Tunable** = posture can be adjusted (e.g., quorum reads/writes, read/write concerns).
 
-If you want, I can drop this directly into the Data Layer section and keep going with **indexing strategies, normalization vs. denormalization, replication vs. sharding, and caching**—all in the same reference style.
-
 # Indexing Strategies
 
 ### What is an index?
@@ -6162,10 +5707,6 @@ return value
 - **Write throughput wall / dataset too large?** **Shard** by user or time.
 - **Slow queries?** Add **indexes** (B-Tree for ranges; composite for equality+range; GIN for text/arrays).
 - **Analytics?** Denormalize into **warehouse** (star schema) or use **columnar** stores.
-
----
-
-If you want, I can now fold these sections into your master document and then move on to the **DevOps & Cloud** chapter (Terraform/IaC with CLI & examples, AWS/Azure/GCP core services, CI/CD including Jenkins, Observability with CloudWatch/Splunk/New Relic, Chaos Engineering tools, Containers beyond Docker, Security/HIPAA).
 
 ---
 
@@ -7099,6 +6640,7 @@ data "aws_ami" "amazon_linux" {
 }
 ```
 
+```bash
 resource "aws_instance" "web" {
   ami                    = data.aws_ami.amazon_linux.id    # Use the AMI we found earlier
   instance_type          = "t3.micro"                      # Small instance type (1 vCPU, 1 GB RAM)
@@ -7685,11 +7227,11 @@ for message in consumer:
 
 | Protocol | Reliability | Performance | Use Case | Complexity |
 |----------|-------------|-------------|----------|------------|
-| **TCP** | ✅ Guaranteed | 🟡 Medium | Reliable data transfer | Low |
-| **UDP** | ❌ Best effort | 🟢 High | Real-time, streaming | Low |
-| **HTTP** | ✅ Reliable | 🟡 Medium | Web APIs, browsers | Low |
-| **gRPC** | ✅ Reliable | 🟢 High | Microservices, streaming | Medium |
-| **Kafka** | ✅ Reliable | 🟢 High | Event streaming, logs | High |
+| **TCP** | ✅ Guaranteed |  Medium | Reliable data transfer | Low |
+| **UDP** | ❌ Best effort |  High | Real-time, streaming | Low |
+| **HTTP** | ✅ Reliable |  Medium | Web APIs, browsers | Low |
+| **gRPC** | ✅ Reliable |  High | Microservices, streaming | Medium |
+| **Kafka** | ✅ Reliable |  High | Event streaming, logs | High |
 
 ### Network Security Fundamentals
 
@@ -7781,7 +7323,7 @@ Observability:
 
 ---
 
-## 5. Practical Examples
+## 6. Practical Examples
 
 ### JMeter Load Test with Prometheus Monitoring
 ```xml
@@ -7908,7 +7450,7 @@ spec:
 
 ---
 
-## 6. Reliability Metrics & SLOs
+## 7. Reliability Metrics & SLOs
 
 ### Service Level Objectives (SLOs)
 - **Availability**: 99.9% uptime (allows ~43 minutes downtime/month)
@@ -7935,7 +7477,7 @@ Reliability Grade: A
 
 ---
 
-## 7. Reliability Testing Schedule
+## 8. Reliability Testing Schedule
 
 ### Daily
 - **Health Checks**: automated health checks on all services
@@ -7958,7 +7500,7 @@ Reliability Grade: A
 
 ---
 
-## 8. Tools Integration
+## 9. Tools Integration
 
 ### Prometheus + Grafana + AlertManager
 ```yaml
@@ -8014,7 +7556,7 @@ jobs:
 
 ---
 
-## 9. Best Practices
+## 10. Best Practices
 
 ### Observability
 - **Instrument Everything**: metrics, logs, and traces for all services
@@ -8036,7 +7578,7 @@ jobs:
 
 ---
 
-## 10. Common Reliability Patterns
+## 11. Common Reliability Patterns
 
 ### Circuit Breaker
 The **Circuit Breaker** pattern is a reliability design pattern that prevents cascading failures by temporarily stopping requests to a failing service. It works like an electrical circuit breaker - when there are too many failures, it "trips" and stops allowing requests through.
@@ -8176,7 +7718,7 @@ def health_check():
 
 ---
 
-## 11. Reliability Checklist
+## 12. Reliability Checklist
 
 ### Pre-Production
 - [ ] SLOs defined and documented
@@ -8208,7 +7750,7 @@ def health_check():
 
 ---
 
-## 12. Production Operations & Incident Response
+## 13. Production Operations & Incident Response
 
 ### Incident Response Framework
 
@@ -9190,6 +8732,9 @@ def secure_file_upload(file, upload_folder):
 - [ ] Incident response procedures
 - [ ] Data backup and recovery
 - [ ] Vendor security assessments
+
+### FastAPI-style JWT Implementation
+```python
 ALGORITHM = "HS256"
 
 def create_access_token(data: dict, expires_delta: timedelta = None):

@@ -408,6 +408,9 @@ def secure_file_upload(file, upload_folder):
 - [ ] Incident response procedures
 - [ ] Data backup and recovery
 - [ ] Vendor security assessments
+
+### FastAPI-style JWT Implementation
+```python
 ALGORITHM = "HS256"
 
 def create_access_token(data: dict, expires_delta: timedelta = None):

@@ -4,98 +4,46 @@ title: Frontend Development
 
 # Frontend Development
 
-*Master the fundamentals of modern web development, React best practices, and ace your frontend interviews.*
+*Concise reference for DevOps, Backend, and Full-Stack interviews. Focuses on concepts and talking points, not deep frontend engineering.*
 
 ---
 
-## DOM (Document Object Model)
+## The DOM (Document Object Model)
 
-### What is the DOM?
-The DOM is a programming interface for HTML and XML documents. It represents the page as a tree structure where each node represents an object.
+**What it is**: A tree-structured in-memory representation of an HTML document. JavaScript manipulates this tree to update the UI without page reloads.
 
-### DOM Manipulation Examples
+**Key API surface**:
 
-#### Basic DOM Selection
+| Method / Property | Purpose |
+|---|---|
+| `document.querySelector('.cls')` | Select first matching element (CSS selector) |
+| `element.addEventListener('click', fn)` | Attach event handler |
+| `element.appendChild(child)` | Add child node |
+| `element.remove()` | Remove element from DOM |
+| `element.textContent = '...'` | Set text safely (no XSS risk unlike `innerHTML`) |
+| `element.setAttribute('data-id', '1')` | Set HTML attribute |
+
+**Event delegation** — Attach one listener to a parent instead of many listeners to individual children. Works because DOM events bubble up the tree. Essential for dynamically added elements and for performance with large lists.
+
 ```javascript
-// Select elements
-const element = document.getElementById('myId');
-const elements = document.getElementsByClassName('myClass');
-const elements = document.querySelectorAll('.myClass');
-const element = document.querySelector('#myId');
-
-// Traverse DOM
-const parent = element.parentElement;
-const children = element.children;
-const nextSibling = element.nextElementSibling;
-const prevSibling = element.previousElementSibling;
-```
-
-#### Creating and Modifying Elements
-```javascript
-// Create new element
-const newDiv = document.createElement('div');
-newDiv.textContent = 'Hello World';
-newDiv.className = 'my-class';
-newDiv.setAttribute('data-id', '123');
-
-// Append to DOM
-document.body.appendChild(newDiv);
-element.appendChild(newDiv);
-
-// Remove elements
-element.remove();
-element.parentNode.removeChild(element);
-
-// Modify content
-element.innerHTML = '<span>New content</span>';
-element.textContent = 'Plain text content';
-element.innerText = 'Text with formatting preserved';
-```
-
-#### Event Handling
-```javascript
-// Add event listener
-element.addEventListener('click', function(event) {
-    console.log('Clicked!', event);
-});
-
-// Remove event listener
-const handler = function(event) { console.log('Clicked!'); };
-element.addEventListener('click', handler);
-element.removeEventListener('click', handler);
-
-// Event delegation
-document.addEventListener('click', function(event) {
-    if (event.target.matches('.button')) {
-        console.log('Button clicked:', event.target);
+// One listener handles all button clicks in the list
+document.getElementById('list').addEventListener('click', (event) => {
+    if (event.target.matches('.item-btn')) {
+        handleClick(event.target.dataset.id);
     }
 });
 ```
 
-### DOM Performance Best Practices
-```javascript
-// Batch DOM updates
-const fragment = document.createDocumentFragment();
-for (let i = 0; i < 1000; i++) {
-    const div = document.createElement('div');
-    div.textContent = `Item ${i}`;
-    fragment.appendChild(div);
-}
-document.body.appendChild(fragment);
-
-// Use requestAnimationFrame for animations
-function animate() {
-    element.style.left = (parseInt(element.style.left) + 1) + 'px';
-    requestAnimationFrame(animate);
-}
-requestAnimationFrame(animate);
-```
+**Reflow vs repaint**:
+- **Reflow** (expensive) — changing layout properties: `width`, `height`, `position`, `margin`. Causes browser to recalculate layout of affected elements and descendants.
+- **Repaint** (cheaper) — changing visual properties only: `color`, `background`, `visibility`. No layout recalculation.
+- **Batch writes** using `DocumentFragment` or a single CSS class swap to minimize reflows.
 
 ---
 
-## React Fundamentals
+## React — Mental Model
 
-### Core Concepts
+**Core idea**: `UI = f(state)` — the view is a pure function of state. React re-renders a component whenever its state or props change, diffs the new Virtual DOM against the previous one (**reconciliation**), and applies only the changed nodes to the real DOM.
 
 #### JSX
 ```jsx
@@ -103,12 +51,16 @@ requestAnimationFrame(animate);
 // JSX is syntactic sugar for React.createElement
 const element = <h1>Hello, World!</h1>;
 
-// JSX with expressions
-const name = 'John';
-const element = <h1>Hello, {name}!</h1>;
+### Hooks Quick Reference
 
-// JSX with attributes
-const element = <div className="container" data-testid="main">Content</div>;
+| Hook | Purpose | Interview gotcha |
+|---|---|---|
+| `useState` | Local component state | Setter is async — don't read state immediately after calling it |
+| `useEffect` | Side effects: fetching, subscriptions, timers | Dependency array controls when it runs (see below) |
+| `useRef` | DOM refs; mutable values that don't trigger re-render | Changing `.current` does NOT cause a re-render |
+| `useMemo` | Cache expensive computed values | Only add when profiling shows real cost |
+| `useCallback` | Stable function reference across renders | Needed when passing callbacks to memoized children |
+| `useContext` | Read from Context without prop drilling | Context changes re-render ALL consumers |
 
 // JSX with children
 const element = (
@@ -725,11 +677,11 @@ function LoginForm() {
 {% endraw %}
 ```
 
----
+**Context vs Redux / Zustand**: "Context is built-in and fine for low-frequency global values like theme or auth user. A dedicated store (Zustand, Redux Toolkit) is better when many components need frequent updates, or when you need middleware, time-travel debugging, or serializable state."
 
-## Frontend Interview Essentials
+**Reconciliation and keys**: "React compares elements by type and key. If the type changes it unmounts and remounts. Stable, unique keys tell React which list items are the same across renders — missing or index-based keys can force unnecessary remounts."
 
-### Common Questions & Answers
+**Class components vs hooks**: "Class components use lifecycle methods (`componentDidMount`, `componentDidUpdate`, `componentWillUnmount`). Hooks unify this into `useEffect` and make it easier to reuse stateful logic via custom hooks. New code should use function components with hooks."
 
 #### 1. What is the Virtual DOM?
 ```javascript
@@ -931,10 +883,7 @@ class ErrorBoundary extends React.Component {
         return { hasError: true, error };
     }
 
-    componentDidCatch(error, errorInfo) {
-        // Log error to service
-        console.error('Error caught by boundary:', error, errorInfo);
-    }
+## Quick-Reference Card
 
     render() {
         if (this.state.hasError) {
@@ -1014,35 +963,4 @@ function Button({ children }) {
 
 ---
 
-## Key Takeaways
-
-### **DOM Mastery**
-- Understand DOM tree structure and traversal
-- Use event delegation for performance
-- Batch DOM updates to minimize reflows
-
-### **React Best Practices**
-- Keep components small and focused
-- Use hooks for state and side effects
-- Implement proper error boundaries
-- Optimize with React.memo, useMemo, useCallback
-
-### **Component Design**
-- Single responsibility principle
-- Props design with object grouping
-- Conditional rendering patterns
-- Reusable component libraries
-
-### **Performance**
-- Virtual DOM understanding
-- Code splitting and lazy loading
-- Bundle optimization
-- Memory leak prevention
-
-### **Interview Success**
-- Explain concepts clearly with examples
-- Show understanding of trade-offs
-- Demonstrate problem-solving approach
-- Know when to use different patterns
-
-*Frontend development is about creating intuitive, performant user experiences. Master these fundamentals and you'll be well-prepared for any frontend role!*
+*For deep frontend work (advanced state machines, SSR, accessibility, bundler config) see a dedicated frontend guide.*

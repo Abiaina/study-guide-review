@@ -111,8 +111,6 @@ If the system crashes mid-way, rollback ensures no partial transfer.
 \* **CA** is only meaningful when there’s effectively **no partition** (e.g., single-node or same-box). In real distributed settings you must pick between **CP** and **AP** under partitions.
 **Tunable** = posture can be adjusted (e.g., quorum reads/writes, read/write concerns).
 
-If you want, I can drop this directly into the Data Layer section and keep going with **indexing strategies, normalization vs. denormalization, replication vs. sharding, and caching**—all in the same reference style.
-
 # Indexing Strategies
 
 ### What is an index?
@@ -290,6 +288,3 @@ return value
 - **Slow queries?** Add **indexes** (B-Tree for ranges; composite for equality+range; GIN for text/arrays).
 - **Analytics?** Denormalize into **warehouse** (star schema) or use **columnar** stores.
 
----
-
-If you want, I can now fold these sections into your master document and then move on to the **DevOps & Cloud** chapter (Terraform/IaC with CLI & examples, AWS/Azure/GCP core services, CI/CD including Jenkins, Observability with CloudWatch/Splunk/New Relic, Chaos Engineering tools, Containers beyond Docker, Security/HIPAA).
