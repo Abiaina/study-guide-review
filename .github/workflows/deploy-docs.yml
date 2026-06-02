@@ -20,6 +20,11 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Copy generated files to docs
+        run: |
+          cp generated/study-guide-complete.md docs/
+          cp generated/study-guide-printable.md docs/
+
       - name: Clean build directory
         run: rm -rf _site
 

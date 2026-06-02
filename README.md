@@ -77,7 +77,7 @@ The site automatically deploys to GitHub Pages when you push to the main branch.
 ### Full-Stack Developer Track
 1. **Core Data Structures & Algorithms** → **System Design** → **DevOps Practices** → **Reliability Engineering** → **Security & Compliance**
 
-## 🎯 Interview Preparation
+## Interview Preparation
 
 ### System Design Interviews
 - Practice with the 12 classic problems in [System Design Problems](docs/system_design.md)
@@ -94,7 +94,7 @@ The site automatically deploys to GitHub Pages when you push to the main branch.
 - Show understanding of [Reliability Engineering](docs/reliability.md) including chaos engineering and observability
 - Discuss load testing, monitoring, and resilience strategies
 
-## 🖨️ Print-Friendly Format
+## Print-Friendly Format
 
 All documents are formatted without emojis and optimized for:
 - **Printing** - Clean, readable format for offline study
@@ -124,7 +124,7 @@ All documents are formatted without emojis and optimized for:
 - Customize CSS in `docs/assets/css/`
 - Modify layouts in `docs/_layouts/`
 
-## 📊 Content Status
+## Content Status
 
 | Section | Status | Coverage |
 |---------|--------|----------|
@@ -162,6 +162,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Happy Learning! 🚀**
+**Happy Learning!**
 
 *Last Updated: 2024 - Comprehensive study guide covering all major interview topics*

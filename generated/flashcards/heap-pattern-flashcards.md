@@ -1,11 +1,11 @@
-# 📊 Heap Pattern Flashcards
+#  Heap Pattern Flashcards
 
 Generated for interview preparation
 
 
 ## Card 1
 
-**Front:** Identify the algorithm pattern for: 📊 Heap Pattern
+**Front:** Identify the algorithm pattern for:  Heap Pattern
 
 **Back:** Key indicators:
 • "Find k
@@ -18,7 +18,7 @@ Generated for interview preparation
 
 ## Card 2
 
-**Front:** Give examples of 📊 Heap Pattern problems
+**Front:** Give examples of  Heap Pattern problems
 
 **Back:** Common examples:
 
@@ -26,7 +26,7 @@ Generated for interview preparation
 
 ## Card 3
 
-**Front:** Implement find_kth_largest using 📊 Heap Pattern
+**Front:** Implement find_kth_largest using  Heap Pattern
 
 **Back:** ```python
 # Find K-th Largest Element
@@ -45,7 +45,7 @@ def find_kth_largest(nums, k):
 
 ## Card 4
 
-**Front:** What is the time/space complexity of 📊 Heap Pattern?
+**Front:** What is the time/space complexity of  Heap Pattern?
 
 **Back:** Varies by implementation
 

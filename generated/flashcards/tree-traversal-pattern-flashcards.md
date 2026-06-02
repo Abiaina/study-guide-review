@@ -1,11 +1,11 @@
-# 🌳 Tree Traversal Pattern Flashcards
+#  Tree Traversal Pattern Flashcards
 
 Generated for interview preparation
 
 
 ## Card 1
 
-**Front:** Identify the algorithm pattern for: 🌳 Tree Traversal Pattern
+**Front:** Identify the algorithm pattern for:  Tree Traversal Pattern
 
 **Back:** Key indicators:
 • "Inorder/preorder/postorder traversal"
@@ -17,7 +17,7 @@ Generated for interview preparation
 
 ## Card 2
 
-**Front:** Give examples of 🌳 Tree Traversal Pattern problems
+**Front:** Give examples of  Tree Traversal Pattern problems
 
 **Back:** Common examples:
 
@@ -25,7 +25,7 @@ Generated for interview preparation
 
 ## Card 3
 
-**Front:** Implement is_valid_bst using 🌳 Tree Traversal Pattern
+**Front:** Implement is_valid_bst using  Tree Traversal Pattern
 
 **Back:** ```python
 # Validate Binary Search Tree
@@ -44,7 +44,7 @@ def is_valid_bst(root):
 
 ## Card 4
 
-**Front:** What is the time/space complexity of 🌳 Tree Traversal Pattern?
+**Front:** What is the time/space complexity of  Tree Traversal Pattern?
 
 **Back:** Varies by implementation
 

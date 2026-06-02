@@ -1,11 +1,11 @@
-# 🪟 Sliding Window Pattern Flashcards
+#  Sliding Window Pattern Flashcards
 
 Generated for interview preparation
 
 
 ## Card 1
 
-**Front:** Identify the algorithm pattern for: 🪟 Sliding Window Pattern
+**Front:** Identify the algorithm pattern for:  Sliding Window Pattern
 
 **Back:** Key indicators:
 • "Find longest substring without repeating characters"
@@ -17,7 +17,7 @@ Generated for interview preparation
 
 ## Card 2
 
-**Front:** Give examples of 🪟 Sliding Window Pattern problems
+**Front:** Give examples of  Sliding Window Pattern problems
 
 **Back:** Common examples:
 
@@ -25,7 +25,7 @@ Generated for interview preparation
 
 ## Card 3
 
-**Front:** Implement length_of_longest_substring using 🪟 Sliding Window Pattern
+**Front:** Implement length_of_longest_substring using  Sliding Window Pattern
 
 **Back:** ```python
 # Longest substring without repeating characters
@@ -45,7 +45,7 @@ def length_of_longest_substring(s):
 
 ## Card 4
 
-**Front:** What is the time/space complexity of 🪟 Sliding Window Pattern?
+**Front:** What is the time/space complexity of  Sliding Window Pattern?
 
 **Back:** Varies by implementation
 

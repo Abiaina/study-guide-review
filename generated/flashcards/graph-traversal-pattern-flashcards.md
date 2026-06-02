@@ -1,11 +1,11 @@
-# 🕸️ Graph Traversal Pattern Flashcards
+#  Graph Traversal Pattern Flashcards
 
 Generated for interview preparation
 
 
 ## Card 1
 
-**Front:** Identify the algorithm pattern for: 🕸️ Graph Traversal Pattern
+**Front:** Identify the algorithm pattern for:  Graph Traversal Pattern
 
 **Back:** Key indicators:
 • "Find shortest path"
@@ -17,7 +17,7 @@ Generated for interview preparation
 
 ## Card 2
 
-**Front:** Give examples of 🕸️ Graph Traversal Pattern problems
+**Front:** Give examples of  Graph Traversal Pattern problems
 
 **Back:** Common examples:
 
@@ -25,7 +25,7 @@ Generated for interview preparation
 
 ## Card 3
 
-**Front:** Implement has_cycle using 🕸️ Graph Traversal Pattern
+**Front:** Implement has_cycle using  Graph Traversal Pattern
 
 **Back:** ```python
 # Detect cycle in directed graph
@@ -57,7 +57,7 @@ def has_cycle(graph):
 
 ## Card 4
 
-**Front:** What is the time/space complexity of 🕸️ Graph Traversal Pattern?
+**Front:** What is the time/space complexity of  Graph Traversal Pattern?
 
 **Back:** Varies by implementation
 

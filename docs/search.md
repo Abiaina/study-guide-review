@@ -350,7 +350,7 @@ return -1
 
 ---
 
-## Binary Search on Answer (a.k.a. “Search Space Reduction”)
+## Binary Search on Answer (a.k.a. "Search Space Reduction")
 
 - **What it does:**
 

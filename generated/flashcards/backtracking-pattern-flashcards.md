@@ -1,11 +1,11 @@
-# 🔄 Backtracking Pattern Flashcards
+#  Backtracking Pattern Flashcards
 
 Generated for interview preparation
 
 
 ## Card 1
 
-**Front:** Identify the algorithm pattern for: 🔄 Backtracking Pattern
+**Front:** Identify the algorithm pattern for:  Backtracking Pattern
 
 **Back:** Key indicators:
 • "Generate all combinations"
@@ -18,7 +18,7 @@ Generated for interview preparation
 
 ## Card 2
 
-**Front:** Give examples of 🔄 Backtracking Pattern problems
+**Front:** Give examples of  Backtracking Pattern problems
 
 **Back:** Common examples:
 
@@ -26,7 +26,7 @@ Generated for interview preparation
 
 ## Card 3
 
-**Front:** Implement permute using 🔄 Backtracking Pattern
+**Front:** Implement permute using  Backtracking Pattern
 
 **Back:** ```python
 # Generate All Permutations
@@ -49,7 +49,7 @@ def permute(nums):
 
 ## Card 4
 
-**Front:** What is the time/space complexity of 🔄 Backtracking Pattern?
+**Front:** What is the time/space complexity of  Backtracking Pattern?
 
 **Back:** Varies by implementation
 

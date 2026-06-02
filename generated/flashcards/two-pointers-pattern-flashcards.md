@@ -1,11 +1,11 @@
-# 🔍 Two Pointers Pattern Flashcards
+#  Two Pointers Pattern Flashcards
 
 Generated for interview preparation
 
 
 ## Card 1
 
-**Front:** Identify the algorithm pattern for: 🔍 Two Pointers Pattern
+**Front:** Identify the algorithm pattern for:  Two Pointers Pattern
 
 **Back:** Key indicators:
 • "Find two numbers that sum to target"
@@ -17,7 +17,7 @@ Generated for interview preparation
 
 ## Card 2
 
-**Front:** Give examples of 🔍 Two Pointers Pattern problems
+**Front:** Give examples of  Two Pointers Pattern problems
 
 **Back:** Common examples:
 
@@ -25,7 +25,7 @@ Generated for interview preparation
 
 ## Card 3
 
-**Front:** Implement two_sum_sorted using 🔍 Two Pointers Pattern
+**Front:** Implement two_sum_sorted using  Two Pointers Pattern
 
 **Back:** ```python
 # Two Sum in sorted array
@@ -45,7 +45,7 @@ def two_sum_sorted(nums, target):
 
 ## Card 4
 
-**Front:** What is the time/space complexity of 🔍 Two Pointers Pattern?
+**Front:** What is the time/space complexity of  Two Pointers Pattern?
 
 **Back:** Varies by implementation
 

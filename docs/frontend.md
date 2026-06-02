@@ -45,10 +45,11 @@ document.getElementById('list').addEventListener('click', (event) => {
 
 **Core idea**: `UI = f(state)` — the view is a pure function of state. React re-renders a component whenever its state or props change, diffs the new Virtual DOM against the previous one (**reconciliation**), and applies only the changed nodes to the real DOM.
 
-**Data flow**:
-- Data flows **down** via props
-- Events flow **up** via callback props
-- Shared state lives in the **nearest common ancestor**
+#### JSX
+```jsx
+{% raw %}
+// JSX is syntactic sugar for React.createElement
+const element = <h1>Hello, World!</h1>;
 
 ### Hooks Quick Reference
 
@@ -61,40 +62,620 @@ document.getElementById('list').addEventListener('click', (event) => {
 | `useCallback` | Stable function reference across renders | Needed when passing callbacks to memoized children |
 | `useContext` | Read from Context without prop drilling | Context changes re-render ALL consumers |
 
-**`useEffect` dependency array** — the most common interview question:
+// JSX with children
+const element = (
+    <div>
+        <h1>Title</h1>
+        <p>Paragraph</p>
+    </div>
+);
+{% endraw %}
+```
 
-```javascript
-useEffect(() => { /* ... */ }, []);      // runs once on mount
-useEffect(() => { /* ... */ }, [dep]);   // runs on mount + when dep changes
-useEffect(() => { /* ... */ });          // runs after every render (usually a bug)
-// Return a cleanup function to cancel subscriptions/timers on unmount
-useEffect(() => {
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-}, []);
+#### Components
+```jsx
+{% raw %}
+// Function Component
+function Welcome(props) {
+    return <h1>Hello, {props.name}!</h1>;
+}
+
+// Arrow Function Component
+const Welcome = (props) => {
+    return <h1>Hello, {props.name}!</h1>;
+};
+
+// Class Component
+class Welcome extends React.Component {
+    render() {
+        return <h1>Hello, {this.props.name}!</h1>;
+    }
+}
+{% endraw %}
+```
+{% raw %}
+
+### React Hooks
+
+#### useState
+{% endraw %}
+```jsx
+{% raw %}
+import React, { useState } from 'react';
+
+function Counter() {
+    const [count, setCount] = useState(0);
+    const [name, setName] = useState('John');
+
+    return (
+        <div>
+            <p>Count: {count}</p>
+            <button onClick={() => setCount(count + 1)}>
+                Increment
+            </button>
+            <input 
+                value={name} 
+                onChange={(e) => setName(e.target.value)} 
+            />
+        </div>
+    );
+}
+{% endraw %}
+```
+
+#### useEffect
+```jsx
+{% raw %}
+import React, { useState, useEffect } from 'react';
+
+function UserProfile({ userId }) {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        // ComponentDidMount equivalent
+        fetchUser(userId);
+        
+        // ComponentWillUnmount equivalent
+        return () => {
+            // Cleanup function
+            console.log('Component unmounting');
+        };
+    }, [userId]); // Dependency array
+
+    useEffect(() => {
+        // Run on every render
+        document.title = user ? `${user.name}'s Profile` : 'Loading...';
+    });
+
+    const fetchUser = async (id) => {
+        try {
+            const response = await fetch(`/api/users/${id}`);
+            const userData = await response.json();
+            setUser(userData);
+        } catch (error) {
+            console.error('Error fetching user:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) return <div>Loading...</div>;
+    if (!user) return <div>User not found</div>;
+
+    return (
+        <div>
+            <h1>{user.name}</h1>
+            <p>{user.email}</p>
+        </div>
+    );
+}
+{% endraw %}
+```
+
+#### useRef
+```jsx
+{% raw %}
+import React, { useRef, useEffect } from 'react';
+
+function FocusInput() {
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        // Focus input on mount
+        inputRef.current.focus();
+    }, []);
+
+    return (
+        <div>
+            <input ref={inputRef} type="text" placeholder="Focus me!" />
+            <button onClick={() => inputRef.current.focus()}>
+                Focus Input
+            </button>
+        </div>
+    );
+}
+{% endraw %}
+```
+
+#### Custom Hooks
+```jsx
+{% raw %}
+// Custom hook for API calls
+function useApi(url) {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch(url);
+                const result = await response.json();
+                setData(result);
+            } catch (err) {
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [url]);
+
+    return { data, loading, error };
+}
+
+// Usage
+function UserList() {
+    const { data: users, loading, error } = useApi('/api/users');
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error.message}</div>;
+
+    return (
+        <ul>
+            {users.map(user => (
+                <li key={user.id}>{user.name}</li>
+            ))}
+        </ul>
+    );
+}
+{% endraw %}
 ```
 
 ---
 
-## Performance Patterns
+## React Best Practices
 
-| Pattern | What it does | When to reach for it |
-|---|---|---|
-| `React.memo` | Skips re-render if props are shallow-equal | Child receives stable props but parent re-renders often |
-| `useMemo` | Caches computed value | Expensive derivation (sorting/filtering large arrays) |
-| `useCallback` | Caches function reference | Callback passed to a `React.memo`-wrapped child |
-| `React.lazy` + `Suspense` | Defers loading a component's JS bundle | Large feature not needed on initial load |
-| Virtual list | Renders only visible rows | Lists with 1000+ items |
+### Component Design
 
-**Rule of thumb**: don't add `useMemo`/`useCallback` preemptively. React is fast by default; memoization adds complexity and has its own overhead. Profile first.
+#### Single Responsibility Principle
+```jsx
+{% raw %}
+// ❌ Bad: Component doing too many things
+function UserDashboard() {
+    const [users, setUsers] = useState([]);
+    const [posts, setPosts] = useState([]);
+    const [comments, setComments] = useState([]);
+    
+    // Fetch logic, rendering logic, business logic all mixed
+    return (
+        <div>
+            {/* Complex mixed content */}
+        </div>
+    );
+}
+
+// ✅ Good: Separated concerns
+function UserDashboard() {
+    return (
+        <div>
+            <UserList />
+            <PostList />
+            <CommentList />
+        </div>
+    );
+}
+
+function UserList() {
+    const [users, setUsers] = useState([]);
+    // Only user-related logic
+    return <div>{/* User rendering */}</div>;
+}
+{% endraw %}
+```
+
+#### Props Design
+```jsx
+{% raw %}
+// ❌ Bad: Too many props
+function UserCard({ id, name, email, avatar, bio, location, website, twitter, github, linkedin, skills, experience, education, projects, followers, following, createdAt, updatedAt, status, role, permissions, settings, preferences, notifications, theme, language, timezone, currency, units, privacy, security, verification, badges, achievements, level, points, rank, tier, subscription, plan, billing, payment, history, logs, analytics, reports, exports, imports, backups, restores, migrations, updates, patches, hotfixes, releases, versions, builds, deployments, environments, configs, secrets, keys, tokens, sessions, cookies, cache, storage, database, api, endpoints, routes, middleware, validation, sanitization, encryption, hashing, compression, optimization, minification, bundling, transpilation, polyfills, shims, fallbacks, polyfills, shims, fallbacks }) {
+    // Component with 100+ props
+}
+
+// ✅ Good: Grouped props
+function UserCard({ user, actions, theme }) {
+    const { name, email, avatar, bio } = user;
+    const { onEdit, onDelete, onFollow } = actions;
+    const { colors, spacing } = theme;
+    
+    return <div>{/* Clean component */}</div>;
+}
+
+// Usage
+<UserCard 
+    user={userData}
+    actions={{ onEdit, onDelete, onFollow }}
+    theme={{ colors: 'dark', spacing: 'compact' }}
+/>
+{% endraw %}
+```
+
+#### Conditional Rendering
+```jsx
+{% raw %}
+// ❌ Bad: Complex nested ternaries
+function UserStatus({ user }) {
+    return (
+        <div>
+            {user.isActive ? (
+                user.isPremium ? (
+                    user.isVerified ? (
+                        <span className="premium-verified">Premium Verified</span>
+                    ) : (
+                        <span className="premium">Premium</span>
+                    )
+                ) : (
+                    user.isVerified ? (
+                        <span className="verified">Verified</span>
+                    ) : (
+                        <span className="active">Active</span>
+                    )
+                )
+            ) : (
+                <span className="inactive">Inactive</span>
+            )}
+        </div>
+    );
+}
+
+// ✅ Good: Clean conditional rendering
+function UserStatus({ user }) {
+    if (!user.isActive) {
+        return <span className="inactive">Inactive</span>;
+    }
+
+    const statusClasses = ['active'];
+    if (user.isPremium) statusClasses.push('premium');
+    if (user.isVerified) statusClasses.push('verified');
+
+    const statusText = [
+        user.isPremium && 'Premium',
+        user.isVerified && 'Verified'
+    ].filter(Boolean).join(' ') || 'Active';
+
+    return (
+        <span className={statusClasses.join(' ')}>
+            {statusText}
+        </span>
+    );
+}
+{% endraw %}
+```
+
+### Performance Optimization
+
+#### React.memo
+```jsx
+{% raw %}
+import React, { memo } from 'react';
+
+const ExpensiveComponent = memo(function ExpensiveComponent({ data, onAction }) {
+    // Expensive computation
+    const processedData = data.map(item => ({
+        ...item,
+        processed: item.value * 2 + Math.sqrt(item.value)
+    }));
+
+    return (
+        <div>
+            {processedData.map(item => (
+                <div key={item.id}>
+                    {item.name}: {item.processed}
+                </div>
+            ))}
+        </div>
+    );
+});
+
+// Only re-renders if props change
+<ExpensiveComponent data={userData} onAction={handleAction} />
+{% endraw %}
+```
+
+#### useMemo and useCallback
+```jsx
+{% raw %}
+import React, { useState, useMemo, useCallback } from 'react';
+
+function UserDashboard({ users, filters }) {
+    const [sortBy, setSortBy] = useState('name');
+
+    // Memoize expensive computation
+    const filteredAndSortedUsers = useMemo(() => {
+        console.log('Computing filtered users...');
+        return users
+            .filter(user => {
+                if (filters.activeOnly && !user.isActive) return false;
+                if (filters.role && user.role !== filters.role) return false;
+                return true;
+            })
+            .sort((a, b) => {
+                if (sortBy === 'name') return a.name.localeCompare(b.name);
+                if (sortBy === 'email') return a.email.localeCompare(b.email);
+                return 0;
+            });
+    }, [users, filters, sortBy]);
+
+    // Memoize callback functions
+    const handleUserAction = useCallback((userId, action) => {
+        console.log(`Performing ${action} on user ${userId}`);
+        // Action logic
+    }, []);
+
+    const handleSort = useCallback((field) => {
+        setSortBy(field);
+    }, []);
+
+    return (
+        <div>
+            <div>
+                <button onClick={() => handleSort('name')}>Sort by Name</button>
+                <button onClick={() => handleSort('email')}>Sort by Email</button>
+            </div>
+            {filteredAndSortedUsers.map(user => (
+                <UserCard 
+                    key={user.id} 
+                    user={user} 
+                    onAction={handleUserAction}
+                />
+            ))}
+        </div>
+    );
+}
+{% endraw %}
+```
+
+#### Code Splitting
+```jsx
+{% raw %}
+import React, { Suspense, lazy } from 'react';
+
+// Lazy load components
+const UserList = lazy(() => import('./UserList'));
+const UserDetails = lazy(() => import('./UserDetails'));
+const UserSettings = lazy(() => import('./UserSettings'));
+
+function App() {
+    return (
+        <Router>
+            <Suspense fallback={<div>Loading...</div>}>
+                <Routes>
+                    <Route path="/users" element={<UserList />} />
+                    <Route path="/users/:id" element={<UserDetails />} />
+                    <Route path="/users/:id/settings" element={<UserSettings />} />
+                </Routes>
+            </Suspense>
+        </Router>
+    );
+}
+{% endraw %}
+```
 
 ---
 
-## Interview Talking Points
+## Component Creation Examples
 
-**Virtual DOM**: "React keeps a lightweight JS-object copy of the DOM. On re-render it diffs old vs new virtual trees and batches the minimal real DOM mutations — avoiding redundant layout recalculations."
+### Reusable Button Component
+```jsx
+{% raw %}
+import React from 'react';
+import PropTypes from 'prop-types';
 
-**When to lift state**: "When two sibling components need shared data, move the state to their nearest common ancestor and pass it down as props plus a setter callback."
+const Button = React.memo(function Button({ 
+    children, 
+    variant = 'primary', 
+    size = 'medium',
+    disabled = false,
+    loading = false,
+    onClick,
+    type = 'button',
+    className = '',
+    ...props 
+}) {
+    const baseClasses = 'btn';
+    const variantClasses = {
+        primary: 'btn-primary',
+        secondary: 'btn-secondary',
+        danger: 'btn-danger',
+        success: 'btn-success',
+        warning: 'btn-warning'
+    };
+    const sizeClasses = {
+        small: 'btn-sm',
+        medium: 'btn-md',
+        large: 'btn-lg'
+    };
+
+    const classes = [
+        baseClasses,
+        variantClasses[variant],
+        sizeClasses[size],
+        disabled && 'btn-disabled',
+        loading && 'btn-loading',
+        className
+    ].filter(Boolean).join(' ');
+
+    const handleClick = (event) => {
+        if (!disabled && !loading && onClick) {
+            onClick(event);
+        }
+    };
+
+    return (
+        <button
+            type={type}
+            className={classes}
+            disabled={disabled || loading}
+            onClick={handleClick}
+            {...props}
+        >
+            {loading && <span className="spinner" />}
+            {children}
+        </button>
+    );
+});
+
+Button.propTypes = {
+    children: PropTypes.node.isRequired,
+    variant: PropTypes.oneOf(['primary', 'secondary', 'danger', 'success', 'warning']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
+    disabled: PropTypes.bool,
+    loading: PropTypes.bool,
+    onClick: PropTypes.func,
+    type: PropTypes.oneOf(['button', 'submit', 'reset']),
+    className: PropTypes.string
+};
+
+export default Button;
+{% endraw %}
+```
+
+### Form Component with Validation
+```jsx
+{% raw %}
+import React, { useState, useCallback } from 'react';
+
+function useForm(initialValues, validationSchema) {
+    const [values, setValues] = useState(initialValues);
+    const [errors, setErrors] = useState({});
+    const [touched, setTouched] = useState({});
+
+    const handleChange = useCallback((name, value) => {
+        setValues(prev => ({ ...prev, [name]: value }));
+        
+        // Clear error when user starts typing
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: '' }));
+        }
+    }, [errors]);
+
+    const handleBlur = useCallback((name) => {
+        setTouched(prev => ({ ...prev, [name]: true }));
+        
+        // Validate on blur
+        if (validationSchema[name]) {
+            const error = validationSchema[name](values[name]);
+            setErrors(prev => ({ ...prev, [name]: error }));
+        }
+    }, [values, validationSchema]);
+
+    const validate = useCallback(() => {
+        const newErrors = {};
+        Object.keys(validationSchema).forEach(field => {
+            const error = validationSchema[field](values[field]);
+            if (error) newErrors[field] = error;
+        });
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    }, [values, validationSchema]);
+
+    const reset = useCallback(() => {
+        setValues(initialValues);
+        setErrors({});
+        setTouched({});
+    }, [initialValues]);
+
+    return {
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        validate,
+        reset
+    };
+}
+
+function LoginForm() {
+    const validationSchema = {
+        email: (value) => {
+            if (!value) return 'Email is required';
+            if (!/\S+@\S+\.\S+/.test(value)) return 'Email is invalid';
+            return '';
+        },
+        password: (value) => {
+            if (!value) return 'Password is required';
+            if (value.length < 6) return 'Password must be at least 6 characters';
+            return '';
+        }
+    };
+
+    const { values, errors, touched, handleChange, handleBlur, validate } = useForm(
+        { email: '', password: '' },
+        validationSchema
+    );
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (validate()) {
+            console.log('Form submitted:', values);
+            // Submit logic
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit} className="login-form">
+            <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                    id="email"
+                    type="email"
+                    value={values.email}
+                    onChange={(e) => handleChange('email', e.target.value)}
+                    onBlur={() => handleBlur('email')}
+                    className={touched.email && errors.email ? 'error' : ''}
+                />
+                {touched.email && errors.email && (
+                    <span className="error-message">{errors.email}</span>
+                )}
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                    id="password"
+                    type="password"
+                    value={values.password}
+                    onChange={(e) => handleChange('password', e.target.value)}
+                    onBlur={() => handleBlur('password')}
+                    className={touched.password && errors.password ? 'error' : ''}
+                />
+                {touched.password && errors.password && (
+                    <span className="error-message">{errors.password}</span>
+                )}
+            </div>
+
+            <button type="submit" className="btn btn-primary">
+                Login
+            </button>
+        </form>
+    );
+}
+{% endraw %}
+```
 
 **Context vs Redux / Zustand**: "Context is built-in and fine for low-frequency global values like theme or auth user. A dedicated store (Zustand, Redux Toolkit) is better when many components need frequent updates, or when you need middleware, time-travel debugging, or serializable state."
 
@@ -102,17 +683,282 @@ useEffect(() => {
 
 **Class components vs hooks**: "Class components use lifecycle methods (`componentDidMount`, `componentDidUpdate`, `componentWillUnmount`). Hooks unify this into `useEffect` and make it easier to reuse stateful logic via custom hooks. New code should use function components with hooks."
 
----
+#### 1. What is the Virtual DOM?
+```javascript
+// Virtual DOM is a lightweight copy of the actual DOM
+// React uses it to optimize rendering performance
+
+// Without Virtual DOM (expensive)
+function updateDOM() {
+    // Directly manipulate DOM - causes reflows/repaints
+    document.getElementById('user-list').innerHTML = newHTML;
+}
+
+// With Virtual DOM (efficient)
+function ReactUpdate() {
+    // React compares Virtual DOM with previous version
+    // Only updates what changed
+    return (
+        <UserList users={updatedUsers} />
+    );
+}
+```
+
+#### 2. Explain React's Component Lifecycle
+```jsx
+{% raw %}
+class ClassComponent extends React.Component {
+    // Mounting Phase
+    constructor(props) {
+        super(props);
+        this.state = { data: null };
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        // Called before render, can update state
+        return null;
+    }
+
+    componentDidMount() {
+        // Component mounted, safe to make API calls
+        this.fetchData();
+    }
+
+    // Updating Phase
+    shouldComponentUpdate(nextProps, nextState) {
+        // Return false to prevent re-render
+        return this.props.id !== nextProps.id;
+    }
+
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        // Capture info before DOM updates
+        return { scrollPosition: window.scrollY };
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        // Component updated, can access DOM
+        if (snapshot.scrollPosition) {
+            window.scrollTo(0, snapshot.scrollPosition);
+        }
+    }
+
+    // Unmounting Phase
+    componentWillUnmount() {
+        // Cleanup: remove event listeners, cancel requests
+        this.cancelRequest();
+    }
+
+    render() {
+        return <div>{this.state.data}</div>;
+    }
+}
+
+// Hooks equivalent
+function FunctionalComponent({ id }) {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        // componentDidMount
+        fetchData();
+        
+        // componentWillUnmount
+        return () => cleanup();
+    }, [id]); // componentDidUpdate equivalent
+
+    return <div>{data}</div>;
+}
+{% endraw %}
+```
+
+#### 3. State Management Patterns
+```jsx
+{% raw %}
+// Local State
+function LocalStateExample() {
+    const [count, setCount] = useState(0);
+    return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+
+// Lifted State
+function Parent() {
+    const [sharedState, setSharedState] = useState('');
+    return (
+        <div>
+            <ChildA value={sharedState} onChange={setSharedState} />
+            <ChildB value={sharedState} onChange={setSharedState} />
+        </div>
+    );
+}
+
+// Context API
+const ThemeContext = React.createContext();
+
+function ThemeProvider({ children }) {
+    const [theme, setTheme] = useState('light');
+    return (
+        <ThemeContext.Provider value={{ theme, setTheme }}>
+            {children}
+        </ThemeContext.Provider>
+    );
+}
+
+function ThemedButton() {
+    const { theme, setTheme } = useContext(ThemeContext);
+    return (
+        <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+            Current theme: {theme}
+        </button>
+    );
+}
+
+// Custom Hook for State
+function useCounter(initialValue = 0) {
+    const [count, setCount] = useState(initialValue);
+    
+    const increment = useCallback(() => setCount(c => c + 1), []);
+    const decrement = useCallback(() => setCount(c => c - 1), []);
+    const reset = useCallback(() => setCount(initialValue), [initialValue]);
+    
+    return { count, increment, decrement, reset };
+}
+{% endraw %}
+```
+
+#### 4. Performance Optimization Techniques
+```jsx
+{% raw %}
+// 1. React.memo for expensive components
+const ExpensiveComponent = React.memo(({ data }) => {
+    // Only re-renders if props change
+    return <div>{/* Expensive rendering */}</div>;
+});
+
+// 2. useMemo for expensive calculations
+function DataTable({ data, filters }) {
+    const filteredData = useMemo(() => {
+        return data.filter(item => {
+            // Expensive filtering logic
+            return filters.every(filter => filter(item));
+        });
+    }, [data, filters]);
+
+    return <table>{/* Render filtered data */}</table>;
+}
+
+// 3. useCallback for stable references
+function ParentComponent() {
+    const [count, setCount] = useState(0);
+    
+    const handleClick = useCallback(() => {
+        setCount(c => c + 1);
+    }, []); // Stable reference, won't cause child re-renders
+
+    return <ChildComponent onClick={handleClick} />;
+}
+
+// 4. Lazy loading
+const LazyComponent = React.lazy(() => import('./LazyComponent'));
+
+function App() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <LazyComponent />
+        </Suspense>
+    );
+}
+{% endraw %}
+```
+
+#### 5. Error Boundaries
+```jsx
+{% raw %}
+class ErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { hasError: false, error: null };
+    }
+
+    static getDerivedStateFromError(error) {
+        return { hasError: true, error };
+    }
 
 ## Quick-Reference Card
 
+    render() {
+        if (this.state.hasError) {
+            return (
+                <div className="error-boundary">
+                    <h2>Something went wrong</h2>
+                    <button onClick={() => window.location.reload()}>
+                        Reload Page
+                    </button>
+                </div>
+            );
+        }
+
+        return this.props.children;
+    }
+}
+
+// Usage
+<ErrorBoundary>
+    <ComponentThatMightError />
+</ErrorBoundary>
+{% endraw %}
 ```
-Component re-renders when:    state changes | parent re-renders | context changes
-Prevent re-render:            React.memo | PureComponent
-Side effects go in:           useEffect (not render body)
-Cleanup side effects:         return fn from useEffect
-Avoid passing as props:       new object/array literals each render — breaks memo
-State updates are:            batched and async — don't read state right after setState
+
+### CSS-in-JS and Styling
+```jsx
+{% raw %}
+// Styled Components
+import styled from 'styled-components';
+
+const Button = styled.button`
+    background: ${props => props.primary ? 'blue' : 'white'};
+    color: ${props => props.primary ? 'white' : 'blue'};
+    padding: 10px 20px;
+    border: 2px solid blue;
+    border-radius: 4px;
+    cursor: pointer;
+    
+    &:hover {
+        background: ${props => props.primary ? 'darkblue' : 'lightblue'};
+    }
+    
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+`;
+
+// CSS Modules
+import styles from './Button.module.css';
+
+function Button({ children, variant }) {
+    const buttonClass = `${styles.button} ${styles[variant]}`;
+    return <button className={buttonClass}>{children}</button>;
+}
+
+// CSS-in-JS with emotion
+import { css } from '@emotion/react';
+
+const buttonStyle = css`
+    background: blue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    
+    &:hover {
+        background: darkblue;
+    }
+`;
+
+function Button({ children }) {
+    return <button css={buttonStyle}>{children}</button>;
+}
+{% endraw %}
 ```
 
 ---
