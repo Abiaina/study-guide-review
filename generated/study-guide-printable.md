@@ -988,7 +988,7 @@ def count_numbers_with_digit_sum(n, target):
 
 ### **Array & String Problems**
 
-#### **🔍 Two Pointers Pattern**
+#### ** Two Pointers Pattern**
 **When to use**: Array problems with ordered data or string manipulation
 **Key indicators**:
 - "Find two numbers that sum to target"
@@ -1013,7 +1013,7 @@ def two_sum_sorted(nums, target):
     return []
 ```
 
-#### **🪟 Sliding Window Pattern**
+#### ** Sliding Window Pattern**
 **When to use**: Subarray/substring problems with fixed or variable size
 **Key indicators**:
 - "Find longest substring without repeating characters"
@@ -1038,7 +1038,7 @@ def length_of_longest_substring(s):
     return max_length
 ```
 
-#### **🔢 Binary Search Pattern**
+#### ** Binary Search Pattern**
 **When to use**: Sorted arrays, searching problems, optimization
 **Key indicators**:
 - "Find element in sorted array"
@@ -1076,7 +1076,7 @@ def ship_within_days(weights, days):
 
 ### **Tree & Graph Problems**
 
-#### **🌳 Tree Traversal Pattern**
+#### ** Tree Traversal Pattern**
 **When to use**: Tree problems requiring visiting all nodes
 **Key indicators**:
 - "Inorder/preorder/postorder traversal"
@@ -1100,7 +1100,7 @@ def is_valid_bst(root):
     return validate(root, float('-inf'), float('inf'))
 ```
 
-#### **🕸️ Graph Traversal Pattern**
+#### ** Graph Traversal Pattern**
 **When to use**: Graph problems requiring visiting nodes/edges
 **Key indicators**:
 - "Find shortest path"
@@ -1141,7 +1141,7 @@ def has_cycle(graph):
 
 ### **Dynamic Programming Problems**
 
-#### **💰 Classic DP Pattern**
+#### ** Classic DP Pattern**
 **When to use**: Problems with overlapping subproblems
 **Key indicators**:
 - "Maximum/minimum value"
@@ -1164,7 +1164,7 @@ def coin_change(coins, amount):
     return dp[amount] if dp[amount] != float('inf') else -1
 ```
 
-#### **🎒 Knapsack Pattern**
+#### ** Knapsack Pattern**
 **When to use**: Problems with choices and constraints
 **Key indicators**:
 - "Select items with weight/value constraints"
@@ -1196,7 +1196,7 @@ def can_partition(nums):
 
 ### **Heap & Priority Queue Problems**
 
-#### **📊 Heap Pattern**
+#### ** Heap Pattern**
 **When to use**: Problems requiring k-th element or top-k items
 **Key indicators**:
 - "Find k-th largest/smallest element"
@@ -1224,7 +1224,7 @@ def find_kth_largest(nums, k):
 
 ### **Backtracking Problems**
 
-#### **🔄 Backtracking Pattern**
+#### ** Backtracking Pattern**
 **When to use**: Problems requiring all possible combinations/permutations
 **Key indicators**:
 - "Generate all combinations"
@@ -1256,7 +1256,7 @@ def permute(nums):
 
 ### **Quick Decision Tree**
 
-#### **🎯 Problem Type → Algorithm Pattern**
+#### ** Problem Type → Algorithm Pattern**
 
 **Array/String Problems:**
 - **Sum/Pair problems** → Two Pointers
@@ -1337,7 +1337,7 @@ Space Complexity: O(min(m, n)) where m is charset size
 
 ### **Interview Quick Reference**
 
-#### **🚀 30-Second Problem Analysis**
+#### ** 30-Second Problem Analysis**
 
 1. **Read the problem** - Identify input/output
 2. **Look for keywords** - "longest", "shortest", "k-th", "all"
@@ -1346,7 +1346,7 @@ Space Complexity: O(min(m, n)) where m is charset size
 5. **Choose pattern** - Use decision tree above
 6. **Implement** - Apply the chosen algorithm
 
-#### **⚡ Common Interview Patterns**
+#### ** Common Interview Patterns**
 
 | Problem Type | Algorithm | Time | Space |
 |-------------|-----------|------|-------|
@@ -2007,7 +2007,7 @@ def isBalanced(root):
 
 ---
 
-# 📘 Sorting Algorithms
+# Sorting Algorithms
 
 ### Key Properties
 
@@ -2083,7 +2083,7 @@ def quicksort(arr):
 
 ---
 
-# 📘 Searching Algorithms
+# Searching Algorithms
 
 ### Linear Search
 
@@ -2351,7 +2351,7 @@ return -1
 
 ---
 
-## 🔍 Binary Search on Answer (a.k.a. “Search Space Reduction”)
+## Binary Search on Answer (a.k.a. “Search Space Reduction”)
 
 - **What it does:**
 
@@ -6407,11 +6407,11 @@ for message in consumer:
 
 | Protocol | Reliability | Performance | Use Case | Complexity |
 |----------|-------------|-------------|----------|------------|
-| **TCP** | ✅ Guaranteed | 🟡 Medium | Reliable data transfer | Low |
-| **UDP** | ❌ Best effort | 🟢 High | Real-time, streaming | Low |
-| **HTTP** | ✅ Reliable | 🟡 Medium | Web APIs, browsers | Low |
-| **gRPC** | ✅ Reliable | 🟢 High | Microservices, streaming | Medium |
-| **Kafka** | ✅ Reliable | 🟢 High | Event streaming, logs | High |
+| **TCP** | ✅ Guaranteed |  Medium | Reliable data transfer | Low |
+| **UDP** | ❌ Best effort |  High | Real-time, streaming | Low |
+| **HTTP** | ✅ Reliable |  Medium | Web APIs, browsers | Low |
+| **gRPC** | ✅ Reliable |  High | Microservices, streaming | Medium |
+| **Kafka** | ✅ Reliable |  High | Event streaming, logs | High |
 
 ### Network Security Fundamentals
 
